@@ -33,7 +33,7 @@
     ```
 - ktlint 설정
   ```shell
-  ./gradlew addKtlintCheckGitPreCommitHook
+  ./gradlew addKtlintFormatGitPreCommitHook
   ```
 
 ## 로컬 DB
