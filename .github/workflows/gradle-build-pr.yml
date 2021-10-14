@@ -17,4 +17,4 @@ jobs:
     - uses: gradle/gradle-build-action@v2
       with:
         arguments: build 
-        gradle-version : 6.5
+        gradle-version : 6.8
