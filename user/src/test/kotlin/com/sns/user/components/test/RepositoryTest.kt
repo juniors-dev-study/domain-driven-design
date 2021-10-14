@@ -47,7 +47,7 @@ class RepositoryTest @Autowired constructor(
         crudRepository.save(user)
 
         verify(exactly = 2) { emotionListener.actionLaughing(any()) }
-        verify(exactly = 1) { emotionListener.onLaughing(any()) }
+        verify(exactly = 2) { emotionListener.onLaughing(any()) }
     }
 
     @Test
