@@ -22,7 +22,7 @@
 ## IntelliJ IDEA 세팅
 
 - Preference > Editor > File And Code Template > schema > project 로 세팅.
-- Preference > Version Control > Git > 계정 선택
+- Preference > Version Control > Git > 계정 선택.
 - 터미널로도 계정설정필요!
     ```shell
     $ git config --local user.name {name}
