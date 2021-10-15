@@ -10,20 +10,22 @@ class TestUserRepository(val jdbcTemplate: JdbcTemplate) : ITestUserRepository {
     private val log = LoggerFactory.getLogger(javaClass)
 
     override fun save(nickName: String): Int {
-        return jdbcTemplate.update("INSERT INTO test_user (`nick_name`) VALUES('$nickName')")
+        return jdbcTemplate.update("""INSERT INTO test_user (`nick_name`) VALUES(?)""", nickName)
     }
 
     override fun save(user: TestUser): Int {
-        return jdbcTemplate.update("INSERT INTO test_user (`nick_name`) VALUES('${user.nickName}')")
+        return jdbcTemplate.update("""INSERT INTO test_user (`nick_name`) VALUES(?)""", user.nickName)
     }
 
     override fun findByNickName(nickName: String): TestUser {
         return jdbcTemplate.queryForObject(
-            "SELECT id, nick_name\n" +
-                "FROM test_user\n" +
-                "WHERE nick_name = '$nickName'\n" +
-                "LIMIT 1",
-            TestUser.MAPPER
+            """
+                SELECT id, nick_name
+                FROM test_user
+                WHERE nick_name = ?
+                LIMIT 1
+            """,
+            TestUser.MAPPER, nickName
         ) ?: TestUser()
     }
 }

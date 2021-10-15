@@ -11,8 +11,8 @@ import springfox.documentation.spring.web.plugins.Docket
 @Configuration
 class SwaggerConfiguration {
     @Bean
-    fun api(): Docket {
-        return Docket(DocumentationType.OAS_30) // open api spec 3.0
+    fun api(): Docket =
+        Docket(DocumentationType.OAS_30) // open api spec 3.0
             .select()
             .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.any())
@@ -25,5 +25,4 @@ class SwaggerConfiguration {
                     .licenseUrl("https://github.com/juniors-dev-study/domain-driven-design")
                     .build()
             )
-    }
 }
