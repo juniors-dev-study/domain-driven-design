@@ -12,11 +12,11 @@ data class TestUser(
     @Id
     private var id: Int? = null
 
-    companion object {
-        val MAPPER: RowMapper<TestUser> = BeanPropertyRowMapper.newInstance(TestUser::class.java)
-    }
-
     fun happy() {
         registerEvent(LaughingEvent(nickName))
+    }
+
+    companion object {
+        val MAPPER: RowMapper<TestUser> = BeanPropertyRowMapper.newInstance(TestUser::class.java)
     }
 }

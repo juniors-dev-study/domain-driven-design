@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @Rollback
 @SpringBootTest
-class RepositoryTest @Autowired constructor(
+class ITestUserRepositoryTest @Autowired constructor(
     val repository: ITestUserRepository,
     val crudRepository: TestUserCRUDRepository,
 ) {
