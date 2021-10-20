@@ -3,8 +3,8 @@ package com.sns.user.components.test
 import com.ninjasquad.springmockk.SpykBean
 import com.sns.user.component.test.domains.TestUser
 import com.sns.user.component.test.listeners.EmotionListener
-import com.sns.user.component.test.repositories.ITestUserRepository
 import com.sns.user.component.test.repositories.TestUserCRUDRepository
+import com.sns.user.component.test.repositories.TestUserRepository
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assumptions
@@ -23,8 +23,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @Rollback
 @SpringBootTest
-class ITestUserRepositoryTest @Autowired constructor(
-    val repository: ITestUserRepository,
+class TestUserRepositoryTest @Autowired constructor(
+    val repository: TestUserRepository,
     val crudRepository: TestUserCRUDRepository,
 ) {
 
