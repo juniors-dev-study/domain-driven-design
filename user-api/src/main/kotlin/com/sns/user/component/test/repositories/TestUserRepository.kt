@@ -1,9 +1,11 @@
 package com.sns.user.component.test.repositories
 
 import com.sns.user.component.test.domains.TestUser
+import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.NoRepositoryBean
 
-interface TestUserRepository {
+@NoRepositoryBean
+interface TestUserRepository : CrudRepository<TestUser, Int> {
     fun save(nickName: String): Int
-    fun save(user: TestUser): TestUser
     fun findByNickName(nickName: String): TestUser
 }

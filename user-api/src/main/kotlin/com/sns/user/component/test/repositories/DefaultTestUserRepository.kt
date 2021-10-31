@@ -18,10 +18,6 @@ class DefaultTestUserRepository(
         return jdbcTemplate.update("INSERT INTO test_user (`nick_name`) VALUES(?)", nickName)
     }
 
-    override fun save(user: TestUser): Int {
-        return jdbcTemplate.update("INSERT INTO test_user (`nick_name`) VALUES(?)", user.nickName)
-    }
-
     override fun findByNickName(nickName: String): TestUser {
         return jdbcTemplate.queryForObject(
             """

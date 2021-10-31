@@ -11,8 +11,4 @@ class EmotionListener {
     fun onLaughing(event: LaughingEvent) {
         log.error("${event.who} is laughing")
     }
-
-    fun actionLaughing(event: LaughingEvent) {
-        log.error("하 하 하")
-    }
 }

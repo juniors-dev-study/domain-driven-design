@@ -12,7 +12,7 @@ data class TestUser(
     @Id
     private var id: Int? = null
 
-    fun happy(publish: (DomainEvent) -> Unit) {
+    fun happy(publish: (DomainEvent) -> Unit = { _ -> }) {
         publish(LaughingEvent(nickName))
     }
 
