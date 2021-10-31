@@ -8,8 +8,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
 }
 
-
-
 allprojects {
     group = "com.sns"
     version = "1.0.0"
@@ -37,9 +35,9 @@ subprojects {
 
         // test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation("io.mockk:mockk:1.12.0")
-        testImplementation("com.ninja-squad:springmockk:3.0.1")
-        testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+        testImplementation("io.mockk:mockk:${property("mockkVersion")}")
+        testImplementation("com.ninja-squad:springmockk:${property("springMockkVersion")}")
+        testImplementation("org.junit.jupiter:junit-jupiter:${property("jupiterVersion")}")
     }
 
     tasks.withType<KotlinCompile> {
@@ -56,6 +54,9 @@ subprojects {
 
 project(":user-api") {
     dependencies {
+        implementation(project(":submodules:commons"))
+        implementation(project(":submodules:local-event"))
+
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
@@ -68,6 +69,18 @@ project(":user-api") {
 
 project(":front") {
     dependencies {
+        implementation(project(":submodules:commons"))
+
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    }
+}
+
+project(":submodules:commons")
+
+project(":submodules:local-event") {
+    dependencies {
+        implementation(project(":submodules:commons"))
+
+        api("org.springframework.boot:spring-boot-starter-integration")
     }
 }

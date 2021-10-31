@@ -11,6 +11,9 @@
 
 ----
 
+- 기본 환경 구성 - [ENVIRONMENT](./docs/ENVIRONMENT.md)
+- 코딩 컨벤션 - [CONVENTION](./docs/CONVENTION.md)
+
 # 프로젝트 세팅
 
 - spring boot 2.5.5

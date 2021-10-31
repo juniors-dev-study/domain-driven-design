@@ -30,6 +30,11 @@
 
 kotlin 공식 룰을 따름 - https://kotlinlang.org/docs/coding-conventions.html
 
+- commmit 전 ktlint 체크하도록 설정
+  ```shell
+  ./gradlew addKtlintFormatGitPreCommitHook
+  ```
+
 ## 구성
 
 - Event 는 Spring 에서 제공하는 것으로 사용한다 (`ApplicationEventPublisher`)
