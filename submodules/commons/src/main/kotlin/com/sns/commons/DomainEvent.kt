@@ -1,4 +1,4 @@
-package com.sns.localevent
+package com.sns.commons
 
 interface DomainEvent {
     val eventId: String

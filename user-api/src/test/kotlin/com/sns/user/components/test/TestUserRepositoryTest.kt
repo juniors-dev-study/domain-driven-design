@@ -1,7 +1,7 @@
 package com.sns.user.components.test
 
 import com.ninjasquad.springmockk.SpykBean
-import com.sns.localevent.service.EventPublisher
+import com.sns.commons.service.EventPublisher
 import com.sns.user.component.test.domains.TestUser
 import com.sns.user.component.test.listeners.EmotionListener
 import com.sns.user.component.test.repositories.TestUserRepository

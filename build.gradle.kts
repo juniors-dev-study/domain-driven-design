@@ -55,7 +55,6 @@ subprojects {
 project(":user-api") {
     dependencies {
         implementation(project(":submodules:commons"))
-        implementation(project(":submodules:local-event"))
 
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -69,15 +68,11 @@ project(":user-api") {
 
 project(":front") {
     dependencies {
-        implementation(project(":submodules:commons"))
-
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     }
 }
 
-project(":submodules:commons")
-
-project(":submodules:local-event") {
+project(":submodules:commons") {
     dependencies {
         implementation(project(":submodules:commons"))
 

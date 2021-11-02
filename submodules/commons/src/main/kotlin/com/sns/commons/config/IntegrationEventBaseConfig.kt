@@ -1,6 +1,6 @@
-package com.sns.localevent.config
+package com.sns.commons.config
 
-import com.sns.localevent.service.EventPublisher
+import com.sns.commons.service.EventPublisher
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 

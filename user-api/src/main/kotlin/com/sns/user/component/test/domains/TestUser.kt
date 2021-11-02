@@ -1,6 +1,6 @@
 package com.sns.user.component.test.domains
 
-import com.sns.localevent.DomainEvent
+import com.sns.commons.DomainEvent
 import com.sns.user.component.test.dtos.LaughingEvent
 import org.springframework.data.annotation.Id
 import org.springframework.jdbc.core.BeanPropertyRowMapper

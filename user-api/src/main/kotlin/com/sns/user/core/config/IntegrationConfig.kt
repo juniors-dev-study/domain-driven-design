@@ -1,6 +1,6 @@
 package com.sns.user.core.config
 
-import com.sns.localevent.config.IntegrationEventBaseConfig
+import com.sns.commons.config.IntegrationEventBaseConfig
 import com.sns.user.component.test.dtos.LaughingEvent
 import com.sns.user.component.test.listeners.EmotionListener
 import org.springframework.context.annotation.Bean

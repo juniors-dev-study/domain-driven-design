@@ -1,4 +1,4 @@
-package com.sns.localevent.annotation
+package com.sns.commons.annotation
 
 import org.springframework.stereotype.Component
 

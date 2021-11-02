@@ -1,7 +1,7 @@
 package com.sns.user.component.test.listeners
 
+import com.sns.commons.annotation.CustomEventListener
 import com.sns.commons.utils.log
-import com.sns.localevent.annotation.CustomEventListener
 import com.sns.user.component.test.dtos.LaughingEvent
 
 @CustomEventListener
