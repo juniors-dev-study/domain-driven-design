@@ -74,8 +74,6 @@ project(":front") {
 
 project(":submodules:commons") {
     dependencies {
-        implementation(project(":submodules:commons"))
-
         api("org.springframework.boot:spring-boot-starter-integration")
     }
 }
