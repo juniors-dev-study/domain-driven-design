@@ -8,7 +8,7 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://ddd.cu3ry11okp5j.us-east-2.rds.amazonaws.com:3306?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
+    url: jdbc:mysql://${DDD_DB_URL}?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
     username: ${DDD_DB_ID}
     password: ${DDD_DB_PW}
     hikari:
