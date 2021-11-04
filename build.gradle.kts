@@ -72,10 +72,18 @@ project(":front") {
     }
 }
 
+project(":submodules") {
+    tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+        enabled = false
+    }
+}
+
 project(":submodules:commons") {
     dependencies {
-        implementation(project(":submodules:commons"))
-
         api("org.springframework.boot:spring-boot-starter-integration")
+    }
+
+    tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+        enabled = false
     }
 }
