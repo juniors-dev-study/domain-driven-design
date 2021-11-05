@@ -3,8 +3,9 @@ package com.sns.user.component.user.domains
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 
@@ -26,11 +27,11 @@ data class User(
     @NotBlank
     var infoEmailAddress: String = id, // 서비스 정보 수신 이메일주소. 기본값은 id
 
-    @NotNull
-    val createdAt: Instant = Instant.now(),
+    @CreatedDate
+    val createdAt: Instant = Instant.MIN,
 
-    @NotNull
-    var updatedAt: Instant = Instant.now(),
+    @LastModifiedDate
+    var updatedAt: Instant = Instant.MIN,
 ) : Persistable<String> {
     @Transient
     private var new: Boolean = false

@@ -4,6 +4,8 @@ import com.sns.user.component.user.domains.User
 import com.sns.user.component.user.repositories.UserRepository
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo
+import com.sns.user.isNotEqualTo
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -26,6 +28,8 @@ class UserRepositoryTest {
             savedUser.id isEqualTo id
             savedUser.name isEqualTo name
             savedUser.infoEmailAddress isEqualTo id
+            savedUser.createdAt isNotEqualTo Instant.MIN
+            savedUser.updatedAt isNotEqualTo Instant.MIN
         }
     }
 }
