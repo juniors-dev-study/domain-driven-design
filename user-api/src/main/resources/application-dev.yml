@@ -2,6 +2,7 @@ server:
   port: 10001
 logging:
   level: info
+    org.springframework.jdbc.core.JdbcTemplate: debug
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
