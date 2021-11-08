@@ -32,7 +32,7 @@ class TestUserRepositoryTest @Autowired constructor(
     @ValueSource(strings = ["hyounglin", "Chanhyeong Cho", "y2o2u2n", "youngvly"])
     fun insert(name: String) {
         Assumptions.assumeThat(name).isNotEmpty
-        assertThat(repository.save(name)).isPositive
+        assertThat(repository.save(TestUser(name))).isNotNull
         assertThat(repository.findByNickName(name)).isNotNull
     }
 

@@ -2,12 +2,11 @@ server:
   port: 10001
 logging:
   level: info
-  pattern:
-    console: %d{HH:mm:ss} [%t][%-5level] %msg \\(%F:%L\\)%n
+    org.springframework.jdbc.core.JdbcTemplate: debug
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DDD_DB_URL}?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
+    url: jdbc:mysql://${DDD_DB_URL}/users?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
     username: ${DDD_DB_ID}
     password: ${DDD_DB_PW}
     hikari:
