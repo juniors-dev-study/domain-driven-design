@@ -10,10 +10,9 @@ import org.springframework.jdbc.core.RowMapper
 
 data class AuthCode(
     @Id
-    val id: Int? = null,
-    // TODO 복합키 구현가능한지 확인.
     @NotBlank
     val purpose: Purpose,
+    @Id
     @NotBlank
     val userId: String,
     @NotBlank
@@ -40,7 +39,6 @@ data class AuthCode(
 class AuthCodeRowMapper : RowMapper<AuthCode> {
     override fun mapRow(rs: ResultSet, rowNum: Int): AuthCode? {
         return AuthCode(
-            id = rs.getInt("id"),
             purpose = Purpose.valueOf(rs.getString("purpose")),
             userId = rs.getString("user_id"),
             code = rs.getString("code"),

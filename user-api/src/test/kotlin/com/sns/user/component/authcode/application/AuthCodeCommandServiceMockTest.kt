@@ -17,7 +17,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.data.repository.findByIdOrNull
 
-class AuthCodeCommandMockTest() {
+class AuthCodeCommandServiceMockTest() {
     @MockK
     private lateinit var authCodeRepository: AuthCodeRepository
 
@@ -28,7 +28,7 @@ class AuthCodeCommandMockTest() {
     private lateinit var userRepository: DefaultUserRepository
 
     @InjectMockKs
-    private lateinit var authCodeCommand: AuthCodeCommand
+    private lateinit var authCodeCommandService: AuthCodeCommandService
 
     @BeforeEach
     internal fun setUp() {
@@ -40,7 +40,7 @@ class AuthCodeCommandMockTest() {
 
     @Test
     fun create() {
-        val authCode = authCodeCommand.create("id")
+        val authCode = authCodeCommandService.create("id")
 
         verify { authCodeRepository.save(eq(authCode)) }
         verify { mailService.sendSignUpAuthCodeMail(any(), any()) }
@@ -51,7 +51,7 @@ class AuthCodeCommandMockTest() {
     fun verify_null() {
         every { authCodeRepository.findByUserIdAndPurpose(ofType(String::class), ofType(Purpose::class)) } returns null
 
-        authCodeCommand.verify("userId", Purpose.SIGN_UP, "123") isEqualTo false
+        authCodeCommandService.verify("userId", Purpose.SIGN_UP, "123") isEqualTo false
     }
 
     @DisplayName("정상 케이스인 경우, 인증에 성공해야한다.")
@@ -60,7 +60,7 @@ class AuthCodeCommandMockTest() {
         val authCode = AuthCode.createSignUp("userId")
         every { authCodeRepository.findByUserIdAndPurpose(ofType(String::class), ofType(Purpose::class)) } returns authCode
 
-        authCodeCommand.verify("userId", Purpose.SIGN_UP, authCode.code) isEqualTo true
+        authCodeCommandService.verify("userId", Purpose.SIGN_UP, authCode.code) isEqualTo true
     }
 
     @DisplayName("인증 코드가 다른 경우, 인증에 실패해야한다.")
@@ -69,6 +69,6 @@ class AuthCodeCommandMockTest() {
         val authCode = AuthCode.createSignUp("userId")
         every { authCodeRepository.findByUserIdAndPurpose(ofType(String::class), ofType(Purpose::class)) } returns authCode
 
-        authCodeCommand.verify("userId", Purpose.SIGN_UP, "different") isEqualTo false
+        authCodeCommandService.verify("userId", Purpose.SIGN_UP, "different") isEqualTo false
     }
 }

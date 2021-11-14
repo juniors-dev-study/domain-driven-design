@@ -1,7 +1,7 @@
 package com.sns.user.endpoints.user
 
 import com.sns.commons.utils.ifTrue
-import com.sns.user.component.authcode.application.AuthCodeCommand
+import com.sns.user.component.authcode.application.AuthCodeCommandService
 import com.sns.user.component.authcode.domain.Purpose
 import com.sns.user.component.user.application.UserCommandService
 import com.sns.user.component.user.application.UserQueryService
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = SwaggerTag.SIGN_UP)
 @RequestMapping("/api")
 class SignUpController(
-    val authCodeCommand: AuthCodeCommand,
+    val authCodeCommandService: AuthCodeCommandService,
     val userQueryService: UserQueryService,
     val userCommandService: UserCommandService
 ) {
@@ -56,7 +56,7 @@ class SignUpController(
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun createAuthenticationCode(@PathVariable userId: String) {
-        authCodeCommand.create(userId)
+        authCodeCommandService.create(userId)
     }
 
     @ApiResponse(
@@ -66,7 +66,7 @@ class SignUpController(
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun verifyAuthenticationCode(@PathVariable userId: String, @RequestBody code: String): ResponseEntity<Boolean> {
-        return authCodeCommand.verify(userId, Purpose.SIGN_UP, code)
+        return authCodeCommandService.verify(userId, Purpose.SIGN_UP, code)
             .ifTrue { userCommandService.activate(userId) }
             .let {
                 ResponseEntity.ok(it)

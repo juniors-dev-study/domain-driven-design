@@ -10,7 +10,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class AuthCodeCommand(
+class AuthCodeCommandService(
     val authCodeRepository: AuthCodeRepository,
     val mailService: MailService,
     val userRepository: DefaultUserRepository,

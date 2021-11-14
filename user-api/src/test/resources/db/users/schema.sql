@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS `user`
 
 CREATE TABLE IF NOT EXISTS `auth_code`
 (
-    id         INT         NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'user.id',
     user_id    VARCHAR(50) NOT NULL COMMENT 'user.id',
     purpose    VARCHAR(50) NOT NULL COMMENT '사용 목적',
     code       VARCHAR(50) NOT NULL COMMENT '인증 코드',
-    created_at DATETIME    NOT NULL COMMENT '생성 시각'
+    created_at DATETIME    NOT NULL COMMENT '생성 시각',
+    PRIMARY KEY (`user_id`, purpose)
 );
