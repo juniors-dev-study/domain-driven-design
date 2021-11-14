@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.NoRepositoryBean
 
 @NoRepositoryBean
-interface UserRepository : CrudRepository<User, String>
+interface UserRepository : CrudRepository<User, String> {
+    fun findByInfoEmailAddressOrNull(email: String): User?
+}

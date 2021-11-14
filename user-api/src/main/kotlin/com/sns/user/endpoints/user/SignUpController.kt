@@ -1,7 +1,10 @@
 package com.sns.user.endpoints.user
 
+import com.sns.commons.utils.ifTrue
 import com.sns.user.component.authcode.application.AuthCodeCommand
 import com.sns.user.component.authcode.domain.Purpose
+import com.sns.user.component.user.application.UserCommandService
+import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.core.config.SwaggerTag
 import com.sns.user.endpoints.user.requests.SignUpRequest
 import io.swagger.v3.oas.annotations.media.Content
@@ -25,13 +28,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Tag(name = SwaggerTag.SIGN_UP)
 @RequestMapping("/api")
-class SignUpController(val authCodeCommand: AuthCodeCommand) {
+class SignUpController(
+    val authCodeCommand: AuthCodeCommand,
+    val userQueryService: UserQueryService,
+    val userCommandService: UserCommandService
+) {
 
     @ApiResponse(description = "회원 가입", responseCode = "202")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/v1/sign-up")
     fun signUp(@RequestBody request: SignUpRequest) {
-        // TODO 패스워드 유효성 검증
+        userCommandService.create(request.name, request.password, request.email)
     }
 
     @ApiResponse(
@@ -41,15 +48,14 @@ class SignUpController(val authCodeCommand: AuthCodeCommand) {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/sign-up/verifications/emails/{email}")
     fun verifyEmail(@Email @PathVariable email: String): ResponseEntity<Boolean> {
-        // TODO email 중복 검사
-        return ResponseEntity.ok(false)
+        return (userQueryService.getByEmail(email) != null)
+            .let { ResponseEntity.ok(it) }
     }
 
     @ApiResponse(description = "가입 인증 코드 재발송", responseCode = "202")
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun createAuthenticationCode(@PathVariable userId: String) {
-
         authCodeCommand.create(userId)
     }
 
@@ -60,6 +66,10 @@ class SignUpController(val authCodeCommand: AuthCodeCommand) {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun verifyAuthenticationCode(@PathVariable userId: String, @RequestBody code: String): ResponseEntity<Boolean> {
-        return ResponseEntity.ok(authCodeCommand.verify(userId, Purpose.SIGN_UP, code))
+        return authCodeCommand.verify(userId, Purpose.SIGN_UP, code)
+            .ifTrue { userCommandService.activate(userId) }
+            .let {
+                ResponseEntity.ok(it)
+            }
     }
 }

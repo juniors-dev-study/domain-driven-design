@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class AuthCodeCommand(
     val authCodeRepository: AuthCodeRepository,
     val mailService: MailService,
-    val userRepository: DefaultUserRepository
+    val userRepository: DefaultUserRepository,
 ) {
     fun create(userId: String): AuthCode {
         val user = userRepository.findByIdOrNull(userId) ?: throw NoAuthorityException()
@@ -27,9 +27,6 @@ class AuthCodeCommand(
 
     fun verify(userId: String, purpose: Purpose, code: String): Boolean {
         val authCode: AuthCode? = authCodeRepository.findByUserIdAndPurpose(userId, purpose)
-        return authCode?.isCorrect(userId, code, purpose)
-            .takeIf { it == true }.apply {
-                // TOOD update STATUS userRepository.save()
-            } ?: false
+        return authCode?.isCorrect(userId, code, purpose) ?: false
     }
 }

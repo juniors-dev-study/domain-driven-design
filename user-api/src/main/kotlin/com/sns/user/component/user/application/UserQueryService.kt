@@ -10,4 +10,6 @@ class UserQueryService(
     private val userRepository: UserRepository
 ) {
     fun getById(id: String): User? = userRepository.findByIdOrNull(id)
+
+    fun getByEmail(email: String): User? = userRepository.findByInfoEmailAddressOrNull(email)
 }
