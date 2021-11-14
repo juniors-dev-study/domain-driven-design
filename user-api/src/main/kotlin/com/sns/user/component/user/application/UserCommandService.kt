@@ -8,6 +8,7 @@ import com.sns.user.core.exceptions.NoAuthorityException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserCommandService(
@@ -16,6 +17,7 @@ class UserCommandService(
     private val eventPublisher: EventPublisher
 ) {
 
+    @Transactional
     fun create(name: String, password: String, email: String): User {
         userRepository.findById(email).ifPresent { throw AlreadyExistException() }
 
@@ -26,6 +28,7 @@ class UserCommandService(
         return user
     }
 
+    @Transactional
     fun activate(userId: String) {
         val user = userRepository.findByIdOrNull(userId) ?: throw NoAuthorityException()
 

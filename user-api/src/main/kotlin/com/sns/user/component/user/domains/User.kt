@@ -2,6 +2,7 @@ package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
+import com.sns.user.core.exceptions.AlreadyExistException
 import java.sql.ResultSet
 import java.time.Instant
 import javax.validation.constraints.Max
@@ -47,6 +48,7 @@ data class User(
     override fun isNew() = new
 
     fun activate(publish: (DomainEvent) -> Unit = { _ -> }) {
+        status.checkAlready(Status.ACTIVATED)
         status = Status.ACTIVATED
         publish(UserStatusChangedEvent(this))
     }
@@ -94,6 +96,10 @@ class UserRowMapper : RowMapper<User> {
 
 enum class Status {
     CREATED,
-    ACTIVATED,
+    ACTIVATED;
     // 비활 등등?
+
+    fun checkAlready(status: Status) {
+        if (status == this) throw AlreadyExistException()
+    }
 }

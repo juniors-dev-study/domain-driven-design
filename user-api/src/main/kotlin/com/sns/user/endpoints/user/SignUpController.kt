@@ -48,7 +48,6 @@ class SignUpController(
     @PostMapping("/v1/sign-up")
     fun signUp(@RequestBody request: SignUpRequest) {
         userCommandService.create(request.name, request.password, request.email)
-        return
     }
 
     @ApiOperation("이메일 중복 검사")
