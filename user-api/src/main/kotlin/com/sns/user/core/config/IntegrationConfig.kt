@@ -42,7 +42,7 @@ class IntegrationConfig {
 
     @Bean
     fun friendFlow(friendListener: FriendListener) = integrationFlow {
-        channel { publishSubscribe(Channels.EMOTION) }
+        channel { publishSubscribe(Channels.FRIEND_REQUEST) }
         handle<FriendRequestedEvent> { event, _ ->
             friendListener.friendRequested(event)
         }
