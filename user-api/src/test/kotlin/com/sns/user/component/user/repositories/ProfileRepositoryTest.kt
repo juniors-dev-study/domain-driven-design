@@ -29,10 +29,10 @@ internal class ProfileRepositoryTest {
 
         profileRepository.findById(id) hasValueSatisfying { savedUser ->
             savedUser.userId isEqualTo id
-            savedUser.nickName isEqualTo nickName   // TODO "[밥먹기", "운동하기]" 대괄호 제거 필요
+            savedUser.nickName isEqualTo nickName
             savedUser.iconImageUrl isEqualTo ""
             savedUser.intro isEqualTo ""
-            // savedUser.hobbyList isEqualTo hobbyList
+            // savedUser.hobbyList isEqualTo hobbyList     // TODO "[밥먹기", "운동하기]" 대괄호 제거 필요
         }
     }
 }
