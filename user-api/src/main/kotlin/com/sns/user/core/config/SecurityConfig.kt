@@ -17,6 +17,16 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class SecurityConfig(
     private val loginUserService: LoginUserService
 ) : WebSecurityConfigurerAdapter() {
+
+    val WHITE_LIST = arrayOf(
+        "/",
+        "/swagger-resources/**",
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
+        "/webjars/**",
+        "/api/*/sign-up/**",
+    )
+
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.userDetailsService(loginUserService)
             ?.passwordEncoder(passwordEncoder())
@@ -24,8 +34,8 @@ class SecurityConfig(
 
     override fun configure(http: HttpSecurity?) {
         if (http == null) return
-        http.httpBasic().and().authorizeRequests()
-            .antMatchers("/").permitAll()
+        http.authorizeRequests()
+            .antMatchers(*WHITE_LIST).permitAll()
             .antMatchers("/admin-api").hasRole(Role.ADMIN.name)
             .anyRequest().authenticated()
             .and().logout().logoutSuccessUrl("/").invalidateHttpSession(true).permitAll()

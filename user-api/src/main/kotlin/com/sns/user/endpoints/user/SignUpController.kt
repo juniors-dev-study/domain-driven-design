@@ -7,6 +7,7 @@ import com.sns.user.component.user.application.UserCommandService
 import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.core.config.SwaggerTag
 import com.sns.user.endpoints.user.requests.SignUpRequest
+import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -34,15 +35,17 @@ class SignUpController(
     val userCommandService: UserCommandService
 ) {
 
-    @ApiResponse(description = "회원 가입", responseCode = "202")
+    @ApiOperation("회원 가입")
+    @ApiResponse(description = "성공", responseCode = "202")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/v1/sign-up")
     fun signUp(@RequestBody request: SignUpRequest) {
         userCommandService.create(request.name, request.password, request.email)
     }
 
+    @ApiOperation("이메일 중복 검사")
     @ApiResponse(
-        description = "이메일 중복 검사", responseCode = "200",
+        description = "이메일 중복 검사 통과 여부", responseCode = "200",
         content = [Content(schema = Schema(implementation = Boolean::class))],
     )
     @ResponseStatus(HttpStatus.OK)
@@ -52,15 +55,17 @@ class SignUpController(
             .let { ResponseEntity.ok(it) }
     }
 
-    @ApiResponse(description = "가입 인증 코드 재발송", responseCode = "202")
+    @ApiOperation("가입 인증 코드 재발송")
+    @ApiResponse(description = "성공", responseCode = "202")
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun createAuthenticationCode(@PathVariable userId: String) {
         authCodeCommandService.create(userId)
     }
 
+    @ApiOperation("가입 인증 코드 검사")
     @ApiResponse(
-        description = "가입 인증 코드 검사", responseCode = "200",
+        description = "가입 인증 성공", responseCode = "200",
         content = [Content(schema = Schema(implementation = Boolean::class))],
     )
     @ResponseStatus(HttpStatus.OK)
