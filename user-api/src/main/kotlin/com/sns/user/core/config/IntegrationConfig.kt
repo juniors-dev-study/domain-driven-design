@@ -5,7 +5,11 @@ import com.sns.commons.utils.log
 import com.sns.user.component.test.dtos.LaughingEvent
 import com.sns.user.component.test.listeners.EmotionListener
 import com.sns.user.component.user.domains.Status
+import com.sns.user.component.user.dtos.FriendRequestApprovedEvent
+import com.sns.user.component.user.dtos.FriendRequestRejectedEvent
+import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
+import com.sns.user.component.user.listeners.FriendListener
 import com.sns.user.component.user.listeners.UserStatusListener
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -36,8 +40,23 @@ class IntegrationConfig {
         }
     }
 
+    @Bean
+    fun friendFlow(friendListener: FriendListener) = integrationFlow {
+        channel { publishSubscribe(Channels.EMOTION) }
+        handle<FriendRequestedEvent> { event, _ ->
+            friendListener.friendRequested(event)
+        }
+        handle<FriendRequestApprovedEvent> { event, _ ->
+            friendListener.friendRequestApproved(event)
+        }
+        handle<FriendRequestRejectedEvent> { event, _ ->
+            friendListener.friendRequestRejected(event)
+        }
+    }
+
     object Channels {
         const val EMOTION = "EMOTION_CHANNEL"
         const val USER_STATUS = "USER_STATUS_CHANNEL"
+        const val FRIEND_REQUEST = "FRIEND_REQUEST_CHANNEL"
     }
 }
