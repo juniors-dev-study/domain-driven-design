@@ -4,7 +4,6 @@ import com.sns.user.component.authcode.domain.AuthCode
 import com.sns.user.component.authcode.domain.Purpose
 import com.sns.user.component.authcode.repositories.AuthCodeRepository
 import com.sns.user.component.user.domains.User
-import com.sns.user.component.user.repositories.DefaultUserRepository
 import com.sns.user.core.infrastructures.mail.MailService
 import com.sns.user.isEqualTo
 import io.mockk.MockKAnnotations
@@ -15,7 +14,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.data.repository.findByIdOrNull
 
 class AuthCodeCommandServiceMockTest() {
     @MockK
@@ -23,9 +21,6 @@ class AuthCodeCommandServiceMockTest() {
 
     @MockK
     private lateinit var mailService: MailService
-
-    @MockK
-    private lateinit var userRepository: DefaultUserRepository
 
     @InjectMockKs
     private lateinit var authCodeCommandService: AuthCodeCommandService
@@ -35,12 +30,11 @@ class AuthCodeCommandServiceMockTest() {
         MockKAnnotations.init(this)
         every { mailService.sendSignUpAuthCodeMail(ofType(String::class), ofType(String::class)) } returns Unit
         every { authCodeRepository.save(any()) } returnsArgument 0
-        every { userRepository.findByIdOrNull(any()) } returns User.create("id", "pass", "name", "mail@gmail.com")
     }
 
     @Test
     fun create() {
-        val authCode = authCodeCommandService.create("id")
+        val authCode = authCodeCommandService.create(User.create("id", "passwd", "name", "email"))
 
         verify { authCodeRepository.save(eq(authCode)) }
         verify { mailService.sendSignUpAuthCodeMail(any(), any()) }

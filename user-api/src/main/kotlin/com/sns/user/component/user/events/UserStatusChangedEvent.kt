@@ -4,7 +4,7 @@ import com.sns.commons.DomainEvent
 import com.sns.user.component.user.domains.User
 import com.sns.user.core.config.IntegrationConfig
 
-class UserActivatedEvent(val user: User) : DomainEvent {
+class UserStatusChangedEvent(val user: User) : DomainEvent {
     override val eventId: String
         get() = "$channel-$user.id-${System.currentTimeMillis()}"
 

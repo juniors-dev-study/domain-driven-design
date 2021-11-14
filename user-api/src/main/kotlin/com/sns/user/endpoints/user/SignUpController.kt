@@ -6,11 +6,13 @@ import com.sns.user.component.authcode.domain.Purpose
 import com.sns.user.component.user.application.UserCommandService
 import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.core.config.SwaggerTag
+import com.sns.user.core.exceptions.NoAuthorityException
 import com.sns.user.endpoints.user.requests.SignUpRequest
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import javax.validation.constraints.Email
 import org.springframework.http.HttpStatus
@@ -36,11 +38,17 @@ class SignUpController(
 ) {
 
     @ApiOperation("회원 가입")
-    @ApiResponse(description = "성공", responseCode = "202")
+    @ApiResponses(
+        value = [
+            ApiResponse(description = "성공", responseCode = "202"),
+            ApiResponse(description = "이미 존재하는 유저", responseCode = "409"),
+        ],
+    )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/v1/sign-up")
     fun signUp(@RequestBody request: SignUpRequest) {
         userCommandService.create(request.name, request.password, request.email)
+        return
     }
 
     @ApiOperation("이메일 중복 검사")
@@ -60,7 +68,8 @@ class SignUpController(
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun createAuthenticationCode(@PathVariable userId: String) {
-        authCodeCommandService.create(userId)
+        val user = userQueryService.getById(userId) ?: throw NoAuthorityException()
+        authCodeCommandService.create(user)
     }
 
     @ApiOperation("가입 인증 코드 검사")

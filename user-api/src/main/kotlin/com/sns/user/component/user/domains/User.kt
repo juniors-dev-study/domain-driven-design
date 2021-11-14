@@ -1,8 +1,7 @@
 package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
-import com.sns.user.component.user.events.UserActivatedEvent
-import com.sns.user.component.user.events.UserCreatedEvent
+import com.sns.user.component.user.events.UserStatusChangedEvent
 import java.sql.ResultSet
 import java.time.Instant
 import javax.validation.constraints.Max
@@ -49,7 +48,7 @@ data class User(
 
     fun activate(publish: (DomainEvent) -> Unit = { _ -> }) {
         status = Status.ACTIVATED
-        publish(UserActivatedEvent(this))
+        publish(UserStatusChangedEvent(this))
     }
 
     companion object {
@@ -68,10 +67,10 @@ data class User(
                 password = password,
                 name = name,
                 infoEmailAddress = infoEmailAddress ?: id,
-                status = Status.ON_SIGN_UP,
+                status = Status.CREATED,
             ).apply { new = true }
 
-            publish(UserCreatedEvent(user))
+            publish(UserStatusChangedEvent(user))
 
             return user
         }
@@ -94,7 +93,7 @@ class UserRowMapper : RowMapper<User> {
 }
 
 enum class Status {
-    ON_SIGN_UP,
+    CREATED,
     ACTIVATED,
     // 비활 등등?
 }

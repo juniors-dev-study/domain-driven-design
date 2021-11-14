@@ -4,6 +4,7 @@ import com.sns.user.component.authcode.domain.AuthCode
 import com.sns.user.component.authcode.domain.Purpose
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class DefaultAuthCodeRepository(
@@ -24,6 +25,7 @@ class DefaultAuthCodeRepository(
         AuthCode.MAPPER,
     )
 
+    @Transactional
     override fun save(authCode: AuthCode): AuthCode {
         jdbcTemplate.update(
             """

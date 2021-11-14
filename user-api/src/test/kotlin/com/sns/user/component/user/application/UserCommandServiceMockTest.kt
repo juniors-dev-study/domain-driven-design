@@ -1,9 +1,9 @@
 package com.sns.user.component.user.application
 
 import com.sns.commons.DomainEvent
+import com.sns.commons.service.EventPublisher
 import com.sns.user.component.user.domains.User
-import com.sns.user.component.user.events.UserActivatedEvent
-import com.sns.user.component.user.events.UserCreatedEvent
+import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.component.user.repositories.UserRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -12,7 +12,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 
@@ -24,7 +23,7 @@ internal class UserCommandServiceMockTest {
     private lateinit var passwordEncoder: PasswordEncoder
 
     @MockK
-    private lateinit var eventPublisher: ApplicationEventPublisher
+    private lateinit var eventPublisher: EventPublisher
 
     @InjectMockKs
     lateinit var userCommandService: UserCommandService
@@ -34,7 +33,7 @@ internal class UserCommandServiceMockTest {
         MockKAnnotations.init(this)
 
         val user = User.create("id", "passwd", "이름", "dev123@gmail.com")
-        every { eventPublisher.publishEvent(ofType(DomainEvent::class)) } returns Unit
+        every { eventPublisher.publish(ofType(DomainEvent::class)) } returns Unit
         every { userRepository.save(any()) } returnsArgument 0
         every { userRepository.findByInfoEmailAddressOrNull(ofType(String::class)) } returns user
         every { userRepository.findByIdOrNull(ofType(String::class)) } returns user
@@ -45,7 +44,7 @@ internal class UserCommandServiceMockTest {
     fun create() {
         userCommandService.create("이름", "passwd", "dev123@gmail.com")
 
-        verify { eventPublisher.publishEvent(ofType(UserCreatedEvent::class)) }
+        verify { eventPublisher.publish(ofType(UserStatusChangedEvent::class)) }
         verify { userRepository.save(ofType(User::class)) }
     }
 
@@ -53,7 +52,7 @@ internal class UserCommandServiceMockTest {
     fun activate() {
         userCommandService.activate("dev123@gmail")
 
-        verify { eventPublisher.publishEvent(ofType(UserActivatedEvent::class)) }
+        verify { eventPublisher.publish(ofType(UserStatusChangedEvent::class)) }
         verify { userRepository.save(ofType(User::class)) }
     }
 }

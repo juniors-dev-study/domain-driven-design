@@ -3,6 +3,10 @@ server:
 logging:
   level:
     root: info
+    org:
+      springframework:
+        jdbc:
+          core: trace
   pattern:
     console: "%d{HH:mm:ss} [%t][%-5level] %msg \\(%F:%L\\)%n"
 spring:
