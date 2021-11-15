@@ -26,10 +26,9 @@ CREATE TABLE IF NOT EXISTS `friend`
     friend_user_id VARCHAR(50) NOT NULL COMMENT '친구 사용자 아이디',
     created_at     DATETIME    NOT NULL COMMENT '생성 시간',
 
+    KEY `idx_user_id` (`user_id`),
     UNIQUE INDEX idx_user_id_friend_user_id (user_id, friend_user_id)
 );
-
-CREATE INDEX idx_user_id ON friend (user_id);
 
 CREATE TABLE IF NOT EXISTS `friend_request`
 (
