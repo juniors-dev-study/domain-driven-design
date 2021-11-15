@@ -1,6 +1,7 @@
 package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
+import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
 import java.sql.ResultSet
@@ -61,6 +62,8 @@ data class User(
         receiver: User,
         publish: (DomainEvent) -> Unit = { _ -> }
     ): FriendRequest {
+        publish(FriendRequestedEvent(this.id, receiver.id))
+
         return FriendRequest.create(this, receiver)
     }
 
