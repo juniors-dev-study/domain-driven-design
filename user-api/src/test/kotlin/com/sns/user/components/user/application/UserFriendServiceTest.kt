@@ -42,7 +42,7 @@ class UserFriendServiceTest {
         userRepository.saveAll(listOf(user, user2))
         val friendRequest = userFriendService.createFriendRequest(id, id2)
 
-        userFriendService.approveFriendRequest(id, friendRequest.id)
+        userFriendService.approveFriendRequest(id2, friendRequest.id)
     }
 
     @Test
