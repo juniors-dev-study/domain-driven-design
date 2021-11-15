@@ -20,7 +20,7 @@ class UserFriendService(
             NoSuchElementException("친구 요청을 보낸 사용자 정보가 없습니다")
         }
 
-        val receiver = userRepository.findById(userId).orElseThrow {
+        val receiver = userRepository.findById(friendUserId).orElseThrow {
             NoSuchElementException("친구 요청을 받을 사용자 정보가 없습니다")
         }
 
