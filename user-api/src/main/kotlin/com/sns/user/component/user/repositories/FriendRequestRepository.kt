@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.NoRepositoryBean
 
 @NoRepositoryBean
-interface FriendRequestRepository : CrudRepository<FriendRequest, Int> {
+interface FriendRequestRepository : CrudRepository<FriendRequest, Long> {
     fun findByRequesterIdAndReceiverId(requesterId: String, receiverId: String): Optional<FriendRequest>
 }

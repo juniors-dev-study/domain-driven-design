@@ -11,7 +11,7 @@ class DefaultFriendRequestRepository(
     private val jdbcTemplate: JdbcTemplate,
     private val friendRequestCrudRepository: FriendRequestCrudRepository
 ) : FriendRequestRepository,
-    CrudRepository<FriendRequest, Int> by friendRequestCrudRepository {
+    CrudRepository<FriendRequest, Long> by friendRequestCrudRepository {
     override fun findByRequesterIdAndReceiverId(requesterId: String, receiverId: String): Optional<FriendRequest> =
         friendRequestCrudRepository.findByRequesterIdAndReceiverId(requesterId, receiverId)
 }

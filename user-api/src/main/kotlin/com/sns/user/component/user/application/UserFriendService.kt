@@ -36,7 +36,7 @@ class UserFriendService(
     }
 
     @Transactional
-    fun approveFriendRequest(userId: String, friendRequestId: Int) {
+    fun approveFriendRequest(userId: String, friendRequestId: Long) {
         val friendRequest = friendRequestRepository.findById(friendRequestId).orElseThrow {
             NoSuchElementException("해당 친구 요청이 존재하지 않습니다")
         }
@@ -63,7 +63,7 @@ class UserFriendService(
     }
 
     @Transactional
-    fun rejectFriendRequest(userId: String, friendRequestId: Int) {
+    fun rejectFriendRequest(userId: String, friendRequestId: Long) {
         val friendRequest = friendRequestRepository.findById(friendRequestId).orElseThrow {
             NoSuchElementException("해당 친구 요청이 존재하지 않습니다")
         }

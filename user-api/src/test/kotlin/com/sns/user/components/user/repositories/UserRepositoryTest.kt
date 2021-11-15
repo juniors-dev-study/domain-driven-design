@@ -1,7 +1,7 @@
 package com.sns.user.components.user.repositories
 
-import com.sns.user.component.user.domains.User
 import com.sns.user.component.user.repositories.UserRepository
+import com.sns.user.createUser
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo
 import com.sns.user.isNotEmpty
@@ -23,15 +23,13 @@ class UserRepositoryTest {
     @Test
     fun save() {
         val id = "testAccount@n2ver.com"
-        val name = "TESTER"
 
-        val user = User.create(id, "1235", name)
+        val user = createUser(id)
 
         userRepository.save(user)
 
         userRepository.findById(id) hasValueSatisfying { savedUser ->
             savedUser.id isEqualTo id
-            savedUser.name isEqualTo name
             savedUser.infoEmailAddress isEqualTo id
             savedUser.createdAt isNotEqualTo Instant.MIN
             savedUser.updatedAt isNotEqualTo Instant.MIN
@@ -48,10 +46,9 @@ class UserRepositoryTest {
     fun save2() {
         val id = "testAccount@n2ver.com"
         val id2 = "testAccount2@n2ver.com"
-        val name = "TESTER"
 
-        val user = User.create(id, "1235", name)
-        val user2 = User.create(id2, "1235", name)
+        val user = createUser(id)
+        val user2 = createUser(id2)
 
         user.friendRequestReceived(user2)
 
@@ -59,7 +56,6 @@ class UserRepositoryTest {
 
         userRepository.findById(id) hasValueSatisfying { savedUser ->
             savedUser.id isEqualTo id
-            savedUser.name isEqualTo name
             savedUser.infoEmailAddress isEqualTo id
             savedUser.friends.isNotEmpty().anyMatch { it.friendUserId == user2.id }
             savedUser.createdAt isNotEqualTo Instant.MIN
