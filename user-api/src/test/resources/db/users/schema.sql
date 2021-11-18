@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user`
 (
     id                 VARCHAR(50)  NOT NULL PRIMARY KEY COMMENT '아이디 (이메일)',
@@ -9,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `user`
     updated_at         DATETIME     NOT NULL COMMENT '마지막 수정 시간'
 );
 
-
+DROP TABLE IF EXISTS `auth_code`;
 CREATE TABLE IF NOT EXISTS `auth_code`
 (
     user_id    VARCHAR(50) NOT NULL COMMENT 'user.id',

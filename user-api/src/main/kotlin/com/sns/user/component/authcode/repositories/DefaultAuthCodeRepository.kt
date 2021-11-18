@@ -11,14 +11,14 @@ class DefaultAuthCodeRepository(
     val jdbcTemplate: NamedParameterJdbcTemplate,
 ) : AuthCodeRepository {
 
-    override fun findByAuthCodeKey(key: AuthCodeKey): AuthCode? = jdbcTemplate.queryForObject(
+    override fun findByAuthCodeKey(authCodeKey: AuthCodeKey): AuthCode? = jdbcTemplate.queryForObject(
         """
           SELECT user_id,`code`,created_at,purpose
           FROM auth_code
           WHERE user_id = :userId AND purpose = :purpose
           LIMIT 1
         """.trimIndent(),
-        key.toMap(), AuthCode.MAPPER,
+        authCodeKey.toMap(), AuthCode.MAPPER,
     )
 
     @Transactional
@@ -38,14 +38,14 @@ class DefaultAuthCodeRepository(
     }
 
     @Transactional
-    override fun delete(key: AuthCodeKey) {
+    override fun delete(authCodeKey: AuthCodeKey) {
         jdbcTemplate.update(
             """
                 DELETE FROM auth_code
                 WHERE user_id = :userId AND purpose = :purpose
                 LIMIT 1
             """.trimIndent(),
-            key.toMap(),
+            authCodeKey.toMap(),
         )
     }
 }

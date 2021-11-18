@@ -4,15 +4,11 @@ import kotlin.random.Random
 import java.sql.ResultSet
 import java.time.Instant
 import javax.validation.constraints.NotBlank
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.Id
 import org.springframework.jdbc.core.RowMapper
 
 data class AuthCode(
-    @Id
     @NotBlank
     val purpose: Purpose,
-    @Id
     @NotBlank
     val userId: String,
     @NotBlank
@@ -20,7 +16,6 @@ data class AuthCode(
         .map { Random.nextInt(0, charPool.size) }
         .map(charPool::get)
         .joinToString(""),
-    @CreatedDate
     val createdAt: Instant = Instant.MIN
 ) {
 

@@ -61,7 +61,7 @@ class SignUpController(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/sign-up/verifications/emails/{email}")
     fun verifyEmail(@Email @PathVariable email: String): SignUpVerifiedResponse {
-        return SignUpVerifiedResponse((userQueryService.getByEmail(email) != null) ?: false)
+        return SignUpVerifiedResponse(userQueryService.getByEmail(email) != null)
     }
 
     @ApiOperation("가입 인증 코드 재발송")
@@ -81,7 +81,7 @@ class SignUpController(
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
     fun verifyAuthenticationCode(@PathVariable userId: String, @RequestBody code: String): SignUpVerifiedResponse {
-        return SignUpVerifiedResponse(signUpAggregator.verifyAuthentication(userId, code) ?: false)
+        return SignUpVerifiedResponse(signUpAggregator.verifyAuthentication(userId, code))
     }
 }
 

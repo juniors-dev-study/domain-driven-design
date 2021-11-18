@@ -25,4 +25,14 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     show-sql: true
     open-in-view: false
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_ADD}
+    password: ${GMAIL_PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
