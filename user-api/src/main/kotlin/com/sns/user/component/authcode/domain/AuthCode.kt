@@ -35,6 +35,18 @@ data class AuthCode(
     }
 }
 
+data class AuthCodeKey(
+    @NotBlank
+    val purpose: Purpose,
+    @NotBlank
+    val userId: String,
+) {
+    fun toMap(): MutableMap<String, Any> = mutableMapOf(
+        "userId" to userId,
+        "purpose" to purpose.name,
+    )
+}
+
 // purpose enum 매핑이 안되서 수동으로 작성함. 확인필요.
 class AuthCodeRowMapper : RowMapper<AuthCode> {
     override fun mapRow(rs: ResultSet, rowNum: Int): AuthCode? {

@@ -11,5 +11,5 @@ class UserQueryService(
 ) {
     fun getById(id: String): User? = userRepository.findByIdOrNull(id)
 
-    fun getByEmail(email: String): User? = userRepository.findByInfoEmailAddressOrNull(email)
+    fun getByEmail(email: String): User? = userRepository.findByInfoEmailAddress(email).orElse(null)
 }

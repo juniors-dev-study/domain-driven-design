@@ -1,6 +1,7 @@
 package com.sns.user.component.authcode.application
 
 import com.sns.user.component.authcode.domain.AuthCode
+import com.sns.user.component.authcode.domain.AuthCodeKey
 import com.sns.user.component.authcode.domain.Purpose
 import com.sns.user.component.authcode.repositories.AuthCodeRepository
 import com.sns.user.component.user.domains.User
@@ -30,6 +31,7 @@ class AuthCodeCommandServiceMockTest() {
         MockKAnnotations.init(this)
         every { mailService.sendSignUpAuthCodeMail(ofType(String::class), ofType(String::class)) } returns Unit
         every { authCodeRepository.save(any()) } returnsArgument 0
+        every { authCodeRepository.delete(any()) } returns Unit
     }
 
     @Test
@@ -43,7 +45,7 @@ class AuthCodeCommandServiceMockTest() {
     @DisplayName("userId, purpose에 맞는 authcode 기록이 없다면, 인증 실패해야한다.")
     @Test
     fun verify_null() {
-        every { authCodeRepository.findByUserIdAndPurpose(ofType(String::class), ofType(Purpose::class)) } returns null
+        every { authCodeRepository.findByAuthCodeKey(ofType(AuthCodeKey::class)) } returns null
 
         authCodeCommandService.verify("userId", Purpose.SIGN_UP, "123") isEqualTo false
     }
@@ -52,7 +54,7 @@ class AuthCodeCommandServiceMockTest() {
     @Test
     fun verify_success() {
         val authCode = AuthCode.createSignUp("userId")
-        every { authCodeRepository.findByUserIdAndPurpose(ofType(String::class), ofType(Purpose::class)) } returns authCode
+        every { authCodeRepository.findByAuthCodeKey(ofType(AuthCodeKey::class)) } returns authCode
 
         authCodeCommandService.verify("userId", Purpose.SIGN_UP, authCode.code) isEqualTo true
     }
@@ -61,7 +63,7 @@ class AuthCodeCommandServiceMockTest() {
     @Test
     fun verify_different_code() {
         val authCode = AuthCode.createSignUp("userId")
-        every { authCodeRepository.findByUserIdAndPurpose(ofType(String::class), ofType(Purpose::class)) } returns authCode
+        every { authCodeRepository.findByAuthCodeKey(ofType(AuthCodeKey::class)) } returns authCode
 
         authCodeCommandService.verify("userId", Purpose.SIGN_UP, "different") isEqualTo false
     }

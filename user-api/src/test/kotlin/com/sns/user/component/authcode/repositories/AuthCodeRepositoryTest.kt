@@ -1,6 +1,7 @@
 package com.sns.user.component.authcode.repositories
 
 import com.sns.user.component.authcode.domain.AuthCode
+import com.sns.user.component.authcode.domain.AuthCodeKey
 import com.sns.user.component.authcode.domain.Purpose
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -19,6 +20,11 @@ class AuthCodeRepositoryTest {
 
     @Test
     internal fun findByUserIdAndPurpose() {
-        assertThat(authCodeRepository.findByUserIdAndPurpose("userId", Purpose.SIGN_UP)).isNotNull
+        assertThat(authCodeRepository.findByAuthCodeKey(AuthCodeKey(Purpose.SIGN_UP, "userId"))).isNotNull
+    }
+
+    @Test
+    internal fun delete() {
+        authCodeRepository.delete(AuthCodeKey(Purpose.SIGN_UP, "userId"))
     }
 }

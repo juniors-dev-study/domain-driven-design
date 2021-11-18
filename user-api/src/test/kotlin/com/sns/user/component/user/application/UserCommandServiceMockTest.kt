@@ -11,6 +11,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import java.util.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -38,7 +39,7 @@ internal class UserCommandServiceMockTest {
         val user = User.create("id", "passwd", "이름", "dev123@gmail.com")
         every { eventPublisher.publish(ofType(DomainEvent::class)) } returns Unit
         every { userRepository.save(any()) } returnsArgument 0
-        every { userRepository.findByInfoEmailAddressOrNull(ofType(String::class)) } returns user
+        every { userRepository.findByInfoEmailAddress(ofType(String::class)) } returns Optional.of(user)
         every { userRepository.findByIdOrNull(ofType(String::class)) } returns user
         every { passwordEncoder.encode(any()) } returnsArgument 0
     }

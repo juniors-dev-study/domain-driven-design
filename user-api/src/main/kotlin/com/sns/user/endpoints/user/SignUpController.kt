@@ -8,6 +8,7 @@ import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.core.config.SwaggerTag
 import com.sns.user.core.exceptions.NoAuthorityException
 import com.sns.user.endpoints.user.requests.SignUpRequest
+import com.sns.user.endpoints.user.responses.SignUpVerifiedResponse
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -16,7 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import javax.validation.constraints.Email
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -34,7 +36,8 @@ import org.springframework.web.bind.annotation.RestController
 class SignUpController(
     val authCodeCommandService: AuthCodeCommandService,
     val userQueryService: UserQueryService,
-    val userCommandService: UserCommandService
+    val userCommandService: UserCommandService,
+    val signUpAggregator: SignUpAggregator
 ) {
 
     @ApiOperation("회원 가입")
@@ -57,9 +60,8 @@ class SignUpController(
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/sign-up/verifications/emails/{email}")
-    fun verifyEmail(@Email @PathVariable email: String): ResponseEntity<Boolean> {
-        return (userQueryService.getByEmail(email) != null)
-            .let { ResponseEntity.ok(it) }
+    fun verifyEmail(@Email @PathVariable email: String): SignUpVerifiedResponse {
+        return SignUpVerifiedResponse((userQueryService.getByEmail(email) != null) ?: false)
     }
 
     @ApiOperation("가입 인증 코드 재발송")
@@ -78,11 +80,19 @@ class SignUpController(
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/v1/sign-up/verifications/auth-code/ids/{userId}")
-    fun verifyAuthenticationCode(@PathVariable userId: String, @RequestBody code: String): ResponseEntity<Boolean> {
-        return authCodeCommandService.verify(userId, Purpose.SIGN_UP, code)
-            .ifTrue { userCommandService.activate(userId) }
-            .let {
-                ResponseEntity.ok(it)
-            }
+    fun verifyAuthenticationCode(@PathVariable userId: String, @RequestBody code: String): SignUpVerifiedResponse {
+        return SignUpVerifiedResponse(signUpAggregator.verifyAuthentication(userId, code) ?: false)
     }
+}
+
+@Component
+class SignUpAggregator(
+    val authCodeCommandService: AuthCodeCommandService,
+    val userCommandService: UserCommandService
+) {
+
+    @Transactional
+    fun verifyAuthentication(userId: String, code: String): Boolean =
+        authCodeCommandService.verify(userId, Purpose.SIGN_UP, code)
+            .ifTrue { userCommandService.activate(userId) } ?: false
 }

@@ -1,7 +1,7 @@
 package com.sns.user.component.authcode.repositories
 
 import com.sns.user.component.authcode.domain.AuthCode
-import com.sns.user.component.authcode.domain.Purpose
+import com.sns.user.component.authcode.domain.AuthCodeKey
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -11,18 +11,14 @@ class DefaultAuthCodeRepository(
     val jdbcTemplate: NamedParameterJdbcTemplate,
 ) : AuthCodeRepository {
 
-    override fun findByUserIdAndPurpose(userId: String, purpose: Purpose): AuthCode? = jdbcTemplate.queryForObject(
+    override fun findByAuthCodeKey(key: AuthCodeKey): AuthCode? = jdbcTemplate.queryForObject(
         """
           SELECT user_id,`code`,created_at,purpose
           FROM auth_code
           WHERE user_id = :userId AND purpose = :purpose
           LIMIT 1
         """.trimIndent(),
-        mutableMapOf(
-            "userId" to userId,
-            "purpose" to purpose.name,
-        ),
-        AuthCode.MAPPER,
+        key.toMap(), AuthCode.MAPPER,
     )
 
     @Transactional
@@ -39,5 +35,17 @@ class DefaultAuthCodeRepository(
             ),
         )
         return authCode
+    }
+
+    @Transactional
+    override fun delete(key: AuthCodeKey) {
+        jdbcTemplate.update(
+            """
+                DELETE FROM auth_code
+                WHERE user_id = :userId AND purpose = :purpose
+                LIMIT 1
+            """.trimIndent(),
+            key.toMap(),
+        )
     }
 }

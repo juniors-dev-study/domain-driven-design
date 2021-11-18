@@ -1,6 +1,8 @@
 package com.sns.user.component.authcode.application
 
+import com.sns.commons.utils.ifTrue
 import com.sns.user.component.authcode.domain.AuthCode
+import com.sns.user.component.authcode.domain.AuthCodeKey
 import com.sns.user.component.authcode.domain.Purpose
 import com.sns.user.component.authcode.repositories.AuthCodeRepository
 import com.sns.user.component.user.domains.User
@@ -23,8 +25,11 @@ class AuthCodeCommandService(
         return authCode
     }
 
+    @Transactional
     fun verify(userId: String, purpose: Purpose, code: String): Boolean {
-        val authCode: AuthCode? = authCodeRepository.findByUserIdAndPurpose(userId, purpose)
-        return authCode?.isCorrect(userId, code, purpose) ?: false
+        val authCodeKey = AuthCodeKey(purpose, userId)
+        val authCode: AuthCode? = authCodeRepository.findByAuthCodeKey(authCodeKey)
+        return authCode?.isCorrect(userId, code, purpose)
+            .ifTrue { authCodeRepository.delete(authCodeKey) } ?: false
     }
 }

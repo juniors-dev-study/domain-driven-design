@@ -36,6 +36,6 @@ class UserRepositoryTest {
 
     @Test
     internal fun findByInfoEmailAddress() {
-        userRepository.findByInfoEmailAddressOrNull("dev@gm1.com")!! satisfies { u -> u.name isEqualTo "김개발" }
+        userRepository.findByInfoEmailAddress("dev@gm1.com").orElseGet(null)!! satisfies { it.name isEqualTo "김개발" }
     }
 }
