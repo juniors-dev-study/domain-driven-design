@@ -5,6 +5,7 @@ import com.sns.user.component.user.repositories.UserRepository
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo
 import com.sns.user.isNotEqualTo
+import com.sns.user.satisfies
 import java.time.Instant
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,5 +32,10 @@ class UserRepositoryTest {
             savedUser.createdAt isNotEqualTo Instant.MIN
             savedUser.updatedAt isNotEqualTo Instant.MIN
         }
+    }
+
+    @Test
+    internal fun findByInfoEmailAddress() {
+        userRepository.findByInfoEmailAddress("dev@gm1.com").orElseGet(null)!! satisfies { it.name isEqualTo "김개발" }
     }
 }

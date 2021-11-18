@@ -62,6 +62,10 @@ project(":user-api") {
         implementation("io.springfox:springfox-boot-starter:3.0.0")
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-test")
+        implementation("org.springframework.boot:spring-boot-starter-mail")
+        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+        implementation("org.springframework.boot:spring-boot-starter-security")
         runtimeOnly("com.h2database:h2")
         runtimeOnly("mysql:mysql-connector-java")
     }
