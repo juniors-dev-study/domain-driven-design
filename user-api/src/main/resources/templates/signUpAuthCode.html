@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DDD SNS 인증 코드</title>
+</head>
+<body>
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">DDD SNS 가입 인증 코드</h1>
+        <p class="col-md-8 fs-4">가입페이지에 인증코드를 입력해주세요. 바로 인증 링크는 TODO</p>
+        <p class="col-md-8 fs-4">인증 코드 :
+            <span th:text="${code}"></span>
+        </p>
+        <button class="btn btn-primary btn-lg" type="button">인증 하기</button>
+    </div>
+</div>
+</body>
+</html>
