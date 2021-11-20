@@ -3,16 +3,13 @@ package com.sns.user.component.user.domains
 import com.sns.commons.DomainEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
-import java.sql.ResultSet
-import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.NotBlank
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.jdbc.core.RowMapper
+import java.sql.ResultSet
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotBlank
@@ -22,7 +19,7 @@ data class User(
     @NotBlank
     @Max(50)
     @JvmField
-    val id: UserId,
+    val id: String, // email
 
     @NotBlank
     @Max(100)
@@ -33,7 +30,7 @@ data class User(
     val name: String,
 
     @NotBlank
-    var infoEmailAddress: String = id.getEmailAddress(), // 서비스 정보 수신 이메일주소. 기본값은 id
+    var infoEmailAddress: String = id, // 서비스 정보 수신 이메일주소. 기본값은 id
 
     @CreatedDate
     val createdAt: Instant = Instant.MIN,
@@ -42,12 +39,12 @@ data class User(
     var updatedAt: Instant = Instant.MIN,
 
     @NotBlank
-    var status: Status = Status.ACTIVATED
+    var status: Status = Status.ACTIVATED,
 ) : Persistable<String> {
     @Transient
     private var new: Boolean = false
 
-    override fun getId() = this.id.getId()
+    override fun getId() = this.id
     override fun isNew() = new
 
     fun activate(publish: (DomainEvent) -> Unit = { _ -> }) {
@@ -67,9 +64,6 @@ data class User(
             publish: (DomainEvent) -> Unit = { _ -> }
         ): User {
             // TODO validation
-            return User(
-                id = UserId(id),
-                password = password, // TODO encrypt
             val user = User(
                 id = id,
                 password = password,
@@ -111,6 +105,7 @@ enum class Status {
 }
 
 data class UserId(
+    // TODO 적용 예정.
     private val id: String, // email
 ) {
     public fun getEmailAddress() = this.id

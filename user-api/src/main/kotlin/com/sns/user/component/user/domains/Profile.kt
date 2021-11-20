@@ -20,7 +20,7 @@ data class Profile(
     @Id
     @NotNull
     @Max(50)
-    val userId: UserId,
+    val userId: String,
 
     @Max(50)
     val nickName: String?,
@@ -41,7 +41,7 @@ data class Profile(
 ) : Persistable<String> {
     companion object {
         fun create(
-            userId: UserId,
+            userId: String,
             nickName: String? = null,
             iconImageUrl: String? = null,
             intro: String? = null,
@@ -61,7 +61,7 @@ data class Profile(
     private var new: Boolean = false
 
     override fun isNew() = new
-    override fun getId() = this.userId.getId()
+    override fun getId() = this.userId
 }
 
 data class Hobby(

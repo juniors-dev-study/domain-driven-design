@@ -2,7 +2,6 @@ package com.sns.user.component.user.repositories
 
 import com.sns.user.component.user.domains.Hobby
 import com.sns.user.component.user.domains.Profile
-import com.sns.user.component.user.domains.UserId
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo
 import org.junit.jupiter.api.Test
@@ -23,14 +22,14 @@ internal class ProfileRepositoryTest {
         val nickName = "닉네임"
         val hobbies = listOf(Hobby("밥먹기"), Hobby("운동하기"))
         val profile = Profile.create(
-            userId = UserId(id), nickName = nickName,
+            userId = id, nickName = nickName,
             hobbies = hobbies,
         )
 
         profileRepository.save(profile)
 
         profileRepository.findById(id) hasValueSatisfying { savedUser ->
-            savedUser.userId isEqualTo UserId(id)
+            savedUser.userId isEqualTo id
             savedUser.nickName isEqualTo nickName
             savedUser.iconImageUrl isEqualTo null
             savedUser.intro isEqualTo null
