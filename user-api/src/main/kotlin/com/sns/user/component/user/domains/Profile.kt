@@ -5,9 +5,9 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
+import org.springframework.data.relational.core.mapping.MappedCollection
 import java.time.Instant
 import javax.validation.constraints.Max
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
@@ -20,38 +20,39 @@ data class Profile(
     @Id
     @NotNull
     @Max(50)
-    val userId: String = "",    // TODO User.id 객체로
+    val userId: UserId,
 
     @Max(50)
-    val nickName: String = "",
+    val nickName: String?,
 
     @Max(100)
     @URL
-    val iconImageUrl: String = "",  // TODO URL 객체로?
+    val iconImageUrl: String?,  // TODO URL 객체로?
 
     @Max(200)
-    val intro: String = "", // 소개, 약력
+    val intro: String?, // 소개, 약력
 
     @Size(max = 5)
-    val hobbyList: List<@NotBlank @Max(20) String> = emptyList(), // 취미
+    @MappedCollection
+    val hobbies: List<Hobby>?, // 취미 목록
 
     @LastModifiedDate
     var updatedAt: Instant = Instant.MIN,
 ) : Persistable<String> {
     companion object {
         fun create(
-            userId: String,
-            nickName: String = "",
-            iconImageUrl: String = "",
-            intro: String = "",
-            hobbyList: List<@NotBlank @Max(value = 20.toLong()) String> = emptyList(),
+            userId: UserId,
+            nickName: String? = null,
+            iconImageUrl: String? = null,
+            intro: String? = null,
+            hobbies: List<Hobby>? = null,
         ): Profile {
             return Profile(
                 userId = userId,
                 nickName = nickName,
                 iconImageUrl = iconImageUrl,
                 intro = intro,
-                hobbyList = hobbyList,
+                hobbies = hobbies,
             ).apply { new = true }
         }
     }
@@ -59,18 +60,10 @@ data class Profile(
     @Transient
     private var new: Boolean = false
 
-    override fun getId() = this.userId
     override fun isNew() = new
+    override fun getId() = this.userId.getId()
 }
 
-// TODO 고민들
-/*
- 1. Profile, User 관계를 어떻게 이을까
-    - User 객체 안에 Profile?
-      - user 가져올때마다, Profile 조회가 일어나서 안좋을듯?
-    - Profile에 user PK를 넣어서 조회? :
-      - 그러면 Profile만 있을때 User를 항상 조회해야함. 이런 경우가 많은가?
-      - 그리고 User id 변경 시에, 변경필요 >> id를 한번 감싸면 좋을듯? UserId 만들어서
- 2. notNull 할까?
-    - table에 null 들어가기 vs empty string 들어가
-*/
+data class Hobby(
+    val name: String,
+)
