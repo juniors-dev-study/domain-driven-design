@@ -30,7 +30,7 @@ class ProfileController(
             ApiResponse(description = "해당 유저가 없음", responseCode = "409"),
         ],
     )
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/profiles/{userId}")
     fun getProfile(@Email @PathVariable userId: String): ProfileResponse {
         return ProfileResponse(
