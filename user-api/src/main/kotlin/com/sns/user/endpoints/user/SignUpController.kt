@@ -3,6 +3,7 @@ package com.sns.user.endpoints.user
 import com.sns.commons.utils.ifTrue
 import com.sns.user.component.authcode.application.AuthCodeCommandService
 import com.sns.user.component.authcode.domain.Purpose
+import com.sns.user.component.user.application.ProfileCommandService
 import com.sns.user.component.user.application.UserCommandService
 import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.core.config.SwaggerTag
@@ -15,19 +16,12 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import javax.validation.constraints.Email
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.validation.constraints.Email
 
 @Validated
 @RestController
@@ -88,11 +82,15 @@ class SignUpController(
 @Component
 class SignUpAggregator(
     val authCodeCommandService: AuthCodeCommandService,
-    val userCommandService: UserCommandService
+    val userCommandService: UserCommandService,
+    val profileCommandService: ProfileCommandService,
 ) {
 
     @Transactional
     fun verifyAuthentication(userId: String, code: String): Boolean =
         authCodeCommandService.verify(userId, Purpose.SIGN_UP, code)
-            .ifTrue { userCommandService.activate(userId) } ?: false
+            .ifTrue {
+                userCommandService.activate(userId)
+                profileCommandService.create(userId)
+            } ?: false
 }

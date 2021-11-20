@@ -45,14 +45,14 @@ data class Profile(
             nickName: String? = null,
             iconImageUrl: String? = null,
             intro: String? = null,
-            hobbies: List<Hobby>? = null,
+            hobbies: List<String>? = null,
         ): Profile {
             return Profile(
                 userId = userId,
                 nickName = nickName,
                 iconImageUrl = iconImageUrl,
                 intro = intro,
-                hobbies = hobbies,
+                hobbies = hobbies?.map { e -> Hobby(e) }?.toList(),
             ).apply { new = true }
         }
     }
@@ -62,8 +62,14 @@ data class Profile(
 
     override fun isNew() = new
     override fun getId() = this.userId
+
+    fun getServiceIconImageUrl(): String {
+        return if (iconImageUrl.isNullOrBlank()) PROFILE_DEFAULT_ICON_IMAGE_URL else iconImageUrl
+    }
 }
 
 data class Hobby(
     val name: String,
 )
+
+const val PROFILE_DEFAULT_ICON_IMAGE_URL: String = "https://ssl.pstatic.net/static/kin/09renewal/avatar/200x200_m_gray/public.png"

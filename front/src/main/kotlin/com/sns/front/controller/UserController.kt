@@ -23,4 +23,9 @@ class UserController {
     fun register(): String {
         return "pages/register"
     }
+
+    @GetMapping("/profile")
+    fun profile(): String {
+        return "pages/profile"
+    }
 }

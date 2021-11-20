@@ -20,10 +20,11 @@ internal class ProfileRepositoryTest {
     fun save() {
         val id = "test@gmail.com"
         val nickName = "닉네임"
-        val hobbies = listOf(Hobby("밥먹기"), Hobby("운동하기"))
+        val inputHobbies = listOf("밥먹기", "운동하기")
+        val outputHobbies = listOf(Hobby("밥먹기"), Hobby("운동하기"))
         val profile = Profile.create(
             userId = id, nickName = nickName,
-            hobbies = hobbies,
+            hobbies = inputHobbies,
         )
 
         profileRepository.save(profile)
@@ -33,7 +34,7 @@ internal class ProfileRepositoryTest {
             savedUser.nickName isEqualTo nickName
             savedUser.iconImageUrl isEqualTo null
             savedUser.intro isEqualTo null
-            savedUser.hobbies isEqualTo hobbies
+            savedUser.hobbies isEqualTo outputHobbies
         }
     }
 }
