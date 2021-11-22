@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<body>
+<!-- 최대 크기 제한 -->
+<div class="container is-max-desktop">
+    <th:block th:replace="fragments/header :: headerFragment('Header')"></th:block>
+    <section class="section">
+        <th:block layout:fragment="content"></th:block>
+    </section>
+
+    <th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</div>
+</body>
+</html>

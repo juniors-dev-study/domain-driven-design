@@ -4,10 +4,6 @@ import com.sns.commons.DomainEvent
 import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
-import java.sql.ResultSet
-import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.NotBlank
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
@@ -15,6 +11,10 @@ import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.jdbc.core.RowMapper
+import java.sql.ResultSet
+import java.time.Instant
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotBlank
 
 data class User(
     @Id
@@ -44,7 +44,7 @@ data class User(
     var updatedAt: Instant = Instant.MIN,
 
     @NotBlank
-    var status: Status = Status.ACTIVATED
+    var status: Status = Status.ACTIVATED,
 ) : Persistable<String> {
     @Transient
     private var new: Boolean = false
@@ -135,4 +135,12 @@ enum class Status {
     fun checkAlready(status: Status) {
         if (status == this) throw AlreadyExistException()
     }
+}
+
+data class UserId(
+    // TODO 적용 예정.
+    private val id: String, // email
+) {
+    public fun getEmailAddress() = this.id
+    public fun getId() = this.id
 }
