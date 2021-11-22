@@ -1,10 +1,13 @@
 package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
+import com.sns.commons.utils.ifFalse
+import com.sns.commons.utils.ifTrue
 import com.sns.user.component.user.dtos.FriendRequestedEvent
+import com.sns.user.component.user.dtos.FriendshipBrokenEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
-
+import com.sns.user.core.exceptions.NotFoundException
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotBlank
@@ -67,9 +70,22 @@ data class User(
         receiver: User,
         publish: (DomainEvent) -> Unit = { _ -> }
     ): FriendRequest {
+        checkAlreadyFriend(receiver)
+
         publish(FriendRequestedEvent(this.id, receiver.id))
 
         return FriendRequest.create(this, receiver)
+    }
+
+    fun breakFriendship(
+        friendUser: User,
+        deletedByFriend: Boolean = false, // 상대 친구에 의해 끊겼는지
+        publish: (DomainEvent) -> Unit = { _ -> }
+    ) {
+        friends.removeIf { it.friendUserId == friendUser.id }
+            .ifFalse { throw NotFoundException("친구 관계를 찾을 수 없습니다") }
+
+        publish(FriendshipBrokenEvent(this.id, friendUser.id, deletedByFriend))
     }
 
     fun friendRequestApproved(receiver: User) {
@@ -88,7 +104,14 @@ data class User(
     }
 
     private fun addNewFriend(user: User) {
+        checkAlreadyFriend(user)
+
         friends += Friend(userId = this.id, friendUserId = user.id)
+    }
+
+    private fun checkAlreadyFriend(friendUser: User) {
+        friends.any { it.friendUserId == friendUser.id }
+            .ifTrue { throw AlreadyExistException("이미 친구 관계인 사용자입니다") }
     }
 
     companion object {
