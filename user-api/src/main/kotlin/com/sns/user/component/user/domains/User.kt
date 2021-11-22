@@ -1,6 +1,7 @@
 package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
+import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
 import org.springframework.data.annotation.CreatedDate
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
+import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.jdbc.core.RowMapper
 import java.sql.ResultSet
 import java.time.Instant
@@ -32,6 +34,9 @@ data class User(
     @NotBlank
     var infoEmailAddress: String = id, // 서비스 정보 수신 이메일주소. 기본값은 id
 
+    @MappedCollection(idColumn = "USER_ID")
+    val friends: MutableSet<Friend> = mutableSetOf(),
+
     @CreatedDate
     val createdAt: Instant = Instant.MIN,
 
@@ -51,6 +56,34 @@ data class User(
         status.checkAlready(Status.ACTIVATED)
         status = Status.ACTIVATED
         publish(UserStatusChangedEvent(this))
+    }
+
+    fun requestFriend(
+        receiver: User,
+        publish: (DomainEvent) -> Unit = { _ -> }
+    ): FriendRequest {
+        publish(FriendRequestedEvent(this.id, receiver.id))
+
+        return FriendRequest.create(this, receiver)
+    }
+
+    fun friendRequestApproved(receiver: User) {
+        addNewFriend(receiver)
+    }
+
+    fun friendRequestReceived(requester: User) {
+        addNewFriend(requester)
+    }
+
+    fun removeFriend(friendUser: User) {
+        // TODO exception 규칙 정해지면 대체
+        val friend = friends.firstOrNull { it.friendUserId == friendUser.id } ?: throw NoSuchElementException("${friendUser.name} 사용자와 친구 관계가 없습니다")
+
+        friends.remove(friend)
+    }
+
+    private fun addNewFriend(user: User) {
+        friends += Friend(userId = this.id, friendUserId = user.id)
     }
 
     companion object {
