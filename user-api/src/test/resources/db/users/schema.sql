@@ -19,3 +19,23 @@ CREATE TABLE IF NOT EXISTS `auth_code`
     created_at DATETIME    NOT NULL COMMENT '생성 시각',
     PRIMARY KEY (`user_id`, purpose)
 );
+
+CREATE TABLE IF NOT EXISTS `friend`
+(
+    user_id        VARCHAR(50) NOT NULL COMMENT '사용자 아이디',
+    friend_user_id VARCHAR(50) NOT NULL COMMENT '친구 사용자 아이디',
+    created_at     DATETIME    NOT NULL COMMENT '생성 시간',
+
+    KEY `idx_user_id` (`user_id`),
+    UNIQUE INDEX idx_user_id_friend_user_id (user_id, friend_user_id)
+);
+
+CREATE TABLE IF NOT EXISTS `friend_request`
+(
+    id           BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '친구요청 아이디',
+    requester_id VARCHAR(50)     NOT NULL COMMENT '사용자 아이디',
+    receiver_id  VARCHAR(50)     NOT NULL COMMENT '친구 사용자 아이디',
+    created_at   DATETIME        NOT NULL COMMENT '생성 시간',
+
+    UNIQUE INDEX idx_requester_id_receiver_id (requester_id, receiver_id)
+);

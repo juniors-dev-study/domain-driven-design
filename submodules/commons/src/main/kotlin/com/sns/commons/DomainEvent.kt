@@ -1,7 +1,10 @@
 package com.sns.commons
 
-interface DomainEvent {
-    val eventId: String
+import java.time.Instant
 
-    val channel: String
-}
+abstract class DomainEvent(
+    val channel: String,
+    private val uniqueId: Any,
+    val createdAt: Instant = Instant.now(),
+    val eventId: String = "$channel-$uniqueId-${System.currentTimeMillis()}"
+)
