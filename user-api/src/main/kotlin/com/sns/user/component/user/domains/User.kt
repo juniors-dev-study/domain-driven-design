@@ -4,12 +4,17 @@ import com.sns.commons.DomainEvent
 import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
+
+import java.time.Instant
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotBlank
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.MappedCollection
+import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.RowMapper
 import java.sql.ResultSet
 import java.time.Instant
@@ -87,7 +92,7 @@ data class User(
     }
 
     companion object {
-        val MAPPER: RowMapper<User> = UserRowMapper()
+        val MAPPER: RowMapper<User> = DataClassRowMapper(User::class.java)
 
         fun create(
             id: String,
@@ -109,21 +114,6 @@ data class User(
 
             return user
         }
-    }
-}
-
-// purpose enum 매핑이 안되서 수동으로 작성함. 확인필요.
-class UserRowMapper : RowMapper<User> {
-    override fun mapRow(rs: ResultSet, rowNum: Int): User? {
-        return User(
-            id = rs.getString("id"),
-            password = rs.getString("password"),
-            name = rs.getString("name"),
-            infoEmailAddress = rs.getString("info_email_address"),
-            status = Status.valueOf(rs.getString("status")),
-            createdAt = Instant.ofEpochMilli(rs.getTimestamp("created_at").time),
-            updatedAt = Instant.ofEpochMilli(rs.getTimestamp("updated_at").time),
-        )
     }
 }
 
