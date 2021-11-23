@@ -78,6 +78,26 @@ project(":front") {
     }
 }
 
+project(":authentication") {
+
+    apply(plugin = "io.spring.dependency-management")
+
+    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2020.0.4")
+        }
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+        runtimeOnly("mysql:mysql-connector-java")
+        runtimeOnly("com.h2database:h2")
+        implementation("org.springframework.cloud:spring-cloud-security:2.2.5.RELEASE")
+        implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
+    }
+
+}
+
 project(":submodules") {
     tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
         enabled = false

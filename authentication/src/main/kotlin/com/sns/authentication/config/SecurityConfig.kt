@@ -1,9 +1,9 @@
-package com.sns.user.core.config
+package com.sns.authentication.config
 
-import com.sns.user.core.supports.securities.authentications.LoginUser
-import com.sns.user.core.supports.securities.authentications.LoginUserService
-import com.sns.user.core.supports.securities.authentications.Role
+import com.sns.authentication.LoginUser
+import com.sns.authentication.LoginUserService
 import org.springframework.context.annotation.Bean
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -23,12 +23,13 @@ class SecurityConfig(
 
     val WHITE_LIST = arrayOf(
         "/",
-        "/swagger-resources/**",
-        "/swagger-ui/**",
-        "/v3/api-docs/**",
-        "/webjars/**",
-        "/api/*/sign-up/**",
+        "/oauth/**",
     )
+
+    @Bean
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean()
+    }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.inMemoryAuthentication()
@@ -42,10 +43,8 @@ class SecurityConfig(
         http.cors(Customizer.withDefaults())
         http.authorizeRequests()
             .antMatchers(*WHITE_LIST).permitAll()
-            .antMatchers("/admin-api").hasRole(Role.ADMIN.name)
-            .anyRequest().authenticated()
             .and().logout().logoutSuccessUrl("/").invalidateHttpSession(true).permitAll()
-            .and().formLogin().loginPage("/sign-in")
+            .and().formLogin()
             .and().csrf().disable()
     }
 
