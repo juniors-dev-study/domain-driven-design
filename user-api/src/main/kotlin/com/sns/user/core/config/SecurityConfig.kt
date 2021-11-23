@@ -3,13 +3,17 @@ package com.sns.user.core.config
 import com.sns.user.core.supports.securities.authentications.LoginUserService
 import com.sns.user.core.supports.securities.authentications.Role
 import org.springframework.context.annotation.Bean
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @EnableWebSecurity
 class SecurityConfig(
@@ -32,6 +36,7 @@ class SecurityConfig(
 
     override fun configure(http: HttpSecurity?) {
         if (http == null) return
+        http.cors(Customizer.withDefaults())
         http.authorizeRequests()
             .antMatchers(*WHITE_LIST).permitAll()
             .antMatchers("/admin-api").hasRole(Role.ADMIN.name)
@@ -46,7 +51,15 @@ class SecurityConfig(
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder? {
-        return BCryptPasswordEncoder()
+    fun passwordEncoder(): PasswordEncoder? = PasswordEncoderFactories.createDelegatingPasswordEncoder()
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource? {
+        val configuration = CorsConfiguration()
+        // configuration.allowedOrigins = Arrays.asList("https://example.com")
+        // configuration.allowedMethods = Arrays.asList("GET", "POST")
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 }
