@@ -4,6 +4,10 @@ import com.sns.commons.DomainEvent
 import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
+import java.sql.ResultSet
+import java.time.Instant
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotBlank
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
@@ -11,10 +15,6 @@ import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.jdbc.core.RowMapper
-import java.sql.ResultSet
-import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.NotBlank
 
 data class User(
     @Id
@@ -55,6 +55,13 @@ data class User(
     fun activate(publish: (DomainEvent) -> Unit = { _ -> }) {
         status.checkAlready(Status.ACTIVATED)
         status = Status.ACTIVATED
+        publish(UserStatusChangedEvent(this))
+    }
+
+    fun delete(publish: (DomainEvent) -> Unit = { _ -> }) {
+        // validation if needed
+        status.checkAlready(Status.DELETED)
+        status = Status.DELETED
         publish(UserStatusChangedEvent(this))
     }
 
@@ -129,7 +136,8 @@ class UserRowMapper : RowMapper<User> {
 
 enum class Status {
     CREATED,
-    ACTIVATED;
+    ACTIVATED,
+    DELETED;
     // 비활 등등?
 
     fun checkAlready(status: Status) {
