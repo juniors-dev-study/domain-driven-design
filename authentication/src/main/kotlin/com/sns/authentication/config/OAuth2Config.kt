@@ -29,7 +29,7 @@ class OAuth2Config(
             ?.withClient("client")
             ?.secret("secret")
             ?.redirectUris("http://localhost:10001/api/v1/oauth/callback")
-            ?.authorizedGrantTypes("auth_code")
+            ?.authorizedGrantTypes("authorization_code")
             ?.scopes("read")
             ?.accessTokenValiditySeconds(300)
     }
