@@ -1,11 +1,11 @@
 package com.sns.user.component.user.domains
 
+import com.sns.user.core.config.db.converter.EntityList
 import org.hibernate.validator.constraints.URL
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
-import org.springframework.data.relational.core.mapping.MappedCollection
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotNull
@@ -33,8 +33,7 @@ data class Profile(
     val intro: String?, // 소개, 약력
 
     @Size(max = 5)
-    @MappedCollection
-    val hobbies: List<Hobby>?, // 취미 목록
+    val hobbies: EntityList<String>?, // 취미 목록
 
     @LastModifiedDate
     var updatedAt: Instant = Instant.MIN,
@@ -52,7 +51,7 @@ data class Profile(
                 nickName = nickName,
                 iconImageUrl = iconImageUrl,
                 intro = intro,
-                hobbies = hobbies?.map { e -> Hobby(e) }?.toList(),
+                hobbies = EntityList(hobbies),
             ).apply { new = true }
         }
     }

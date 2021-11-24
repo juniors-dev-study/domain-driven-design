@@ -18,6 +18,6 @@ data class ProfileResponse(
         nickName = profile.nickName,
         iconImageUrl = profile.getServiceIconImageUrl(),
         intro = profile.intro,
-        hobbies = profile.hobbies?.map { e -> e.name }?.toList(),
+        hobbies = emptyList(),
     )
 }

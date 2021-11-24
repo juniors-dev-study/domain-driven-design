@@ -15,8 +15,22 @@ import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
 class JdbcConfiguration : AbstractJdbcConfiguration() {
     override fun jdbcCustomConversions(): JdbcCustomConversions {
         return JdbcCustomConversions(
-            listOf(UserIdToStringConverter(), StringToUserIdConverter()),
+            listOf(UserIdToStringConverter(), StringToUserIdConverter(), EnListToStringConverter(), StringToEnListConverter()),
         )
+    }
+}
+
+@WritingConverter
+class EnListToStringConverter : Converter<EntityList<String>, String> {
+    override fun convert(source: EntityList<String>): String {
+        return source.toString()
+    }
+}
+
+@ReadingConverter
+class StringToEnListConverter : Converter<String, EntityList<String>> {
+    override fun convert(source: String): EntityList<String> {
+        return EntityList(source.split(".").toList())
     }
 }
 
