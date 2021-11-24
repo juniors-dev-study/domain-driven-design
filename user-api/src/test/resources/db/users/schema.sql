@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
     nick_name VARCHAR(50) COMMENT '닉네임',
     icon_image_url VARCHAR(100) COMMENT '아이콘 이미지 URL',
     intro VARCHAR(200) COMMENT '소개, 약력',
-    hobbies JSON COMMENT '취미 목록',
+    hobbies VARCHAR(50) COMMENT '취미 목록',
     updated_at DATETIME NOT NULL COMMENT '마지막 수정 시간'
 );
 

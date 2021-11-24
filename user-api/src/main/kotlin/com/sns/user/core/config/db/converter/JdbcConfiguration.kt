@@ -30,7 +30,7 @@ class EnListToStringConverter : Converter<EntityList<String>, String> {
 @ReadingConverter
 class StringToEnListConverter : Converter<String, EntityList<String>> {
     override fun convert(source: String): EntityList<String> {
-        return EntityList(source.split(".").toList())
+        return EntityList(source.split(",").toList())
     }
 }
 

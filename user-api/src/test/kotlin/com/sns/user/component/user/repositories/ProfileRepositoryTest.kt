@@ -1,7 +1,7 @@
 package com.sns.user.component.user.repositories
 
-import com.sns.user.component.user.domains.Hobby
 import com.sns.user.component.user.domains.Profile
+import com.sns.user.core.config.db.converter.EntityList
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo
 import org.junit.jupiter.api.Test
@@ -21,7 +21,7 @@ internal class ProfileRepositoryTest {
         val id = "test@gmail.com"
         val nickName = "닉네임"
         val inputHobbies = listOf("밥먹기", "운동하기")
-        val outputHobbies = listOf(Hobby("밥먹기"), Hobby("운동하기"))
+        val outputHobbies = EntityList(listOf("밥먹기", "운동하기"))
         val profile = Profile.create(
             userId = id, nickName = nickName,
             hobbies = inputHobbies,
@@ -34,7 +34,7 @@ internal class ProfileRepositoryTest {
             savedUser.nickName isEqualTo nickName
             savedUser.iconImageUrl isEqualTo null
             savedUser.intro isEqualTo null
-            // savedUser.hobbies isEqualTo outputHobbies
+            savedUser.hobbies isEqualTo outputHobbies
         }
     }
 }
