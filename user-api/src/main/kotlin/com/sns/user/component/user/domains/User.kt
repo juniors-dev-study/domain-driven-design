@@ -19,10 +19,6 @@ import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.RowMapper
-import java.sql.ResultSet
-import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.NotBlank
 
 data class User(
     @Id
@@ -154,6 +150,6 @@ data class UserId(
     // TODO 적용 예정.
     private val id: String, // email
 ) {
-    public fun getEmailAddress() = this.id
-    public fun getId() = this.id
+    fun getEmailAddress() = this.id
+    fun getId() = this.id
 }
