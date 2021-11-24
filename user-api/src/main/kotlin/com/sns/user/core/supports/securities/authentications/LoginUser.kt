@@ -1,6 +1,7 @@
 package com.sns.user.core.supports.securities.authentications
 
 import com.sns.user.component.user.domains.User
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -28,3 +29,5 @@ class InvalidUser : UserDetails {
     override fun isCredentialsNonExpired(): Boolean = false
     override fun isEnabled(): Boolean = false
 }
+
+fun Authentication.loginUser(): LoginUser = this.principal as LoginUser
