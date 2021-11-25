@@ -5,7 +5,7 @@ server:
       timeout: 1h
 logging:
   level:
-    root: debug
+    root: info
 spring:
   security:
     oauth2:
@@ -21,4 +21,5 @@ spring:
           auth_server:
             token-uri: http://local-auth.ddd.sns.com:10010/oauth/token
             authorization-uri: http://local-auth.ddd.sns.com:10010/oauth/authorize
-
+            user-info-uri: http://local-auth.ddd.sns.com:10010/oauth/userinfo
+            user-name-attribute: name

@@ -1,4 +1,4 @@
-package com.sns.authentication
+package com.sns.authentication.config
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 

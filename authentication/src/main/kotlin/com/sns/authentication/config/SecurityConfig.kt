@@ -24,6 +24,7 @@ class SecurityConfig(
     val WHITE_LIST = arrayOf(
         "/",
         "/oauth/**",
+        "/h2-console/**",
     )
 
     @Bean

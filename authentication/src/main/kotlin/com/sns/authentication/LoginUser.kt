@@ -1,5 +1,6 @@
 package com.sns.authentication
 
+import com.sns.authentication.config.Role
 import com.sns.authentication.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.annotation.AuthenticationPrincipal

@@ -30,7 +30,10 @@ class OAuth2Config(
             ?.passwordEncoder(passwordEncoder)
             ?.withClient("front_client")
             ?.secret("secret")
-            ?.redirectUris("http://local-front.ddd.sns.com:10100/login/oauth2/code/auth_server")  // default redirect
+            ?.redirectUris(
+                "http://local-front.ddd.sns.com:10100/login/oauth2/code/auth_server",
+                "http://local-front.ddd.sns.com:10100/home",
+            )  // default redirect
             ?.authorizedGrantTypes("authorization_code")
             ?.scopes("read")
             ?.autoApprove(true)
