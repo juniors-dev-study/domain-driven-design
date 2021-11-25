@@ -1,5 +1,6 @@
 package com.sns.authentication.config
 
+import com.sns.authentication.LoginUserService
 import javax.sql.DataSource
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties
 import org.springframework.context.annotation.Bean
@@ -19,18 +20,20 @@ class OAuth2Config(
     val resourceServerProperties: ResourceServerProperties,
     val authenticationManager: AuthenticationManager,
     val dataSource: DataSource,
-    val passwordEncoder: PasswordEncoder
+    val passwordEncoder: PasswordEncoder,
+    val loginUserService: LoginUserService
 ) : AuthorizationServerConfigurerAdapter() {
 
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
         super.configure(clients)
         clients?.jdbc(dataSource)
             ?.passwordEncoder(passwordEncoder)
-            ?.withClient("client")
+            ?.withClient("front_client")
             ?.secret("secret")
-            ?.redirectUris("http://localhost:10001/api/v1/oauth/callback")
+            ?.redirectUris("http://local-front.ddd.sns.com:10100/login/oauth2/code/auth_server")  // default redirect
             ?.authorizedGrantTypes("authorization_code")
             ?.scopes("read")
+            ?.autoApprove(true)
             ?.accessTokenValiditySeconds(300)
     }
 
@@ -38,6 +41,7 @@ class OAuth2Config(
         super.configure(endpoints)
         endpoints?.accessTokenConverter(jwtAccessTokenConverter())
             ?.authenticationManager(authenticationManager)
+            ?.userDetailsService(loginUserService)
     }
 
     override fun configure(security: AuthorizationServerSecurityConfigurer?) {

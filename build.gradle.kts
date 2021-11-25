@@ -33,6 +33,7 @@ subprojects {
 
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
         // test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -51,6 +52,14 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
+    apply(plugin = "io.spring.dependency-management")
+
+    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2020.0.4")
+        }
+    }
 }
 
 project(":user-api") {
@@ -65,7 +74,6 @@ project(":user-api") {
         implementation("org.springframework.boot:spring-boot-starter-mail")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
-        implementation("org.springframework.boot:spring-boot-starter-security")
         runtimeOnly("com.h2database:h2")
         runtimeOnly("mysql:mysql-connector-java")
     }
@@ -75,19 +83,14 @@ project(":front") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
         implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+        // gateway
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+        implementation("org.springframework.session:spring-session-core")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
     }
 }
 
 project(":authentication") {
-
-    apply(plugin = "io.spring.dependency-management")
-
-    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2020.0.4")
-        }
-    }
-
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         runtimeOnly("mysql:mysql-connector-java")

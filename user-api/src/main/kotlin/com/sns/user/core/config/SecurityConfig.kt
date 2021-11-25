@@ -1,9 +1,11 @@
 package com.sns.user.core.config
 
+import com.sns.commons.oauth.OauthResourceServerConfig
 import com.sns.user.core.supports.securities.authentications.LoginUser
 import com.sns.user.core.supports.securities.authentications.LoginUserService
 import com.sns.user.core.supports.securities.authentications.Role
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+@Import(OauthResourceServerConfig::class)
 @EnableWebSecurity
 class SecurityConfig(
     private val loginUserService: LoginUserService
