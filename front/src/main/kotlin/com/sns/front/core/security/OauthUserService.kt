@@ -55,6 +55,7 @@ class JWTPayload(
 
     companion object {
         fun interpret(token: String): JWTPayload {
+            // JWTDecoder?? 사용 검토 필요
             val chunks = token.split(".")
             return JsonUtil.read(String(Base64.getDecoder().decode(chunks[1])), JWTPayload::class.java)
         }
