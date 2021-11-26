@@ -41,7 +41,6 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
             .and().csrf().disable()
         http.oauth2ResourceServer()
             .jwt()
-        //     .and()
         http.headers().frameOptions().disable()
     }
 
@@ -52,8 +51,6 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
     @Bean
     fun corsConfigurationSource(jwtDecoder: JwtDecoder): CorsConfigurationSource? {
         val configuration = CorsConfiguration()
-        // configuration.allowedOrigins = Arrays.asList("https://example.com")
-        // configuration.allowedMethods = Arrays.asList("GET", "POST")
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source

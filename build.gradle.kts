@@ -96,7 +96,6 @@ project(":authentication") {
         implementation("org.springframework.cloud:spring-cloud-security:2.2.5.RELEASE")
         implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
     }
-
 }
 
 project(":submodules") {

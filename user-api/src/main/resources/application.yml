@@ -46,17 +46,5 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          #issuer-url: http://local-auth.localhost:10010/oauth/check_token
-          #jwk-set-uri: http://local-auth.localhost:10010/oauth/token_key
           public-key-location: classpath:rsa_jwk.pub
-security:
-  oauth2:
-    client:
-      client-id: front_client
-      client-secret: secret
-
-    #access-token-uri: local-auth.ddd.sns.com:10010/oauth/token
-    #user-authorization-uri: local-auth.ddd.sns.com:10010/oauth/authorize
-
-    #key-value: jwt_secret_key
 
