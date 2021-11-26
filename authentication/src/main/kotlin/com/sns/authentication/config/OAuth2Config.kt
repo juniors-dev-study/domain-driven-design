@@ -1,6 +1,7 @@
 package com.sns.authentication.config
 
 import com.sns.authentication.LoginUserService
+import com.sns.authentication.LoginUserTokenEnhancer
 import javax.sql.DataSource
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory
 
@@ -26,7 +28,8 @@ class OAuth2Config(
     val dataSource: DataSource,
     val passwordEncoder: PasswordEncoder,
     val loginUserService: LoginUserService,
-    val jwtAccessTokenConverter: JwtAccessTokenConverter
+    val jwtAccessTokenConverter: JwtAccessTokenConverter,
+    val loginUserTokenEnhancer: LoginUserTokenEnhancer
 ) : AuthorizationServerConfigurerAdapter() {
 
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
@@ -47,9 +50,13 @@ class OAuth2Config(
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {
         super.configure(endpoints)
-        endpoints?.accessTokenConverter(jwtAccessTokenConverter)
-            ?.authenticationManager(authenticationManager)
-            ?.userDetailsService(loginUserService)
+        val tokenEnhancerChain = TokenEnhancerChain()
+        tokenEnhancerChain.setTokenEnhancers(listOf(loginUserTokenEnhancer, jwtAccessTokenConverter))
+
+        endpoints!!.tokenEnhancer(tokenEnhancerChain)
+            .accessTokenConverter(jwtAccessTokenConverter)
+            .authenticationManager(authenticationManager)
+            .userDetailsService(loginUserService)
     }
 
     override fun configure(security: AuthorizationServerSecurityConfigurer?) {

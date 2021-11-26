@@ -7,8 +7,10 @@ import com.sns.user.component.test.dtos.LaughingEvent
 import com.sns.user.component.test.listeners.EmotionListener
 import com.sns.user.component.user.domains.Status
 import com.sns.user.component.user.dtos.FriendRequestApprovedEvent
+import com.sns.user.component.user.dtos.FriendRequestDeletedEvent
 import com.sns.user.component.user.dtos.FriendRequestRejectedEvent
 import com.sns.user.component.user.dtos.FriendRequestedEvent
+import com.sns.user.component.user.dtos.FriendshipBrokenEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.component.user.listeners.FriendListener
 import com.sns.user.component.user.listeners.UserStatusListener
@@ -62,6 +64,12 @@ class IntegrationConfig {
                 }
                 register<FriendRequestRejectedEvent> { event, _ ->
                     friendListener.friendRequestRejected(event)
+                }
+                register<FriendRequestDeletedEvent> { event, _ ->
+                    friendListener.friendRequestDeleted(event)
+                }
+                register<FriendshipBrokenEvent> { event, _ ->
+                    friendListener.friendshipBroken(event)
                 }
             },
         )

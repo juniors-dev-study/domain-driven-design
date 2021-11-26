@@ -2,7 +2,6 @@ package com.sns.user.endpoints.user
 
 import com.sns.commons.annotation.IsLoginUser
 import com.sns.user.component.user.application.UserCommandService
-import com.sns.user.core.supports.securities.authentications.CurrentUser
 import com.sns.user.core.supports.securities.authentications.LoginUser
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -29,7 +28,7 @@ class SignOutController(
     )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/v1/sign-out")
-    fun signOut(@CurrentUser loginUser: LoginUser) {
+    fun signOut(loginUser: LoginUser) {
         userCommandService.delete(loginUser.id)
     }
 }

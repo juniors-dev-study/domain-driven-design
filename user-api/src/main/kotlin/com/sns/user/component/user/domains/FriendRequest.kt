@@ -2,6 +2,7 @@ package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
 import com.sns.user.component.user.dtos.FriendRequestApprovedEvent
+import com.sns.user.component.user.dtos.FriendRequestDeletedEvent
 import com.sns.user.component.user.dtos.FriendRequestRejectedEvent
 import java.time.Instant
 import javax.validation.constraints.NotBlank
@@ -46,6 +47,17 @@ data class FriendRequest(
         }
 
         publish(FriendRequestRejectedEvent(requesterId, receiverId))
+    }
+
+    fun delete(
+        actorUserId: String,
+        publish: (DomainEvent) -> Unit = { _ -> }
+    ) {
+        if (requesterId != actorUserId) {
+            throw IllegalArgumentException("친구 요청을 보낸 사용자만 거절할 수 있습니다")
+        }
+
+        publish(FriendRequestDeletedEvent(requesterId, receiverId))
     }
 
     companion object {

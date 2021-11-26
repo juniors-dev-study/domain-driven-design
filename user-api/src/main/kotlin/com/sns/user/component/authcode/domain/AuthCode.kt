@@ -4,6 +4,7 @@ import kotlin.random.Random
 import java.sql.ResultSet
 import java.time.Instant
 import javax.validation.constraints.NotBlank
+import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.RowMapper
 
 data class AuthCode(
@@ -26,7 +27,7 @@ data class AuthCode(
         private const val CODE_LENGTH = 10;
         private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         fun createSignUp(userId: String) = AuthCode(purpose = Purpose.SIGN_UP, userId = userId)
-        val MAPPER: RowMapper<AuthCode> = AuthCodeRowMapper()
+        val MAPPER: RowMapper<AuthCode> = DataClassRowMapper(AuthCode::class.java)
     }
 }
 

@@ -1,10 +1,13 @@
 package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
+import com.sns.commons.utils.ifFalse
+import com.sns.commons.utils.ifTrue
 import com.sns.user.component.user.dtos.FriendRequestedEvent
+import com.sns.user.component.user.dtos.FriendshipBrokenEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.core.exceptions.AlreadyExistException
-import java.sql.ResultSet
+import com.sns.user.core.exceptions.NotFoundException
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotBlank
@@ -14,6 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.MappedCollection
+import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.RowMapper
 
 data class User(
@@ -69,9 +73,22 @@ data class User(
         receiver: User,
         publish: (DomainEvent) -> Unit = { _ -> }
     ): FriendRequest {
+        checkAlreadyFriend(receiver)
+
         publish(FriendRequestedEvent(this.id, receiver.id))
 
         return FriendRequest.create(this, receiver)
+    }
+
+    fun breakFriendship(
+        friendUser: User,
+        deletedByFriend: Boolean = false, // 상대 친구에 의해 끊겼는지
+        publish: (DomainEvent) -> Unit = { _ -> }
+    ) {
+        friends.removeIf { it.friendUserId == friendUser.id }
+            .ifFalse { throw NotFoundException("친구 관계를 찾을 수 없습니다") }
+
+        publish(FriendshipBrokenEvent(this.id, friendUser.id, deletedByFriend))
     }
 
     fun friendRequestApproved(receiver: User) {
@@ -90,11 +107,18 @@ data class User(
     }
 
     private fun addNewFriend(user: User) {
+        checkAlreadyFriend(user)
+
         friends += Friend(userId = this.id, friendUserId = user.id)
     }
 
+    private fun checkAlreadyFriend(friendUser: User) {
+        friends.any { it.friendUserId == friendUser.id }
+            .ifTrue { throw AlreadyExistException("이미 친구 관계인 사용자입니다") }
+    }
+
     companion object {
-        val MAPPER: RowMapper<User> = UserRowMapper()
+        val MAPPER: RowMapper<User> = DataClassRowMapper(User::class.java)
 
         fun create(
             id: String,
@@ -119,21 +143,6 @@ data class User(
     }
 }
 
-// purpose enum 매핑이 안되서 수동으로 작성함. 확인필요.
-class UserRowMapper : RowMapper<User> {
-    override fun mapRow(rs: ResultSet, rowNum: Int): User? {
-        return User(
-            id = rs.getString("id"),
-            password = rs.getString("password"),
-            name = rs.getString("name"),
-            infoEmailAddress = rs.getString("info_email_address"),
-            status = Status.valueOf(rs.getString("status")),
-            createdAt = Instant.ofEpochMilli(rs.getTimestamp("created_at").time),
-            updatedAt = Instant.ofEpochMilli(rs.getTimestamp("updated_at").time),
-        )
-    }
-}
-
 enum class Status {
     CREATED,
     ACTIVATED,
@@ -149,6 +158,6 @@ data class UserId(
     // TODO 적용 예정.
     private val id: String, // email
 ) {
-    public fun getEmailAddress() = this.id
-    public fun getId() = this.id
+    fun getEmailAddress() = this.id
+    fun getId() = this.id
 }
