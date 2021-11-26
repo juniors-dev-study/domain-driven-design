@@ -44,7 +44,9 @@ class SecurityConfig(
         http.cors(Customizer.withDefaults())
         http.authorizeRequests()
             .antMatchers(*WHITE_LIST).permitAll()
-            .and().logout().logoutSuccessUrl("/").invalidateHttpSession(true).permitAll()
+            .and().logout().deleteCookies("JSESSIONID").invalidateHttpSession(true)
+            .logoutSuccessUrl("http://local-front.ddd.sns.com:10100/home")  //logoutSuccessHandler 로 redirectUrl 받아서 처리하도록 수정 필요.
+            .permitAll()
             .and().formLogin()
             .and().csrf().disable()
     }

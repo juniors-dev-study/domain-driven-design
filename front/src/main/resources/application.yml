@@ -21,5 +21,3 @@ spring:
           auth_server:
             token-uri: http://local-auth.ddd.sns.com:10010/oauth/token
             authorization-uri: http://local-auth.ddd.sns.com:10010/oauth/authorize
-            user-info-uri: http://local-auth.ddd.sns.com:10010/oauth/userinfo
-            user-name-attribute: name
