@@ -174,3 +174,6 @@ gradle-app.setting
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,java,intellij+all,gradle,visualstudiocode
+
+/authentication/src/main/resources/oauth-jwt.jks
+/user-api/src/main/resources/rsa_jwk.pub
