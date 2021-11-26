@@ -33,7 +33,6 @@ subprojects {
 
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
         // test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -69,7 +68,6 @@ project(":user-api") {
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
-        implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-test")
         implementation("org.springframework.boot:spring-boot-starter-mail")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -110,6 +108,8 @@ project(":submodules") {
 project(":submodules:commons") {
     dependencies {
         api("org.springframework.boot:spring-boot-starter-integration")
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+        implementation("org.springframework.security:spring-security-oauth2-jose")
     }
 
     tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {

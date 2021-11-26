@@ -1,5 +1,6 @@
 package com.sns.user.core.supports.securities.authentications
 
+import com.sns.commons.oauth.Role
 import com.sns.user.component.user.domains.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.annotation.AuthenticationPrincipal

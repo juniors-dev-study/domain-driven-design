@@ -1,5 +1,6 @@
 package com.sns.user.endpoints.user
 
+import com.sns.commons.annotation.IsLoginUser
 import com.sns.user.component.user.application.UserCommandService
 import com.sns.user.core.supports.securities.authentications.CurrentUser
 import com.sns.user.core.supports.securities.authentications.LoginUser
@@ -18,6 +19,7 @@ class SignOutController(
     val userCommandService: UserCommandService
 ) {
 
+    @IsLoginUser
     @ApiOperation("회원 탈퇴")
     @ApiResponses(
         value = [

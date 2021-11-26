@@ -32,9 +32,10 @@ spring:
       enabled: true
 security:
   oauth2:
-    client:
-      client-id: auth_id
-      client-secret: auth_secret
     resource:
       jwt:
-        key-value: jwt_secret_key
+        custom-jks-path: src/main/resources/oauth-jwt.jks
+        custom-jks-passwd: ${DDD_DB_PW}
+        custom-jks-alias: oauth-jwt
+        #key-value: jwt_secret_key
+
