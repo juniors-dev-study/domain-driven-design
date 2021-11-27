@@ -1,7 +1,5 @@
 package com.sns.front.core.security
 
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -11,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.logout.LogoutHandler
 import org.springframework.stereotype.Component
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +20,7 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity?) {
         http!!.authorizeRequests()
-            .antMatchers("/", "/home", "/auth-api/**").permitAll()
+            .antMatchers("/", "/home", "/register", "/auth-api/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .oauth2Client()
