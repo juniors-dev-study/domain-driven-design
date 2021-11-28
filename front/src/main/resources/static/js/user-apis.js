@@ -1,7 +1,11 @@
-import URLS from './settings'
+'use strict';
 
-export function register(email, password, name) {
+let USER_API = 'http://localhost:10001'
+
+function register(email, password, name) {
     const options = {
+        // credentials: 'include',
+        // mode: 'no-cors',
         method: 'POST',
         header: {
             'Accept': 'application/json',
@@ -14,6 +18,10 @@ export function register(email, password, name) {
         })
     }
 
-    fetch(URLS.USER_API, options)
+    fetch(USER_API + "/api/v1/sign-up", options)
         .then(response => console.log(response))
+}
+
+function register_onclick() {
+    register("bearics@gmail")
 }

@@ -20,7 +20,7 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity?) {
         http!!.authorizeRequests()
-            .antMatchers("/", "/home", "/register", "/auth-api/**").permitAll()
+            .antMatchers("/", "/home", "/register", "/auth-api/**", "/css/**", "/js/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .oauth2Client()
