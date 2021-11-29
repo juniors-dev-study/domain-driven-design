@@ -4,12 +4,10 @@ let USER_API = 'http://localhost:10001'
 
 function register(email, password, name) {
     const options = {
-        // credentials: 'include',
-        // mode: 'no-cors',
         method: 'POST',
-        header: {
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTP-8'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             name: name,
@@ -17,11 +15,16 @@ function register(email, password, name) {
             password: password
         })
     }
-
-    fetch(USER_API + "/api/v1/sign-up", options)
-        .then(response => console.log(response))
+    return fetch(USER_API + "/api/v1/sign-up", options)
 }
 
-function register_onclick() {
-    register("bearics@gmail")
+function getProfile() {
+    const options = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+    return fetch("http://local-front.ddd.sns.com:10100/api/profile", options)
 }

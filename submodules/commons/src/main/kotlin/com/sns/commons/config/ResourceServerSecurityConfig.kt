@@ -51,6 +51,10 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
     @Bean
     fun corsConfigurationSource(jwtDecoder: JwtDecoder): CorsConfigurationSource? {
         val configuration = CorsConfiguration()
+        configuration.addAllowedOriginPattern("*")
+        configuration.setAllowedMethods(listOf("HEAD", "GET", "POST", "PUT"))
+        configuration.setAllowedHeaders(listOf("Authorization", "Cache-Control", "Content-Type"))
+        configuration.setAllowCredentials(true);
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source

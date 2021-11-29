@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.constraints.Email
 
 @Validated
-@CrossOrigin(origins = listof("http://localhost:10100")) // 추가
 @RestController
 @Tag(name = SwaggerTag.SIGN_UP)
 @RequestMapping("/api")

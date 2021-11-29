@@ -8,7 +8,7 @@
     <div class="field">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" type="email" placeholder="abc@naver.com">
+            <input class="input" type="email" placeholder="abc@naver.com" id="email-input">
             <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
             </span>
@@ -17,7 +17,7 @@
     <div class="field">
         <label class="label">PASSWORD</label>
         <div class="control  has-icons-left">
-            <input class="input" type="password" placeholder="password">
+            <input class="input" type="password" placeholder="password" id="password-input">
             <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
             </span>
@@ -26,7 +26,7 @@
     <div class="field">
         <label class="label">Name</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" type="text" placeholder="홍길동">
+            <input class="input" type="text" placeholder="홍길동" id="name-input">
             <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
             </span>
@@ -34,7 +34,7 @@
     </div>
     <div class="field is-grouped">
         <div class="control">
-            <button class="button is-primary" onclick="register_submit_click()">Submit</button>
+            <button class="button is-primary" onclick="register_submit_click()" id="submit-button">Submit</button>
         </div>
         <div class="control">
             <button class="button is-primary is-light">Cancel</button>
@@ -43,12 +43,29 @@
 
     <script type="text/javascript" th:src="@{/js/user-apis.js}"></script>
     <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
         function register_submit_click() {
-            register("bearics@gmail.com", "abcd1234", "전형린");
+            let email = document.getElementById("email-input").value;
+            let password = document.getElementById("password-input").value;
+            let name = document.getElementById("name-input").value;
 
+            document.getElementById("submit-button").classList.add("is-loading");
+
+            register(email, password, name)
+                .then(res => {
+                    if (res.ok) {
+                        alert("가입 성공!");
+                    } else {
+                        alert("가입 실패ㅠ");
+                        return res.json();
+                    }
+                })
+                .then(data => {
+                    if (data !== undefined) {
+                        console.log(data);
+                    }
+                })
+                .then(() => document.getElementById("submit-button").classList.remove("is-loading"));
         }
-        /*]]>*/
     </script>
 </th:block>
 

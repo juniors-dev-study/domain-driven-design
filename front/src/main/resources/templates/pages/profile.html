@@ -25,7 +25,24 @@
                 <br>
                 <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
             </div>
+            <button class="button is-primary" onclick="get_profile_onclick()" id="get-profile-button">Profile</button>
         </div>
     </div>
+    <script type="text/javascript" th:src="@{/js/user-apis.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        function get_profile_onclick() {
+            getProfile()
+                .then(res => {
+                    console.log(res)
+                    return res.text();
+                })
+                .then(data => {
+                    console.log(data)
+                    if (data !== undefined) {
+                        console.log(data);
+                    }
+                })
+        }
+    </script>
 </th:block>
 </html>
