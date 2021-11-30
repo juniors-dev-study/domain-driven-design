@@ -1,15 +1,13 @@
 package com.sns.user.component.user.domains
 
+import java.time.Instant
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotNull
 import org.hibernate.validator.constraints.URL
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
-import org.springframework.data.relational.core.mapping.MappedCollection
-import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
 
 /**
  * 사용자 프로필 도메인 객체(VO)
@@ -32,9 +30,7 @@ data class Profile(
     @Max(200)
     val intro: String?, // 소개, 약력
 
-    @Size(max = 5)
-    @MappedCollection
-    val hobbies: List<Hobby>?, // 취미 목록
+    val hobbies: MutableList<String>?, // 취미 목록
 
     @LastModifiedDate
     var updatedAt: Instant = Instant.MIN,
@@ -52,7 +48,7 @@ data class Profile(
                 nickName = nickName,
                 iconImageUrl = iconImageUrl,
                 intro = intro,
-                hobbies = hobbies?.map { e -> Hobby(e) }?.toList(),
+                hobbies = hobbies?.toMutableList(),
             ).apply { new = true }
         }
     }

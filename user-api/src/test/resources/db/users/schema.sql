@@ -10,21 +10,14 @@ CREATE TABLE IF NOT EXISTS `user`
     updated_at         DATETIME     NOT NULL COMMENT '마지막 수정 시간'
 );
 
-DROP TABLE IF EXISTS `profile`;
-CREATE TABLE IF NOT EXISTS `profile` (
-    user_id VARCHAR(50) NOT NULL PRIMARY KEY COMMENT '아이디 (이메일)',
-    nick_name VARCHAR(50) COMMENT '닉네임',
+CREATE TABLE IF NOT EXISTS `profile`
+(
+    user_id        VARCHAR(50) NOT NULL PRIMARY KEY COMMENT '아이디 (이메일)',
+    nick_name      VARCHAR(50) COMMENT '닉네임',
     icon_image_url VARCHAR(100) COMMENT '아이콘 이미지 URL',
-    intro VARCHAR(200) COMMENT '소개, 약력',
-    hobbies JSON COMMENT '취미 목록',
-    updated_at DATETIME NOT NULL COMMENT '마지막 수정 시간'
-);
-
-DROP TABLE IF EXISTS `hobby`;
-CREATE TABLE IF NOT EXISTS `hobby` (
-    profile_key VARCHAR(50) NOT NULL COMMENT '리스트 순서 번호',
-    profile VARCHAR(50) NOT NULL COMMENT 'profile의 id',
-    name VARCHAR(20) NOT NULL COMMENT '취미 이름'
+    intro          VARCHAR(200) COMMENT '소개, 약력',
+    hobbies        VARCHAR(100) COMMENT '취미 목록',
+    updated_at     DATETIME    NOT NULL COMMENT '마지막 수정 시간'
 );
 
 DROP TABLE IF EXISTS `auth_code`;

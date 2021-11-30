@@ -2,6 +2,7 @@ package com.sns.commons.config
 
 import com.sns.commons.oauth.Role
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Profile
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -14,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+@Profile("!test")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {

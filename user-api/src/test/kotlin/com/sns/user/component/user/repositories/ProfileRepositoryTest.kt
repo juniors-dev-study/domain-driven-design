@@ -1,12 +1,12 @@
 package com.sns.user.component.user.repositories
 
-import com.sns.user.component.user.domains.Hobby
 import com.sns.user.component.user.domains.Profile
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * @author Hyounglin Jun
@@ -16,15 +16,15 @@ internal class ProfileRepositoryTest {
     @Autowired
     lateinit var profileRepository: ProfileRepository
 
+    @Transactional
     @Test
     fun save() {
         val id = "test@gmail.com"
         val nickName = "닉네임"
-        val inputHobbies = listOf("밥먹기", "운동하기")
-        val outputHobbies = listOf(Hobby("밥먹기"), Hobby("운동하기"))
+        val hobbies = listOf("밥먹기", "운동하기")
         val profile = Profile.create(
             userId = id, nickName = nickName,
-            hobbies = inputHobbies,
+            hobbies = hobbies,
         )
 
         profileRepository.save(profile)
@@ -34,7 +34,7 @@ internal class ProfileRepositoryTest {
             savedUser.nickName isEqualTo nickName
             savedUser.iconImageUrl isEqualTo null
             savedUser.intro isEqualTo null
-            savedUser.hobbies isEqualTo outputHobbies
+            savedUser.hobbies isEqualTo hobbies
         }
     }
 }
