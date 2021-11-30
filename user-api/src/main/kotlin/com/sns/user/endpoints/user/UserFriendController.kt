@@ -1,7 +1,8 @@
 package com.sns.user.endpoints.user
 
+import com.sns.commons.annotation.IsLoginUser
 import com.sns.user.component.user.application.UserFriendService
-import com.sns.user.core.supports.securities.authentications.loginUser
+import com.sns.user.core.supports.securities.authentications.LoginUser
 import com.sns.user.endpoints.user.requests.UserFriendRequestCreateRequest
 import com.sns.user.endpoints.user.responses.DefaultSuccessResponse
 import com.sns.user.endpoints.user.responses.IdCreatedResponse
@@ -9,7 +10,6 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -26,6 +26,7 @@ class UserFriendController(
     val userFriendService: UserFriendService
 ) {
 
+    @IsLoginUser
     @ApiOperation("친구 끊기")
     @ApiResponses(
         value = [
@@ -35,14 +36,13 @@ class UserFriendController(
     )
     @ResponseStatus(HttpStatus.CREATED)
     @DeleteMapping("/users/{friendUserId}")
-    fun deleteFriend(@PathVariable friendUserId: String, authentication: Authentication): DefaultSuccessResponse {
-        val loginUser = authentication.loginUser()
-
-        userFriendService.breakFriendship(loginUser.user.id, friendUserId)
+    fun deleteFriend(@PathVariable friendUserId: String, loginUser: LoginUser): DefaultSuccessResponse {
+        userFriendService.breakFriendship(loginUser.id, friendUserId)
 
         return DefaultSuccessResponse
     }
 
+    @IsLoginUser
     @ApiOperation("친구 요청")
     @ApiResponses(
         value = [
@@ -52,14 +52,13 @@ class UserFriendController(
     )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/requests")
-    fun createRequest(@RequestBody request: UserFriendRequestCreateRequest, authentication: Authentication): IdCreatedResponse<Long> {
-        val loginUser = authentication.loginUser()
-
+    fun createRequest(@RequestBody request: UserFriendRequestCreateRequest, loginUser: LoginUser): IdCreatedResponse<Long> {
         return IdCreatedResponse(
-            userFriendService.createFriendRequest(loginUser.user.id, request.targetUserId).id,
+            userFriendService.createFriendRequest(loginUser.id, request.targetUserId).id,
         )
     }
 
+    @IsLoginUser
     @ApiOperation("친구 요청 제거")
     @ApiResponses(
         value = [
@@ -68,14 +67,13 @@ class UserFriendController(
         ],
     )
     @DeleteMapping("/requests/{requestId}")
-    fun deleteRequest(@PathVariable requestId: Long, authentication: Authentication): DefaultSuccessResponse {
-        val loginUser = authentication.loginUser()
-
-        userFriendService.deleteFriendRequest(loginUser.user.id, requestId)
+    fun deleteRequest(@PathVariable requestId: Long, loginUser: LoginUser): DefaultSuccessResponse {
+        userFriendService.deleteFriendRequest(loginUser.id, requestId)
 
         return DefaultSuccessResponse
     }
 
+    @IsLoginUser
     @ApiOperation("친구 요청 처리")
     @ApiResponses(
         value = [
@@ -84,13 +82,11 @@ class UserFriendController(
         ],
     )
     @PatchMapping("/requests/{requestId}")
-    fun handleRequest(@PathVariable requestId: Long, @RequestParam approve: Boolean, authentication: Authentication): DefaultSuccessResponse {
-        val loginUser = authentication.loginUser()
-
+    fun handleRequest(@PathVariable requestId: Long, @RequestParam approve: Boolean, loginUser: LoginUser): DefaultSuccessResponse {
         if (approve) {
-            userFriendService.approveFriendRequest(loginUser.user.id, requestId)
+            userFriendService.approveFriendRequest(loginUser.id, requestId)
         } else {
-            userFriendService.rejectFriendRequest(loginUser.user.id, requestId)
+            userFriendService.rejectFriendRequest(loginUser.id, requestId)
         }
 
         return DefaultSuccessResponse

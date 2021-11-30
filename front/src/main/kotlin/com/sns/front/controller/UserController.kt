@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
  */
 @Controller
 class UserController {
-    @GetMapping("/home")
+    @GetMapping("/home", "/")
     fun home(): String {
         return "pages/home"
     }

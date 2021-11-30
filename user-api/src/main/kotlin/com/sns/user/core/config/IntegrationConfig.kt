@@ -46,6 +46,7 @@ class IntegrationConfig {
             when (event.user.status) {
                 Status.CREATED -> userStatusListener.onCreated(event)
                 Status.ACTIVATED -> userStatusListener.onActivated(event)
+                Status.DELETED -> userStatusListener.onDelete(event)
             }
         }
     }

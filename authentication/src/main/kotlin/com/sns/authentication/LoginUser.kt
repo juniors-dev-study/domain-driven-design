@@ -1,7 +1,7 @@
-package com.sns.user.core.supports.securities.authentications
+package com.sns.authentication
 
-import com.sns.commons.oauth.Role
-import com.sns.user.component.user.domains.User
+import com.sns.authentication.config.Role
+import com.sns.authentication.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException

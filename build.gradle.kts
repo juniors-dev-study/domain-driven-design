@@ -51,6 +51,14 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
+    apply(plugin = "io.spring.dependency-management")
+
+    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2020.0.4")
+        }
+    }
 }
 
 project(":user-api") {
@@ -60,12 +68,10 @@ project(":user-api") {
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
-        implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.security:spring-security-test")
         implementation("org.springframework.boot:spring-boot-starter-mail")
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
-        implementation("org.springframework.boot:spring-boot-starter-security")
         runtimeOnly("com.h2database:h2")
         runtimeOnly("mysql:mysql-connector-java")
     }
@@ -75,6 +81,20 @@ project(":front") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
         implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+        // gateway
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+        implementation("org.springframework.session:spring-session-core")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+    }
+}
+
+project(":authentication") {
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+        runtimeOnly("mysql:mysql-connector-java")
+        runtimeOnly("com.h2database:h2")
+        implementation("org.springframework.cloud:spring-cloud-security:2.2.5.RELEASE")
+        implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
     }
 }
 
@@ -87,6 +107,8 @@ project(":submodules") {
 project(":submodules:commons") {
     dependencies {
         api("org.springframework.boot:spring-boot-starter-integration")
+        implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+        implementation("org.springframework.security:spring-security-oauth2-jose")
     }
 
     tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {

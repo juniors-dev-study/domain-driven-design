@@ -62,6 +62,13 @@ data class User(
         publish(UserStatusChangedEvent(this))
     }
 
+    fun delete(publish: (DomainEvent) -> Unit = { _ -> }) {
+        // validation if needed
+        status.checkAlready(Status.DELETED)
+        status = Status.DELETED
+        publish(UserStatusChangedEvent(this))
+    }
+
     fun requestFriend(
         receiver: User,
         publish: (DomainEvent) -> Unit = { _ -> }
@@ -138,7 +145,8 @@ data class User(
 
 enum class Status {
     CREATED,
-    ACTIVATED;
+    ACTIVATED,
+    DELETED;
     // 비활 등등?
 
     fun checkAlready(status: Status) {

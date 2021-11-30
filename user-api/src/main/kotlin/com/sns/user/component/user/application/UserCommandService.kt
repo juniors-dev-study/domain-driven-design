@@ -37,4 +37,11 @@ class UserCommandService(
         }
         userRepository.save(user)
     }
+
+    fun delete(userId: String) {
+        val user = userRepository.findByIdOrNull(userId) ?: throw NoAuthorityException()
+        user.delete {
+            eventPublisher.publish(it)
+        }
+    }
 }

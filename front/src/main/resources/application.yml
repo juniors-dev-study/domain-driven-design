@@ -1,2 +1,23 @@
 server:
   port: 10100
+  servlet:
+    session:
+      timeout: 1h
+logging:
+  level:
+    root: info
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          auth_server:
+            client-id: front_client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: http://local-front.ddd.sns.com:10100/login/oauth2/code/auth_server
+            scope: read
+        provider:
+          auth_server:
+            token-uri: http://local-auth.ddd.sns.com:10010/oauth/token
+            authorization-uri: http://local-auth.ddd.sns.com:10010/oauth/authorize
