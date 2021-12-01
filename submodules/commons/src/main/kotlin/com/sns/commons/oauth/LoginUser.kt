@@ -10,7 +10,7 @@ data class LoginUser(
     companion object {
         fun from(map: Map<String, Any>): LoginUser = LoginUser(
             id = map.getOrDefault("user_id", "") as String,
-            name = map.getOrDefault("user_name", "") as String,
+            name = map.getOrDefault("user_nickname", "") as String,
             clientId = map.getOrDefault("client_id", "") as String,
             scope = map.getOrDefault("scope", listOf<String>()) as List<String>,
             authorities = map.getOrDefault("authorities", listOf<String>()) as List<String>,

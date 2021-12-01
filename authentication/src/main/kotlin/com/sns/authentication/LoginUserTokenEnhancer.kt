@@ -18,6 +18,7 @@ class LoginUserTokenEnhancer : TokenEnhancer {
         if (accessToken is DefaultOAuth2AccessToken) {
             val additionalInfo = mutableMapOf<String, Any>()
             additionalInfo["user_id"] = user.id
+            additionalInfo["user_nickname"] = user.name
             accessToken.additionalInformation = additionalInfo
         }
         return accessToken

@@ -42,10 +42,10 @@ class OAuth2Config(
                 "http://local-front.ddd.sns.com:10100/login/oauth2/code/auth_server",
                 "http://local-front.ddd.sns.com:10100/home",
             )  // default redirect
-            ?.authorizedGrantTypes("authorization_code")
+            ?.authorizedGrantTypes("authorization_code", "refresh_token")
             ?.scopes("read")
             ?.autoApprove(true)
-            ?.accessTokenValiditySeconds(300)
+            ?.accessTokenValiditySeconds(30)
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {

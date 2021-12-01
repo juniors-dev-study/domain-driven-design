@@ -45,6 +45,7 @@ class AuthExampleController(
             .onStatus(HttpStatus::isError) { it.bodyToMono(String::class.java).map { r -> RuntimeException(r) } }
             .bodyToMono(String::class.java)
             .doOnError { log.error(it.message) }
-            .block() ?: "Hi ${user.name}, this is front"
+            .onErrorResume { Mono.empty<String>() }
+            .blockOptional().orElse(null) ?: "Hi ${user.name}, this is front"
     }
 }

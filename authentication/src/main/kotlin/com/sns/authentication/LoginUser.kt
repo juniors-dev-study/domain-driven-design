@@ -12,7 +12,7 @@ class LoginUser(
     private val password: String
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf<GrantedAuthority>(Role.USER.createSimpleGrantedAuthority())
-    override fun getUsername(): String = name
+    override fun getUsername(): String = id
     override fun getPassword(): String = password
     override fun isAccountNonExpired(): Boolean = true
     override fun isAccountNonLocked(): Boolean = true
