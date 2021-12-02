@@ -12,9 +12,14 @@ logging:
 spring:
   profiles:
     active: test
-  datasource:
+  user-datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    jdbc-url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: root
+    password: test
+  auth-datasource:
+    driver-class-name: org.h2.Driver
+    jdbc-url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: root
     password: test
   sql:
@@ -23,15 +28,3 @@ spring:
       schema-locations: classpath*:db/*/*schema.sql
       data-locations: classpath*:db/*/*data.sql
       continue-on-error: false
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: "none"
-    password: "none"
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-

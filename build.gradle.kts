@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.5.31"
     kotlin("plugin.spring") version "1.5.31"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    id("java-library")
+    id("java-test-fixtures")
 }
 
 allprojects {
@@ -74,6 +76,7 @@ project(":user-api") {
 
         runtimeOnly("com.h2database:h2")
         runtimeOnly("mysql:mysql-connector-java")
+        testImplementation(testFixtures(project(":submodules:commons")))
     }
 }
 
@@ -105,10 +108,15 @@ project(":submodules") {
 }
 
 project(":submodules:commons") {
+    apply(plugin = "java-library")
+    apply(plugin = "java-test-fixtures")
     dependencies {
         api("org.springframework.boot:spring-boot-starter-integration")
         implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
         implementation("org.springframework.security:spring-security-oauth2-jose")
+        // testFixtures
+        testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
+        testFixturesImplementation("org.springframework.security:spring-security-test")
     }
 
     tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
