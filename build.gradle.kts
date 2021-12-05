@@ -25,7 +25,7 @@ subprojects {
 
     dependencies {
         // spring base
-        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.springframework.boot:spring-boot-starter-validation")
 
         compileOnly("org.projectlombok:lombok")
@@ -84,7 +84,6 @@ project(":front") {
         // gateway
         implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
         implementation("org.springframework.session:spring-session-core")
-        implementation("org.springframework.boot:spring-boot-starter-webflux")
     }
 }
 
@@ -95,6 +94,7 @@ project(":authentication") {
         runtimeOnly("com.h2database:h2")
         implementation("org.springframework.cloud:spring-cloud-security:2.2.5.RELEASE")
         implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
+        implementation("org.springframework.boot:spring-boot-starter-web")
     }
 }
 

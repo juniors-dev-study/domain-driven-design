@@ -3,13 +3,13 @@ package com.sns.commons.config
 import com.sns.commons.resolver.LoginUserResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.method.support.HandlerMethodArgumentResolver
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.reactive.config.WebFluxConfigurer
+import org.springframework.web.reactive.result.method.annotation.ArgumentResolverConfigurer
 
 @Configuration
-class WebConfig() : WebMvcConfigurer {
-    override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
-        resolvers.add(loginUserResolver())
+class WebConfig() : WebFluxConfigurer {
+    override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {
+        configurer.addCustomResolver(loginUserResolver())
     }
 
     @Bean

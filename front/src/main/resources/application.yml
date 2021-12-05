@@ -6,6 +6,10 @@ server:
 logging:
   level:
     root: info
+    org:
+      springframework:
+        jdbc:
+          core: trace
 spring:
   security:
     oauth2:
