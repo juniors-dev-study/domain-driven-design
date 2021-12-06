@@ -5,9 +5,11 @@ import com.sns.authentication.LoginUserTokenEnhancer
 import javax.sql.DataSource
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.core.io.FileSystemResource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -42,7 +44,7 @@ class OAuth2Config(
                 "http://local-front.ddd.sns.com:10100/login/oauth2/code/auth_server",
                 "http://local-front.ddd.sns.com:10100/home",
             )  // default redirect
-            ?.authorizedGrantTypes("authorization_code")
+            ?.authorizedGrantTypes("authorization_code", "refresh_token")
             ?.scopes("read")
             ?.autoApprove(true)
             ?.accessTokenValiditySeconds(300)
@@ -67,6 +69,15 @@ class OAuth2Config(
 @Configuration
 class OAuth2ConfigBean {
     @Bean
+    @Profile("test")
+    fun jwtAccessTokenConverterTest(): JwtAccessTokenConverter {
+        val accessTokenConverter = JwtAccessTokenConverter()
+        accessTokenConverter.setSigningKey("jwtKey")
+        return accessTokenConverter
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     fun jwtAccessTokenConverter(
         @Value("\${security.oauth2.resource.jwt.custom-jks-path}") keyPath: String,
         @Value("\${security.oauth2.resource.jwt.custom-jks-passwd}") passwd: String,

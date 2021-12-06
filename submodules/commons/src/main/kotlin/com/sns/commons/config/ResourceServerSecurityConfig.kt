@@ -1,6 +1,7 @@
 package com.sns.commons.config
 
 import com.sns.commons.oauth.Role
+import javax.crypto.spec.SecretKeySpec
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Profile
 import org.springframework.security.config.Customizer
@@ -10,7 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -18,15 +21,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
-
-    val WHITE_LIST = arrayOf(
-        "/",
-        "/swagger-resources/**",
-        "/swagger-ui/**",
-        "/v3/api-docs/**",
-        "/webjars/**",
-        "/api/*/sign-up/**",
-    )
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth!!.inMemoryAuthentication()
@@ -43,6 +37,8 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
         http.oauth2ResourceServer()
             .jwt()
         http.headers().frameOptions().disable()
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
     }
 
     override fun configure(web: WebSecurity?) {
@@ -56,4 +52,8 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
+
+    @Profile("test")
+    @Bean
+    fun jwtDecoder(): JwtDecoder = NimbusJwtDecoder.withSecretKey(SecretKeySpec("key".toByteArray(), "RSA256")).build()
 }
