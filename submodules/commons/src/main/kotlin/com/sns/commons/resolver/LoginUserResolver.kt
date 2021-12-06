@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.oauth2.jwt.Jwt
-import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -28,7 +27,6 @@ interface LoginUserResolver : HandlerMethodArgumentResolver
 /**
  * 한번에 import 하기 위함.
  */
-@Component
 class LoginUserResolvers {
     @Profile("test")
     @Bean
