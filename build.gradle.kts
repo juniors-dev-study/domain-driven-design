@@ -25,7 +25,6 @@ subprojects {
 
     dependencies {
         // spring base
-        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-validation")
 
         compileOnly("org.projectlombok:lombok")
@@ -65,6 +64,7 @@ project(":user-api") {
     dependencies {
         implementation(project(":submodules:commons"))
 
+        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
@@ -90,6 +90,7 @@ project(":front") {
 
 project(":authentication") {
     dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         runtimeOnly("mysql:mysql-connector-java")
         runtimeOnly("com.h2database:h2")
