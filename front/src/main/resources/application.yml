@@ -6,8 +6,6 @@ server:
 logging:
   level:
     root: info
-    org:
-      springframework: trace
 spring:
   security:
     oauth2:

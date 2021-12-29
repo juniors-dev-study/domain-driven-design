@@ -4,7 +4,9 @@ logging:
   level:
     root: info
     org:
-      springframework: trace
+      springframework:
+        jdbc:
+          core: debug
   pattern:
     console: "%d{HH:mm:ss} [%t][%-5level] %msg \\(%F:%L\\)%n"
 spring:
