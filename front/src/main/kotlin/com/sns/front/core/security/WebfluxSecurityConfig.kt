@@ -15,30 +15,47 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
 import org.springframework.security.oauth2.client.userinfo.ReactiveOAuth2UserService
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User
 import org.springframework.security.oauth2.core.user.OAuth2User
-
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler
 import org.springframework.stereotype.Service
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect
 import reactor.core.publisher.Mono
+import java.net.URI
 import java.util.*
 
 /**
  * @author Hyounglin Jun
  */
 @EnableWebFluxSecurity
-class WebfluxSecurityConfig(
-    val reactiveOAuthUserService: ReactiveOAuthUserService,
-) {
+class WebfluxSecurityConfig {
+
+    @Bean
+    fun securityDialect(): SpringSecurityDialect? {
+        return SpringSecurityDialect()
+    }
+
     @Bean
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain? {
+        val redirectServerLogoutSuccessHandler = getRedirectServerLogoutSuccessHandler()
+
         return http
             .authorizeExchange { exchanges: AuthorizeExchangeSpec ->
                 exchanges
-                    .pathMatchers("/", "/home", "/auth-api/**").permitAll()
+                    .pathMatchers("/", "/home", "/auth-api/**", "/register", "/js/**", "/css/**", "/user-api/**").permitAll()
+                    // .pathMatchers(HttpMethod.POST, "/user-api-not/**").permitAll()
                     .anyExchange().authenticated()
             }
             .httpBasic().and()
             .oauth2Login(withDefaults())
+            .logout().logoutSuccessHandler(redirectServerLogoutSuccessHandler).and()
+            .csrf().disable()
             .build()
+    }
+
+    private fun getRedirectServerLogoutSuccessHandler(): RedirectServerLogoutSuccessHandler {
+        val redirectServerLogoutSuccessHandler = RedirectServerLogoutSuccessHandler()
+        redirectServerLogoutSuccessHandler.setLogoutSuccessUrl(URI.create("http://local-auth.ddd.sns.com:10010/logout"))
+        return redirectServerLogoutSuccessHandler
     }
 }
 
@@ -87,3 +104,5 @@ class JWTPayload(
         }
     }
 }
+
+

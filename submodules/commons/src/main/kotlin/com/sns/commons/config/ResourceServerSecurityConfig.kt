@@ -2,8 +2,6 @@ package com.sns.commons.config
 
 import com.sns.commons.oauth.Role
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Profile
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -34,7 +32,7 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
         if (http == null) return
-        http.cors(Customizer.withDefaults())
+        http.cors().disable()
         http.authorizeRequests()
             .antMatchers("/**").permitAll()
             .antMatchers("/admin-api").hasRole(Role.ADMIN.name)

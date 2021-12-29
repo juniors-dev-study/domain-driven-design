@@ -79,9 +79,13 @@ project(":user-api") {
 
 project(":front") {
     dependencies {
+        // thymeleaf 설정
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
         implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+
         // gateway
+        implementation("org.springframework.cloud:spring-cloud-starter-gateway")
         implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
         implementation("org.springframework.session:spring-session-core")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -108,6 +112,7 @@ project(":submodules") {
 project(":submodules:commons") {
     dependencies {
         api("org.springframework.boot:spring-boot-starter-integration")
+        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
         implementation("org.springframework.security:spring-security-oauth2-jose")
     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <th:block th:fragment="headerFragment(param1)">
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -19,38 +20,51 @@
                 <a class="navbar-item" th:href="@{/home}">
                     Home
                 </a>
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
+                <a class="navbar-item" th:href="@{/profile}">
+                    Profile
+                </a>
             </div>
 
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary" th:href="@{/register}">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light" th:href="@{/login}">
-                            Log in
-                        </a>
+                        <div>
+                            <!-- <div class="aaa" sec:authorize="isAnonymous()">   이게 안먹네 ㅠㅠ 수정예정-->
+                            <a class="button is-primary" th:href="@{/register}">
+                                <strong>Sign up</strong>
+                            </a>
+                            <a class="button is-light" th:href="@{/login}">
+                                Log in
+                            </a>
+                        </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <button class="button is-white">
+                                <span sec:authentication="name">사용자</span>님 안녕하세요 :D
+                            </button>
+                            <div class="dropdown">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a th:href="@{/profile}" class="dropdown-item">
+                                            프로필 보기
+                                        </a>
+                                        <a th:href="@{/profile}" class="dropdown-item">
+                                            계정 수정하기
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                        <a th:href="@{/logout}" class="dropdown-item">
+                                            로그아웃
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
