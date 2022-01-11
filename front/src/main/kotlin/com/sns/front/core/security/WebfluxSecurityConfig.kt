@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.config.web.server.ServerHttpSecurity.AuthorizeExchangeSpec
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
@@ -30,7 +29,7 @@ import java.util.*
 class WebfluxSecurityConfig {
 
     @Bean
-    fun securityDialect(): SpringSecurityDialect? {
+    fun securityDialect(): SpringSecurityDialect {
         return SpringSecurityDialect()
     }
 
@@ -39,10 +38,9 @@ class WebfluxSecurityConfig {
         val redirectServerLogoutSuccessHandler = getRedirectServerLogoutSuccessHandler()
 
         return http
-            .authorizeExchange { exchanges: AuthorizeExchangeSpec ->
-                exchanges
+            .authorizeExchange {
+                it
                     .pathMatchers("/", "/home", "/auth-api/**", "/register", "/js/**", "/css/**", "/user-api/**").permitAll()
-                    // .pathMatchers(HttpMethod.POST, "/user-api-not/**").permitAll()
                     .anyExchange().authenticated()
             }
             .httpBasic().and()
@@ -53,17 +51,18 @@ class WebfluxSecurityConfig {
     }
 
     private fun getRedirectServerLogoutSuccessHandler(): RedirectServerLogoutSuccessHandler {
-        val redirectServerLogoutSuccessHandler = RedirectServerLogoutSuccessHandler()
-        redirectServerLogoutSuccessHandler.setLogoutSuccessUrl(URI.create("http://local-auth.ddd.sns.com:10010/logout"))
-        return redirectServerLogoutSuccessHandler
+        return RedirectServerLogoutSuccessHandler().apply {
+            setLogoutSuccessUrl(URI.create("http://local-auth.ddd.sns.com:10010/logout"))
+        }
     }
 }
 
 @Service
 class ReactiveOAuthUserService() : ReactiveOAuth2UserService<OAuth2UserRequest, OAuth2User> {
     val log = LoggerFactory.getLogger(this.javaClass)!!
-    override fun loadUser(userRequest: OAuth2UserRequest?): Mono<OAuth2User> {
-        val clientId = userRequest!!.clientRegistration.clientId
+
+    override fun loadUser(userRequest: OAuth2UserRequest): Mono<OAuth2User> {
+        val clientId = userRequest.clientRegistration.clientId
         val authorities = mutableSetOf<GrantedAuthority>()
         val token = userRequest.accessToken
         val payload = JWTPayload.interpret(token.tokenValue)
@@ -74,7 +73,7 @@ class ReactiveOAuthUserService() : ReactiveOAuth2UserService<OAuth2UserRequest, 
             authorities += SimpleGrantedAuthority(authority)
         }
 
-        log.error("authUser : {}", payload.userName)
+        log.info("authUser : {}", payload.userName)
         return Mono.just(
             DefaultOAuth2User(
                 authorities,
