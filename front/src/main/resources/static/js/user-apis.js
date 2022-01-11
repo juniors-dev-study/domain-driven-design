@@ -1,6 +1,6 @@
 'use strict';
 
-let USER_API = 'http://localhost:10001'
+const USER_API = 'http://localhost:10001'
 
 function register(email, password, name) {
     const options = {

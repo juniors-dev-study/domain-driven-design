@@ -44,9 +44,9 @@
     <script type="text/javascript" th:src="@{/js/user-apis.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         function register_submit_click() {
-            let email = document.getElementById("email-input").value;
-            let password = document.getElementById("password-input").value;
-            let name = document.getElementById("name-input").value;
+            const email = document.getElementById("email-input").value;
+            const password = document.getElementById("password-input").value;
+            const name = document.getElementById("name-input").value;
 
             document.getElementById("submit-button").classList.add("is-loading");
 

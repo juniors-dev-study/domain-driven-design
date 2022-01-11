@@ -1,4 +1,4 @@
-let dropdown = document.querySelector('.dropdown');
+const dropdown = document.querySelector('.dropdown');
 if (dropdown) {
     dropdown.addEventListener('click', function (event) {
         event.stopPropagation();
