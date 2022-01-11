@@ -39,14 +39,27 @@
   ./gradlew addKtlintFormatGitPreCommitHook
   ```
 
-## 로컬 DB
+## 로컬 DB (필요시)
 
 ```shell
 docker pull mysql:8.0
 docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password --name mysql -v {로컬저장소}:/var/lib/mysql mysql
 ```
 
-서버따로 구매안해둔 상태라 로컬에서 띄우려면 mysql도 띄워야합니다 :)
+## local host
+```bash
+127.0.0.1       local-auth.ddd.sns.com local-front.ddd.sns.com local-user.ddd.sns.com
+```
+
+## secret (ddd-secrets repo)
+### 민감정보
+- `secrets-environment.sec`
+- intelliJ `run/debug configurations` 들어가서, `environment variables`에 환경 변수들 입력
+### 토큰키
+각 위치에 저장해주시면 됩니다
+- `/authentication/src/main/resources/oauth-jwt.jks`
+- `/user-api/src/main/resources/rsa_jwk.pub`
+
 
 ## 접속확인
 
