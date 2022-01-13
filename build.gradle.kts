@@ -27,7 +27,6 @@ subprojects {
 
     dependencies {
         // spring base
-        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-validation")
 
         compileOnly("org.projectlombok:lombok")
@@ -67,6 +66,7 @@ project(":user-api") {
     dependencies {
         implementation(project(":submodules:commons"))
 
+        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
@@ -82,9 +82,13 @@ project(":user-api") {
 
 project(":front") {
     dependencies {
+        // thymeleaf 설정
         implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
         implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+
         // gateway
+        implementation("org.springframework.cloud:spring-cloud-starter-gateway")
         implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
         implementation("org.springframework.session:spring-session-core")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -93,6 +97,7 @@ project(":front") {
 
 project(":authentication") {
     dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         runtimeOnly("mysql:mysql-connector-java")
         runtimeOnly("com.h2database:h2")
@@ -112,6 +117,7 @@ project(":submodules:commons") {
     apply(plugin = "java-test-fixtures")
     dependencies {
         api("org.springframework.boot:spring-boot-starter-integration")
+        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
         implementation("org.springframework.security:spring-security-oauth2-jose")
         // testFixtures

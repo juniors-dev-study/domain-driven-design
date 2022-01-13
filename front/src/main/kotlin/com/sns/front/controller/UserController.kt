@@ -1,5 +1,7 @@
 package com.sns.front.controller
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 
@@ -9,13 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping
  */
 @Controller
 class UserController {
+
     @GetMapping("/home", "/")
-    fun home(): String {
+    fun home(
+        @AuthenticationPrincipal user: OAuth2User?,
+    ): String {
         return "pages/home"
     }
 
     @GetMapping("/login")
-    fun login(): String {
+    fun login(
+        @AuthenticationPrincipal user: OAuth2User?,
+    ): String {
+
         return "pages/login"
     }
 
@@ -25,7 +33,9 @@ class UserController {
     }
 
     @GetMapping("/profile")
-    fun profile(): String {
+    fun profile(
+        @AuthenticationPrincipal user: OAuth2User?,
+    ): String {
         return "pages/profile"
     }
 }
