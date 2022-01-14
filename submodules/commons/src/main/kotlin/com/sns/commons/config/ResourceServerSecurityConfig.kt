@@ -2,6 +2,7 @@ package com.sns.commons.config
 
 import com.sns.commons.oauth.Role
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Profile
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -51,6 +52,7 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
         return source
     }
 
+    @Profile("test")
     @Bean
     fun jwtDecoder(): JwtDecoder = NimbusJwtDecoder.withSecretKey(SecretKeySpec("key".toByteArray(), "RSA256")).build()
 }

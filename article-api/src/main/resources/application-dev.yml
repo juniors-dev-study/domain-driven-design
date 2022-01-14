@@ -1,8 +1,14 @@
 server:
   port: 10002
 logging:
-  level: info
-    org.springframework.jdbc.core.JdbcTemplate: debug
+  level:
+    root: trace
+    org:
+      springframework:
+        jdbc:
+          core: trace
+  pattern:
+    console: "%d{HH:mm:ss} [%t][%-5level] %msg \\(%F:%L\\)%n"
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,14 +31,9 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     show-sql: true
     open-in-view: false
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${GMAIL_ADD}
-    password: ${GMAIL_PW}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:rsa_jwk.pub
+

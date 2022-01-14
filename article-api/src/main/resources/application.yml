@@ -10,9 +10,9 @@ logging:
   pattern:
     console: "%d{HH:mm:ss} [%t][%-5level] %msg \\(%F:%L\\)%n"
 spring:
-  user-datasource:
+  datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://${DDD_DB_URL}/articles?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
+    url: jdbc:mysql://${DDD_DB_URL}/articles?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&tinyInt1isBit=false
     username: ${DDD_DB_ID}
     password: ${DDD_DB_PW}
     hikari:
@@ -22,20 +22,18 @@ spring:
       maximum-pool-size: 20
       transaction-isolation: 1
       pool-name: pool-of-user
-  auth-datasource:
-    driver-class-name: org.h2.Driver
-    jdbc-url: jdbc:h2:mem:authentication;MODE=MYSQL;DB_CLOSE_DELAY=-1
-    username: admin
-    password: admin
-  h2:
-    console:
-      enabled: true
-security:
-  oauth2:
-    resource:
-      jwt:
-        custom-jks-path: src/main/resources/oauth-jwt.jks
-        custom-jks-passwd: ${DDD_DB_PW}
-        custom-jks-alias: oauth-jwt
-        #key-value: jwt_secret_key
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    show-sql: true
+    open-in-view: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:rsa_jwk.pub
 
