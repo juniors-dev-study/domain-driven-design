@@ -1,3 +1,3 @@
 rootProject.name = "juniors-ddd"
-include("user-api", "front", "authentication")
+include("user-api", "article-api", "front", "authentication")
 include(":submodules:commons")

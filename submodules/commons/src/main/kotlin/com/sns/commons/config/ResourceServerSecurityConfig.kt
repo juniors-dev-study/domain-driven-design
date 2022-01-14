@@ -1,7 +1,6 @@
 package com.sns.commons.config
 
 import com.sns.commons.oauth.Role
-import javax.crypto.spec.SecretKeySpec
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -15,6 +14,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import javax.crypto.spec.SecretKeySpec
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -51,7 +51,6 @@ class ResourceServerSecurityConfig : WebSecurityConfigurerAdapter() {
         return source
     }
 
-    @Profile("test")
     @Bean
     fun jwtDecoder(): JwtDecoder = NimbusJwtDecoder.withSecretKey(SecretKeySpec("key".toByteArray(), "RSA256")).build()
 }

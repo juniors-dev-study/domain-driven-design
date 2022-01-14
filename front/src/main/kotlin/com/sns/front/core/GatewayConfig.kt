@@ -20,25 +20,25 @@ class GatewayConfig {
         return builder.routes()
             .route { p ->
                 p
+                    .path("/article-api/**")
+                    .filters { filter ->
+                        filter
+                            .filter(filterFactory.apply())
+                            .rewritePath("/article-api", "/api")
+                    }
+                    .uri("http://localhost:10002")
+            }
+            .route { p ->
+                p
                     .path("/user-api/**")
                     .filters { filter ->
                         filter
                             .filter(filterFactory.apply())
                             .rewritePath("/user-api", "/api")
                     }
-
                     .uri("http://localhost:10001")
             }
-            // .route { p ->
-            //     p
-            //         .method(HttpMethod.POST).and()
-            //         .path("/user-api-not/**")
-            //         .filters { filter ->
-            //             filter
-            //                 .rewritePath("/user-api-not", "/api")
-            //         }
-            //         .uri("http://localhost:10001")
-            // }
+
             .build()
     }
 }
