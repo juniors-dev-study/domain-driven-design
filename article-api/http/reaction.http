@@ -1,0 +1,17 @@
+POST http://localhost:10002/api/v1/reactions
+Content-Type: application/json
+
+{
+  "targetType": "ARTICLE",
+  "targetId": 1,
+  "type": "LIKE",
+  "userId": "sample@gmail.com"
+}
+
+###
+
+GET http://localhost:10002/api/v1/reactions/6
+
+###
+
+DELETE http://localhost:10002/api/v1/reactions/6
