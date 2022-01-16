@@ -48,7 +48,7 @@ docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password --name mysql -v {ë¡œì
 
 ## local host
 ```bash
-127.0.0.1       local-auth.ddd.sns.com local-front.ddd.sns.com local-user.ddd.sns.com
+127.0.0.1       local-auth.ddd.sns.com local-front.ddd.sns.com local-user.ddd.sns.com local-article.ddd.sns.com
 ```
 
 ## secret (ddd-secrets repo)

@@ -40,7 +40,7 @@ class WebfluxSecurityConfig {
         return http
             .authorizeExchange {
                 it
-                    .pathMatchers("/", "/home", "/auth-api/**", "/register", "/js/**", "/css/**", "/user-api/**").permitAll()
+                    .pathMatchers("/", "/home", "/auth-api/**", "/register", "/js/**", "/css/**", "/user-api/**", "/article-api/**").permitAll()
                     .anyExchange().authenticated()
             }
             .httpBasic().and()

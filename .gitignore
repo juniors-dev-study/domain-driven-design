@@ -177,3 +177,4 @@ gradle-app.setting
 
 /authentication/src/main/resources/oauth-jwt.jks
 /user-api/src/main/resources/rsa_jwk.pub
+/article-api/src/main/resources/rsa_jwk.pub

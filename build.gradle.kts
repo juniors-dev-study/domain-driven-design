@@ -80,6 +80,22 @@ project(":user-api") {
     }
 }
 
+project(":article-api") {
+    dependencies {
+        implementation(project(":submodules:commons"))
+
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("io.springfox:springfox-boot-starter:3.0.0")
+        implementation("org.springframework.security:spring-security-test")
+
+        runtimeOnly("com.h2database:h2")
+        runtimeOnly("mysql:mysql-connector-java")
+        testImplementation(testFixtures(project(":submodules:commons")))
+    }
+}
+
 project(":front") {
     dependencies {
         // thymeleaf 설정

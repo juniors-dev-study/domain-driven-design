@@ -1,8 +1,8 @@
 package com.sns.commons.config
 
 import com.sns.commons.oauth.Role
-import javax.crypto.spec.SecretKeySpec
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Profile
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import javax.crypto.spec.SecretKeySpec
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)

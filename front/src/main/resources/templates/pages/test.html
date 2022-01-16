@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<!-- Page Content -->
+<th:block layout:fragment="content">
+    <div class="field">
+        <p class="control">
+            <button onclick="test_click()" class="button is-success">
+                test-article-api
+            </button>
+        </p>
+    </div>
+    <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        function test_click() {
+            getTest()
+                .then(res => {
+                    console.log(res)
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data)
+                })
+        }
+    </script>
+</th:block>
+</html>
