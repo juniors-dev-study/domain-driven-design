@@ -22,15 +22,6 @@ spring:
       maximum-pool-size: 20
       transaction-isolation: 1
       pool-name: pool-of-user
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-    show-sql: true
-    open-in-view: false
   mail:
     host: smtp.gmail.com
     port: 587
