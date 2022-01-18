@@ -24,13 +24,16 @@
                 <a class="navbar-item" th:href="@{/profile}">
                     Profile
                 </a>
+                <a class="navbar-item" th:href="@{/test}">
+                    Test
+                </a>
             </div>
 
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <div>
-                            <!-- <div class="aaa" sec:authorize="isAnonymous()">   이게 안먹네 ㅠㅠ 수정예정-->
+                        <!-- 아래 방법이 정상적인지는 모르겠으나 일단 이렇게 사용할게요 -->
+                        <div th:if="${#authorization.authentication == null}">
                             <a class="button is-primary" th:href="@{/register}">
                                 <strong>Sign up</strong>
                             </a>
