@@ -1,10 +1,10 @@
-package com.sns.article.reaction.application
+package com.sns.article.component.reaction.application
 
-import com.sns.article.reaction.domain.Reaction
-import com.sns.article.reaction.domain.ReactionRepository
-import com.sns.article.reaction.domain.ReactionTarget
-import com.sns.article.reaction.domain.ReactionValidator
-import com.sns.article.reaction.dto.ReactionDto
+import com.sns.article.component.reaction.domains.Reaction
+import com.sns.article.component.reaction.domains.ReactionRepository
+import com.sns.article.component.reaction.domains.ReactionTarget
+import com.sns.article.component.reaction.domains.ReactionValidator
+import com.sns.article.component.reaction.dtos.ReactionDto
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,8 +1,8 @@
-package com.sns.article.reaction.dto
+package com.sns.article.component.reaction.dtos
 
-import com.sns.article.reaction.domain.Reaction
-import com.sns.article.reaction.domain.ReactionTargetType
-import com.sns.article.reaction.domain.ReactionType
+import com.sns.article.component.reaction.domains.Reaction
+import com.sns.article.component.reaction.domains.ReactionTargetType
+import com.sns.article.component.reaction.domains.ReactionType
 
 class ReactionDto(
     val id: Long,

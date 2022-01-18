@@ -1,8 +1,8 @@
-package com.sns.article.reaction.application
+package com.sns.article.component.reaction.application
 
-import com.sns.article.reaction.domain.ReactionCreatedEvent
-import com.sns.article.reaction.domain.ReactionNotFoundException
-import com.sns.article.reaction.domain.ReactionRepository
+import com.sns.article.component.reaction.domains.ReactionCreatedEvent
+import com.sns.article.component.reaction.domains.ReactionNotFoundException
+import com.sns.article.component.reaction.domains.ReactionRepository
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

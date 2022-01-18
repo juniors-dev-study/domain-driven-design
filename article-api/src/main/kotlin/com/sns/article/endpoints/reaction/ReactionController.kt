@@ -1,8 +1,8 @@
-package com.sns.article.reaction.ui
+package com.sns.article.endpoints.reaction
 
-import com.sns.article.reaction.application.ReactionCommandService
-import com.sns.article.reaction.application.ReactionQueryService
-import com.sns.article.reaction.dto.ReactionDto
+import com.sns.article.component.reaction.application.ReactionCommandService
+import com.sns.article.component.reaction.application.ReactionQueryService
+import com.sns.article.component.reaction.dtos.ReactionDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI

@@ -1,6 +1,6 @@
-package com.sns.article.reaction.domain
+package com.sns.article.component.reaction.domains
 
-import com.sns.article.reaction.dto.ReactionDto
+import com.sns.article.component.reaction.dtos.ReactionDto
 import org.springframework.stereotype.Component
 
 @Component
