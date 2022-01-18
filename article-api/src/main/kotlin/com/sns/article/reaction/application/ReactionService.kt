@@ -9,17 +9,20 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class ReactionService(
-        private val reactionRepository: ReactionRepository,
-        private val reactionValidator: ReactionValidator,
-        private val applicationEventPublisher: ApplicationEventPublisher
+    private val reactionRepository: ReactionRepository,
+    private val reactionValidator: ReactionValidator,
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
     @Transactional
     fun create(dto: ReactionDto): ReactionDto {
         reactionValidator.validate(dto)
-        val reaction = reactionRepository.save(Reaction(
+        val reaction = reactionRepository.save(
+            Reaction(
                 target = ReactionTarget(dto.targetType, dto.targetId),
                 type = dto.type,
-                userId = dto.userId))
+                userId = dto.userId
+            )
+        )
         reaction.created(applicationEventPublisher)
         reactionRepository.save(reaction)
         return ReactionDto.from(reaction)
