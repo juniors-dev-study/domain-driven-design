@@ -1,19 +1,21 @@
 package com.sns.article.reaction.application
 
-import com.sns.article.reaction.domain.*
+import com.sns.article.reaction.domain.Reaction
+import com.sns.article.reaction.domain.ReactionRepository
+import com.sns.article.reaction.domain.ReactionTarget
+import com.sns.article.reaction.domain.ReactionValidator
 import com.sns.article.reaction.dto.ReactionDto
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional(readOnly = true)
-class ReactionService(
+@Transactional
+class ReactionCommandService(
     private val reactionRepository: ReactionRepository,
     private val reactionValidator: ReactionValidator,
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {
-    @Transactional
     fun create(dto: ReactionDto): ReactionDto {
         reactionValidator.validate(dto)
         val reaction = reactionRepository.save(
@@ -28,12 +30,6 @@ class ReactionService(
         return ReactionDto.from(reaction)
     }
 
-    fun findById(id: Long): ReactionDto {
-        val reaction = reactionRepository.findById(id).orElseThrow { ReactionNotFoundException() }
-        return ReactionDto.from(reaction)
-    }
-
-    @Transactional
     fun delete(id: Long) {
         reactionRepository.deleteById(id)
     }
