@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<!-- Page Content -->
+<th:block layout:fragment="content">
+    <div id="tabs-with-content">
+        <div class="tabs is-boxed is-primary">
+            <ul>
+                <li>
+                    <a>
+                        <span>계정 수정</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <span>프로필 수정</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <section class="tab-content">
+                <th:block th:replace="fragments/modify-user/modify-user :: modifyUserFragment"></th:block>
+            </section>
+            <section class="tab-content">
+                <th:block th:replace="fragments/modify-user/modify-profile :: modifyProfileFragment"></th:block>
+            </section>
+        </div>
+    </div>
+    <script>
+        let tabsWithContent = (function () {
+            let tabs = document.querySelectorAll('.tabs li');
+            let tabsContent = document.querySelectorAll('.tab-content');
+
+            let deactvateAllTabs = function () {
+                tabs.forEach(function (tab) {
+                    tab.classList.remove('is-active');
+                });
+            };
+
+            let hideTabsContent = function () {
+                tabsContent.forEach(function (tabContent) {
+                    tabContent.classList.remove('is-active');
+                });
+            };
+
+            let activateTabsContent = function (tab) {
+                tabsContent[getIndex(tab)].classList.add('is-active');
+            };
+
+            let getIndex = function (el) {
+                return [...el.parentElement.children].indexOf(el);
+            };
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    deactvateAllTabs();
+                    hideTabsContent();
+                    tab.classList.add('is-active');
+                    activateTabsContent(tab);
+                });
+            })
+
+            tabs[0].click();
+        })();
+    </script>
+</th:block>
+</html>

@@ -33,9 +33,25 @@ class UserController {
     }
 
     @GetMapping("/profile")
-    fun profile(
-        @AuthenticationPrincipal user: OAuth2User?,
-    ): String {
+    fun profile(): String {
         return "pages/profile"
+    }
+
+    /*
+    * 회원 정보 수정 페이지
+    * - 프로필 수정
+     */
+    @GetMapping("/modify-user")
+    fun modifyUser(): String {
+        return "pages/modify-user"
+    }
+
+    /*
+* 회원 정보 수정 페이지
+* - 프로필 수정
+ */
+    @GetMapping("/modify-user5")
+    fun modifyUser2(): String {
+        return "pages/modify-user"
     }
 }

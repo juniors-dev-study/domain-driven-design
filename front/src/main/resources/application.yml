@@ -7,6 +7,9 @@ logging:
   level:
     root: info
 spring:
+  devtools:
+    livereload:
+      enabled: true
   security:
     oauth2:
       client:

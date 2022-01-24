@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:fragment="modifyUserFragment">
+    <div class="field">
+        <label class="label">이메일</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="email" th:value="${#authorization.authentication.getName()}" id="email-input" readonly>
+            <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">비밀번호</label>
+        <div class="control  has-icons-left">
+            <input class="input" type="password" placeholder="password" id="password-input">
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">이름</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="홍길동" id="name-input">
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-info " onclick="register_submit_click()" id="submit-button" disabled>수정하기</button>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/user-apis.js}"></script>
+    <script>
+        getUser()
+            .then(res => {
+                console.log(res)
+                return res.json()
+            })
+            .then(data => {
+                console.log(data)
+
+                if (data !== undefined) {
+                    document.getElementById('email-input').placeholder = data['id'];
+                    document.getElementById('name-input').value = data['name'];
+                }
+            })
+    </script>
+</th:block>
+</html>

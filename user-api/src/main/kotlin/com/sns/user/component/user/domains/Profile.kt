@@ -1,13 +1,13 @@
 package com.sns.user.component.user.domains
 
-import java.time.Instant
-import javax.validation.constraints.Max
-import javax.validation.constraints.NotNull
 import org.hibernate.validator.constraints.URL
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
+import java.time.Instant
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotNull
 
 /**
  * 사용자 프로필 도메인 객체(VO)
@@ -38,6 +38,18 @@ data class Profile(
     companion object {
         fun create(
             userId: String,
+        ): Profile {
+            return Profile(
+                userId = userId,
+                nickName = null,
+                iconImageUrl = null,
+                intro = null,
+                hobbies = null,
+            ).apply { new = true }
+        }
+
+        fun update(
+            userId: String,
             nickName: String? = null,
             iconImageUrl: String? = null,
             intro: String? = null,
@@ -49,7 +61,7 @@ data class Profile(
                 iconImageUrl = iconImageUrl,
                 intro = intro,
                 hobbies = hobbies?.toMutableList(),
-            ).apply { new = true }
+            ).apply { new = false }
         }
     }
 

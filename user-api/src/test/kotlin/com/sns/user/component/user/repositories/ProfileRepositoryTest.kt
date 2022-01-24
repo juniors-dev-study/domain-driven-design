@@ -20,18 +20,40 @@ internal class ProfileRepositoryTest {
     @Test
     fun save() {
         val id = "test@gmail.com"
-        val nickName = "닉네임"
-        val hobbies = listOf("밥먹기", "운동하기")
         val profile = Profile.create(
-            userId = id, nickName = nickName,
-            hobbies = hobbies,
+            userId = id,
         )
 
         profileRepository.save(profile)
 
         profileRepository.findById(id) hasValueSatisfying { savedUser ->
             savedUser.userId isEqualTo id
-            savedUser.nickName isEqualTo nickName
+        }
+    }
+
+    @Test
+    fun save_for_update() {
+        val id = "test@gmail.com"
+        val updatedNickName = "닉네임_변경"
+        val hobbies = listOf("밥먹기", "운동하기")
+
+        profileRepository.save(
+            Profile.create(
+                userId = id,
+            ),
+        )
+
+        profileRepository.save(
+            Profile.update(
+                userId = id,
+                nickName = updatedNickName,
+                hobbies = hobbies,
+            ),
+        )
+
+        profileRepository.findById(id) hasValueSatisfying { savedUser ->
+            savedUser.userId isEqualTo id
+            savedUser.nickName isEqualTo updatedNickName
             savedUser.iconImageUrl isEqualTo null
             savedUser.intro isEqualTo null
             savedUser.hobbies isEqualTo hobbies

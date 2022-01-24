@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="modifyProfileFragment">
+    <div class="field">
+        <label class="label">이메일</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="email" th:value="${#authorization.authentication.getName()}" id="email-input" readonly>
+            <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">닉네임</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="별명" id="nick-input">
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">아이콘 이미지 주소</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="url" placeholder="http://www.naver.com" id="icon-image-url-input">
+            <span class="icon is-small is-left">
+                <i class="fas fa-smile"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">소개</label>
+        <div class="control has-icons-left has-icons-right">
+            <textarea class="textarea" placeholder="저는 사람입니다" id="intro-textarea"></textarea>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">취미</label>
+        <div class="control">
+            <textarea class="textarea" placeholder="영화보기, 게임하기" id="hobbies-textarea"></textarea>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-info " onclick="update_profile_button_click()" id="update-profile-button">수정하기</button>
+            <!-- TODO 아직 수정하기는 안됨 -->
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/user-apis.js}"></script>
+    <script>
+        getProfile()
+            .then(res => {
+                console.log(res)
+                return res.json();
+            })
+            .then(data => {
+                console.log(data)
+                if (data !== undefined) {
+                    document.getElementById('nick-input').value = data['nickName'];
+                    document.getElementById('icon-image-url-input').value = data['iconImageUrl'];
+                    document.getElementById('intro-textarea').value = data['intro'];
+                    document.getElementById('hobbies-textarea').value = data['hobbies'];
+                }
+            })
+
+        function update_profile_button_click() {
+            const nickName = document.getElementById('nick-input').value
+            const iconImageUrl = document.getElementById('icon-image-url-input').value
+            const intro = document.getElementById('intro-textarea').value
+            const hobbiesStr = document.getElementById('hobbies-textarea').value
+            const hobbies = hobbiesStr ? hobbiesStr.replaceAll(" ", "").split(",") : null
+
+            document.getElementById("submit-button").classList.add("is-loading");
+
+            updateProfile(nickName, iconImageUrl, intro, hobbies)
+                .then(res => {
+                    console.log(res)
+                    if (res.ok) {
+                        alert("프로필 수정 성공!");
+                    } else {
+                        alert("프로필 수정 실패ㅠ");
+                        return res.json();
+                    }
+                })
+        }
+    </script>
+</th:block>
+</html>

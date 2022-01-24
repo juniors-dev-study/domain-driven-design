@@ -108,6 +108,12 @@ project(":front") {
         implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
         implementation("org.springframework.session:spring-session-core")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+        // 수정사항 빠르게 확인하기 위해 사용
+        // Settings( CMD + , ) > Build, Execution, Deployment > Compiler에서 Build project automatically 체크
+        // Settings( CMD + , ) > Build > Gradle에서 Build and run using 항목을 IntelliJ IDEA로 변경
+        // intellij registry에서 compiler.automake.allow.when.app.running 체크
+        implementation("org.springframework.boot:spring-boot-devtools")
     }
 }
 
