@@ -1,0 +1,37 @@
+server:
+  port: 10001
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        jdbc:
+          core: debug
+  pattern:
+    console: "%d{HH:mm:ss} [%t][%-5level] %msg \\(%F:%L\\)%n"
+spring:
+  profiles:
+    active: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: root
+    password: test
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath*:db/*/*schema.sql
+      data-locations: classpath*:db/*/*data.sql
+      continue-on-error: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "none"
+    password: "none"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
