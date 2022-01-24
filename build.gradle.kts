@@ -8,6 +8,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     id("java-library")
     id("java-test-fixtures")
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 allprojects {
@@ -81,6 +82,8 @@ project(":user-api") {
 }
 
 project(":article-api") {
+    apply(plugin = "kotlinx-serialization")
+
     dependencies {
         implementation(project(":submodules:commons"))
 
@@ -89,6 +92,7 @@ project(":article-api") {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
         implementation("org.springframework.security:spring-security-test")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 
         runtimeOnly("com.h2database:h2")
         runtimeOnly("mysql:mysql-connector-java")

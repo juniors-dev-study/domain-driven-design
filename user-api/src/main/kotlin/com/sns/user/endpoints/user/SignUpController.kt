@@ -1,5 +1,6 @@
 package com.sns.user.endpoints.user
 
+import com.sns.commons.exceptions.NoAuthorityException
 import com.sns.commons.utils.ifTrue
 import com.sns.user.component.authcode.application.AuthCodeCommandService
 import com.sns.user.component.authcode.domain.Purpose
@@ -7,7 +8,6 @@ import com.sns.user.component.user.application.ProfileCommandService
 import com.sns.user.component.user.application.UserCommandService
 import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.core.config.SwaggerTag
-import com.sns.user.core.exceptions.NoAuthorityException
 import com.sns.user.endpoints.user.requests.SignUpRequest
 import com.sns.user.endpoints.user.responses.SignUpVerifiedResponse
 import io.swagger.annotations.ApiOperation
@@ -16,12 +16,19 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import javax.validation.constraints.Email
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
-import javax.validation.constraints.Email
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
 @Validated
 @RestController

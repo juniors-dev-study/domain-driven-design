@@ -1,13 +1,13 @@
 package com.sns.user.component.user.domains
 
 import com.sns.commons.DomainEvent
+import com.sns.commons.exceptions.AlreadyExistException
+import com.sns.commons.exceptions.NotFoundException
 import com.sns.commons.utils.ifFalse
 import com.sns.commons.utils.ifTrue
 import com.sns.user.component.user.dtos.FriendRequestedEvent
 import com.sns.user.component.user.dtos.FriendshipBrokenEvent
 import com.sns.user.component.user.events.UserStatusChangedEvent
-import com.sns.user.core.exceptions.AlreadyExistException
-import com.sns.user.core.exceptions.NotFoundException
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotBlank

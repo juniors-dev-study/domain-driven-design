@@ -1,8 +1,8 @@
 package com.sns.user.components.user.application
 
+import com.sns.commons.exceptions.NotFoundException
 import com.sns.user.component.user.application.UserFriendService
 import com.sns.user.component.user.repositories.UserRepository
-import com.sns.user.core.exceptions.NotFoundException
 import com.sns.user.createUser
 import com.sns.user.isNotNull
 import org.junit.jupiter.api.Test
