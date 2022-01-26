@@ -18,6 +18,7 @@ import org.springframework.data.relational.core.mapping.RelationalPersistentProp
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations
 import org.springframework.lang.Nullable
 import org.springframework.util.ClassUtils
+import java.math.BigInteger
 
 /**
  * @author Hyounglin Jun
@@ -66,7 +67,9 @@ class JdbcConfiguration : AbstractJdbcConfiguration() {
         return JdbcCustomConversions(
             listOf(
                 ArticleIdToIntConverter(),
-                IntTOArticleIdConverter(),
+                IntToArticleIdConverter(),
+                ArticleIdToBigIntegerConverter(),
+                BigIntegerToArticleIdConverter(),
             ),
         )
     }
@@ -74,15 +77,34 @@ class JdbcConfiguration : AbstractJdbcConfiguration() {
 
 @WritingConverter
 class ArticleIdToIntConverter : Converter<ArticleId, Int> {
-    override fun convert(source: ArticleId): Int? {
+    override fun convert(source: ArticleId): Int {
         return source.id
     }
 }
 
 @ReadingConverter
-class IntTOArticleIdConverter : Converter<Int, ArticleId> {
+class IntToArticleIdConverter : Converter<Int, ArticleId> {
     override fun convert(source: Int): ArticleId {
         return ArticleId(source)
+    }
+}
+
+/*
+01:37:23 [http-nio-10002-exec-1][ERROR] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.math.BigInteger] to type [com.sns.article.component.article.domains.ArticleId]] with root cause (DirectJDKLog.java:175)
+org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.math.BigInteger] to type [com.sns.article.component.article.domains.ArticleId]
+TODO 이거 때문에 임시 사용
+ */
+@WritingConverter
+class ArticleIdToBigIntegerConverter : Converter<ArticleId, BigInteger> {
+    override fun convert(source: ArticleId): BigInteger {
+        return BigInteger(source.id.toString())
+    }
+}
+
+@ReadingConverter
+class BigIntegerToArticleIdConverter : Converter<BigInteger, ArticleId> {
+    override fun convert(source: BigInteger): ArticleId {
+        return ArticleId(source.toInt())
     }
 }
 
@@ -103,7 +125,7 @@ class StringToCollectionConverter : ConditionalGenericConverter {
         }
         val string = source as String
 
-        return string.split(":").toList()
+        return string.split(",").toList()
     }
 }
 
@@ -124,6 +146,6 @@ class CollectionToStringConverter : ConditionalGenericConverter {
         }
         val collection = source as Collection<*>
 
-        return collection.joinToString(":")
+        return collection.joinToString(",")
     }
 }

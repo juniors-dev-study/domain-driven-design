@@ -6,3 +6,13 @@ if (dropdown) {
     });
 }
 
+
+function makeTemplate(templateId, data) {
+    return document.getElementById(templateId).innerHTML
+        .replace(
+            /%(\w*)%/g, // or /{(\w*)}/g for "{this} instead of %this%"
+            function (m, key) {
+                return data.hasOwnProperty(key) ? data[key] : "";
+            }
+        );
+}

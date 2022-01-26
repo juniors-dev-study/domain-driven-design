@@ -5,11 +5,6 @@ const USER_API = 'http://localhost:10001'
 function register(email, password, name) {
     const options = {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        },
         body: JSON.stringify({
             name: name,
             email: email,
@@ -22,10 +17,6 @@ function register(email, password, name) {
 function getUser() {
     const options = {
         method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
     }
     return fetch("http://local-front.ddd.sns.com:10100/user-api/v1/users", options)
 }
@@ -33,10 +24,6 @@ function getUser() {
 function getProfile() {
     const options = {
         method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
     }
     return fetch("http://local-front.ddd.sns.com:10100/user-api/v1/profiles", options)
 }
@@ -44,10 +31,6 @@ function getProfile() {
 function updateProfile(nickName, iconImageUrl, intro, hobbies) {
     const options = {
         method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify({
             'nickName': nickName,
             'iconImageUrl': iconImageUrl,

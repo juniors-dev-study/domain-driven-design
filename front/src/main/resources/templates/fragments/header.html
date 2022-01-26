@@ -19,10 +19,10 @@
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" th:href="@{/home}">
-                    Home
+                    홈
                 </a>
-                <a class="navbar-item" th:href="@{/profile}">
-                    Profile
+                <a class="navbar-item" th:href="@{/feeds}">
+                    피드
                 </a>
             </div>
 
@@ -38,9 +38,9 @@
                             </a>
                         </div>
                         <div sec:authorize="isAuthenticated()">
-                            <button class="button is-white">
-                                <span sec:authentication="name">사용자</span>님 안녕하세요 :D
-                            </button>
+                            <a class="button is-primary" th:href="@{/write-feed}">
+                                <strong>피드 작성</strong>
+                            </a>
                             <div class="dropdown">
                                 <div class="dropdown-trigger">
                                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
