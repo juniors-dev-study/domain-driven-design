@@ -5,12 +5,15 @@ import com.sns.commons.utils.ifTrue
 import java.time.Instant
 import javax.validation.constraints.Max
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.Persistent
 
-fun String.assertNotBlank() = assert(this.isNotBlank()) { "내용이 없습니다." }
+fun String.assertNotBlank() = require(this.isNotBlank()) { "내용이 없습니다." }
 
+@Persistent
 data class Comment(
     @Id
     @NotBlank
@@ -18,7 +21,7 @@ data class Comment(
     @JvmField
     var id: Long? = null,
 
-    @NotBlank
+    @NotNull
     val rootType: RootType,
 
     @NotBlank

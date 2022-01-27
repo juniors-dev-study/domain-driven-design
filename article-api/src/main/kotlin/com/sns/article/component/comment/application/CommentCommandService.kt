@@ -15,7 +15,7 @@ class CommentCommandService(
         commentCrudRepository.save(newComment)
     }
 
-    fun update(id: Long, contents: String, writerId: String) {
+    fun updateContents(id: Long, contents: String, writerId: String) {
         val comment = commentCrudRepository.findById(id).orElseThrow { NotFoundException("댓글이 없습니다.") }
         comment.update(contents, writerId)
         commentCrudRepository.save(comment)

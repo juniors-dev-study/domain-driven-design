@@ -46,7 +46,7 @@ internal class CommentCommandServiceMockTest {
     @DisplayName("동일한 writer가 댓글을 수정할 경우, 성공해야한다.")
     @Test
     fun update_success() {
-        commentCommandService.update(comment.id ?: 0, "내용 업데이트", comment.writerId)
+        commentCommandService.updateContents(comment.id ?: 0, "내용 업데이트", comment.writerId)
 
         verify { commentCrudRepository.save(ofType(Comment::class)) }
     }
@@ -55,7 +55,7 @@ internal class CommentCommandServiceMockTest {
     @Test
     fun update_fail() {
         assertThrows<NoAuthorityException>(message = "권한체크에 실패해야한다.") {
-            commentCommandService.update(comment.id ?: 0, "내용 업데이트", "different_writer")
+            commentCommandService.updateContents(comment.id ?: 0, "내용 업데이트", "different_writer")
         }
     }
 

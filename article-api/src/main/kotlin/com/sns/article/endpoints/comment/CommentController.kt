@@ -42,7 +42,7 @@ class CommentV1Controller(
         commentCommandService.create(request.rootType, request.rootId, request.contents, loginUser.id)
     }
 
-    @ApiOperation("댓글 작성")
+    @ApiOperation("댓글 수정")
     @ApiResponses(
         value = [
             ApiResponse(description = "성공", responseCode = "202"),
@@ -51,8 +51,8 @@ class CommentV1Controller(
     )
     @IsLoginUser
     @PutMapping("/{commentId}")
-    fun update(@Positive @PathVariable commentId: Long, @Valid @RequestBody request: CommentUpdateRequest, loginUser: LoginUser) {
-        commentCommandService.update(commentId, request.contents, loginUser.id)
+    fun updateContents(@Positive @PathVariable commentId: Long, @Valid @RequestBody request: CommentUpdateRequest, loginUser: LoginUser) {
+        commentCommandService.updateContents(commentId, request.contents, loginUser.id)
     }
 
     @ApiOperation("댓글 작성")
