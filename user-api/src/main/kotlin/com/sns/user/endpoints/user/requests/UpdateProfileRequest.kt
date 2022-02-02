@@ -19,5 +19,4 @@ data class UpdateProfileRequest(
 
     val hobbies: MutableList<String>?,
 
-    ) {
-}
+    )
