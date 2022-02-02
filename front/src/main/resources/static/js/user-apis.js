@@ -31,6 +31,10 @@ function getProfile() {
 function updateProfile(nickName, iconImageUrl, intro, hobbies) {
     const options = {
         method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             'nickName': nickName,
             'iconImageUrl': iconImageUrl,

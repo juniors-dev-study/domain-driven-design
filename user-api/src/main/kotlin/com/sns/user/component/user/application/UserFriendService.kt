@@ -1,11 +1,11 @@
 package com.sns.user.component.user.application
 
+import com.sns.commons.exceptions.AlreadyExistException
+import com.sns.commons.exceptions.NotFoundException
 import com.sns.commons.service.EventPublisher
 import com.sns.user.component.user.domains.FriendRequest
 import com.sns.user.component.user.repositories.FriendRequestRepository
 import com.sns.user.component.user.repositories.UserRepository
-import com.sns.user.core.exceptions.AlreadyExistException
-import com.sns.user.core.exceptions.NotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
