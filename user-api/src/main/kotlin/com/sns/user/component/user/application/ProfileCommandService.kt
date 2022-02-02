@@ -2,7 +2,7 @@ package com.sns.user.component.user.application
 
 import com.sns.user.component.user.domains.Profile
 import com.sns.user.component.user.repositories.ProfileRepository
-import com.sns.user.core.exceptions.NoAuthorityException
+import com.sns.commons.exceptions.NoAuthorityException
 import org.springframework.stereotype.Service
 
 /**
