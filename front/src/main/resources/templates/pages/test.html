@@ -10,6 +10,11 @@
                 test-article-api
             </button>
         </p>
+        <p class="control">
+            <button onclick="test_article_click()" class="button is-success">
+                test-get-articles-api
+            </button>
+        </p>
     </div>
     <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
     <script type="text/javascript" th:inline="javascript">
@@ -23,6 +28,27 @@
                     console.log(data)
                 })
         }
+
+        function test_article_click() {
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            }
+
+            return fetch("http://local-front.ddd.sns.com:10100/article-api/v1/articles", options)
+                .then(res => {
+                    console.log(res)
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data)
+                })
+        }
+
     </script>
 </th:block>
 </html>

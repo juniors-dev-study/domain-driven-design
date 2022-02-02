@@ -17,6 +17,5 @@ data class UpdateProfileRequest(
     @Max(200)
     val intro: String?,
 
-    val hobbies: MutableList<String>?,
-
-    )
+    val hobbies: MutableList<String>?
+)

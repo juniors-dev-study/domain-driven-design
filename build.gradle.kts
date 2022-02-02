@@ -29,6 +29,7 @@ subprojects {
     dependencies {
         // spring base
         implementation("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
@@ -68,7 +69,6 @@ project(":user-api") {
         implementation(project(":submodules:commons"))
 
         implementation("org.springframework.boot:spring-boot-starter-web")
-        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
         implementation("org.springframework.security:spring-security-test")
@@ -88,7 +88,6 @@ project(":article-api") {
         implementation(project(":submodules:commons"))
 
         implementation("org.springframework.boot:spring-boot-starter-web")
-        implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.springfox:springfox-boot-starter:3.0.0")
         implementation("org.springframework.security:spring-security-test")

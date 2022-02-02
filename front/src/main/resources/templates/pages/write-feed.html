@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<!-- Page Content -->
+<th:block layout:fragment="content">
+    <h4 class="title is-4 is-spaced bd-anchor-title">글 쓰기</h4>
+    <div class="field">
+        <label class="label">이미지</label>
+        <div class="control">
+            <textarea class="textarea" placeholder="ex. http://www.naver.com/a.jpg, http://www.naver.com/b.jpg" id="image-urls-textarea"></textarea>
+        </div>
+        <p class="help is-success">이미지 여러개는 ,로 구분하고 공백는 지워집니다 :D</p>
+    </div>
+    <div class="field">
+        <label class="label">본문</label>
+        <div class="control">
+            <textarea class="textarea" placeholder="최대 1000자까지 작성가능합니다." id="body-textarea"></textarea>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-primary" id="write-button" onclick="write_feed()">작성하기</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        function write_feed() {
+            const imageUrlsStr = document.getElementById("image-urls-textarea").value;
+            const imageUrls = imageUrlsStr ? imageUrlsStr.replaceAll(" ", "").split(",") : null
+            const body = document.getElementById("body-textarea").value;
+
+            writeArticle(imageUrls, body)
+                .then(res => {
+                    console.log(res)
+                    if (res.ok) {
+                        alert("작성 성공!");
+                        return res.json();
+                    } else {
+                        alert("작성 실패ㅠ");
+                    }
+                })
+                .then(data => {
+                    console.log(data)
+                    if (data !== undefined) {
+                        console.log(data);
+                    }
+                })
+        }
+    </script>
+</th:block>
+
+</html>

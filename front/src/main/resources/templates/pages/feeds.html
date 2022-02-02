@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<!-- Page Content -->
+<th:block layout:fragment="content">
+    <div id="feeds">
+
+    </div>
+
+    <th:block th:replace="fragments/feed/feed :: feedFragment"></th:block>
+    <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bulma.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        const feedsSection = document.getElementById('feeds');
+
+        getMyArticles()
+            .then(res => {
+                console.log(res)
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    alert("피드 가져오기 실패ㅠ");
+                }
+            })
+            .then(data => {
+                console.log(data)
+                if (data !== undefined && Array.isArray(data['articles'])) {
+                    data['articles'].forEach(article => {
+                        const body = article['body'];
+                        const imageUrl = article['imageUrls'][0];   // TODO 일단은 이미지 한개만 사용
+                        const writerUserId = article['writerUserId'];
+                        const updatedAt = article['updatedAt'];
+                        const params = {writerUserId: writerUserId, body: body, imageUrl: imageUrl, updatedAt: updatedAt};
+                        feedsSection.innerHTML += makeTemplate('feed-template', params);
+                    })
+                }
+            })
+    </script>
+</th:block>
+
+</html>
