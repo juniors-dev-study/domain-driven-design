@@ -5,6 +5,7 @@ import com.sns.commons.oauth.LoginUser
 import com.sns.commons.utils.log
 import com.sns.user.component.user.application.UserQueryService
 import com.sns.user.component.user.domains.User
+import com.sns.user.core.exceptions.NotExistException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,6 +18,13 @@ class UserController(
     private val userQueryService: UserQueryService
 ) {
     val log = this.log()
+
+    @GetMapping
+    @IsLoginUser
+    fun getLoginUser(loginUser: LoginUser): User? {
+        val user = userQueryService.getById(loginUser.id ?: throw NotExistException())
+        return user
+    }
 
     @GetMapping("/ids/{id}")
     fun getUser(@PathVariable id: String): User? = userQueryService.getById(id)
