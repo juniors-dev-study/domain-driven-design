@@ -5,7 +5,7 @@ import com.sns.article.component.reaction.domains.ReactionTargetType
 import com.sns.article.component.reaction.domains.ReactionType
 
 class ReactionDto(
-    val id: Long,
+    val id: Long?,
     val targetType: ReactionTargetType,
     val targetId: Long,
     val type: ReactionType,
@@ -19,7 +19,7 @@ class ReactionDto(
                 reaction.target.type,
                 reaction.target.id,
                 reaction.type,
-                reaction.userId
+                reaction.userId,
             )
         }
     }
