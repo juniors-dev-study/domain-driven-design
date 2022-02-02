@@ -1,6 +1,7 @@
 package com.sns.user.endpoints.user
 
 import com.sns.commons.annotation.IsLoginUser
+import com.sns.commons.exceptions.NotExistException
 import com.sns.commons.oauth.LoginUser
 import com.sns.user.component.user.application.ProfileCommandService
 import com.sns.user.component.user.application.ProfileQueryService

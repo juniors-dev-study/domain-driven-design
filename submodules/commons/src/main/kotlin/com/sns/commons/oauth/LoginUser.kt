@@ -1,9 +1,10 @@
 package com.sns.commons.oauth
 
+import com.sns.commons.exceptions.NoAuthorityException
 import org.springframework.security.core.userdetails.User
 
 data class LoginUser(
-    val id: String? = null,
+    val id: String,
     val name: String? = null,
     val scope: List<String>? = listOf(),
     val authorities: List<String>? = listOf(),
@@ -11,7 +12,7 @@ data class LoginUser(
 ) {
     companion object {
         fun from(map: Map<String, Any>): LoginUser = LoginUser(
-            id = map.getOrDefault("user_id", "") as String,
+            id = map["user_id"]?.toString() ?: throw  NoAuthorityException("id가 없습니다"),
             name = map.getOrDefault("user_nickname", "") as String,
             clientId = map.getOrDefault("client_id", "") as String,
             scope = map.getOrDefault("scope", listOf<String>()) as List<String>,

@@ -1,11 +1,11 @@
 package com.sns.user.component.user.application
 
 import com.sns.commons.DomainEvent
+import com.sns.commons.exceptions.AlreadyExistException
 import com.sns.commons.service.EventPublisher
 import com.sns.user.component.user.domains.User
 import com.sns.user.component.user.events.UserStatusChangedEvent
 import com.sns.user.component.user.repositories.UserRepository
-import com.sns.user.core.exceptions.AlreadyExistException
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
