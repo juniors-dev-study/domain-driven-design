@@ -6,7 +6,6 @@ import com.sns.commons.oauth.LoginUser
 import com.sns.user.component.user.application.ProfileCommandService
 import com.sns.user.component.user.application.ProfileQueryService
 import com.sns.user.core.config.SwaggerTag
-import com.sns.user.core.exceptions.NotExistException
 import com.sns.user.endpoints.user.requests.UpdateProfileRequest
 import com.sns.user.endpoints.user.responses.ProfileResponse
 import io.swagger.annotations.ApiOperation
