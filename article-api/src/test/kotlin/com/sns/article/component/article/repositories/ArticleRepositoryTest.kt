@@ -44,7 +44,7 @@ internal class ArticleRepositoryTest {
         val writtenArticle3 = articleRepository.save(article)
 
         // then
-        val foundArticles = articleRepository.findAllByWriterUserId(writtenArticle3.writerUserId).orElseThrow()
+        val foundArticles = articleRepository.findAllByWriterUserId(writtenArticle3.writerUserId)
         assertNotNull(foundArticles)
         assertTrue(foundArticles.isNotEmpty())
     }
