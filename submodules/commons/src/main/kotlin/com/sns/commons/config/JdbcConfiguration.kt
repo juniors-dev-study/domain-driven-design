@@ -35,6 +35,7 @@ class JdbcConfiguration : AbstractJdbcConfiguration() {
         conversions: JdbcCustomConversions,
         dialect: Dialect
     ): JdbcConverter {
+        println("hello im jdbc")
         val jdbcTypeFactory = DefaultJdbcTypeFactory(operations.jdbcOperations)
 
         val baseConverter = BasicJdbcConverter(mappingContext, relationResolver, conversions, jdbcTypeFactory, dialect.identifierProcessing)
