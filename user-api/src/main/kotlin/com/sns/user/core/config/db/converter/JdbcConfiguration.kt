@@ -1,5 +1,6 @@
 package com.sns.user.core.config.db.converter
 
+import com.sns.commons.config.JdbcConfiguration
 import com.sns.user.component.user.domains.UserId
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,7 +28,7 @@ import org.springframework.util.ClassUtils
  * @author Hyounglin Jun
  */
 @Configuration
-class JdbcConfiguration : AbstractJdbcConfiguration() {
+class JdbcConfiguration : JdbcConfiguration() {
     override fun jdbcCustomConversions(): JdbcCustomConversions {
         return JdbcCustomConversions(
             listOf(

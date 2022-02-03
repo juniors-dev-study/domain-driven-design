@@ -11,5 +11,5 @@ import java.util.*
  */
 @Repository
 interface ArticleRepository : CrudRepository<Article, ArticleId> {
-    fun findAllByWriterUserId(writerUserId: String): Optional<List<Article>>
+    fun findAllByWriterUserId(writerUserId: String): List<Article>
 }

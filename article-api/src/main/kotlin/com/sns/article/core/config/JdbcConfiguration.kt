@@ -1,6 +1,7 @@
 package com.sns.article.core.config
 
 import com.sns.article.component.article.domains.ArticleId
+import com.sns.commons.config.JdbcConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.TypeDescriptor
@@ -24,13 +25,15 @@ import java.math.BigInteger
  * @author Hyounglin Jun
  */
 @Configuration
-class JdbcConfiguration : AbstractJdbcConfiguration() {
+class JdbcConfiguration : JdbcConfiguration() {
 
     override fun jdbcCustomConversions(): JdbcCustomConversions {
         return JdbcCustomConversions(
             listOf(
-                ArticleIdToBigIntegerConverter(),
-                BigIntegerToArticleIdConverter(),
+                ArticleIdToIntConverter(),
+                IntToArticleIdConverter(),
+                // ArticleIdToBigIntegerConverter(),
+                // BigIntegerToArticleIdConverter(),
             ),
         )
     }

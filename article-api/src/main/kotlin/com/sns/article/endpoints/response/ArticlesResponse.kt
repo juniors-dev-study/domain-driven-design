@@ -17,7 +17,7 @@ data class ArticlesResponse(
             list: List<Article>,
         ): ArticlesResponse {
             return ArticlesResponse(
-                list.stream().map { ArticleResponse(it) }.toList(),
+                list.map { ArticleResponse(it) }.toList(),
             )
         }
     }

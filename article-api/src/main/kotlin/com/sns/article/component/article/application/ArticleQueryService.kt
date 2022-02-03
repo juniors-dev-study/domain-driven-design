@@ -15,6 +15,6 @@ class ArticleQueryService(
         writerUserId: String,
         // TODO 페이징 추가 필요
     ): List<Article> {
-        return articleRepository.findAllByWriterUserId(writerUserId).orElse(emptyList())
+        return articleRepository.findAllByWriterUserId(writerUserId)
     }
 }

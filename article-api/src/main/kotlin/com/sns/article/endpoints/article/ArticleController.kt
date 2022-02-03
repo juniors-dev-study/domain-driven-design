@@ -34,7 +34,7 @@ class ArticleController(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/articles")
     fun getArticles(loginUser: LoginUser): ArticlesResponse {
-        return ArticlesResponse.create(articleQueryService.getArticles(loginUser.id ?: throw Exception()))
+        return ArticlesResponse.create(articleQueryService.getArticles(loginUser.id))
     }
 
     @ApiOperation("게시물 작성")
@@ -51,6 +51,6 @@ class ArticleController(
         loginUser: LoginUser,
         @RequestBody request: WriteArticleRequest,
     ) {
-        articleCommandService.create(loginUser.id ?: throw Exception(), request.body, request.imageUrls)
+        articleCommandService.create(loginUser.id, request.body, request.imageUrls)
     }
 }
