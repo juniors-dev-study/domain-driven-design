@@ -30,7 +30,6 @@ import org.springframework.util.ClassUtils
 @Configuration
 class JdbcConfiguration : JdbcConfiguration() {
     override fun jdbcCustomConversions(): JdbcCustomConversions {
-        println("hello im jdbc2")
         return JdbcCustomConversions(
             listOf(
                 UserIdToStringConverter(),
