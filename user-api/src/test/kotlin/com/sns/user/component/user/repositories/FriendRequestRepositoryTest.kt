@@ -1,7 +1,6 @@
-package com.sns.user.components.user.repositories
+package com.sns.user.component.user.repositories
 
 import com.sns.user.component.user.domains.FriendRequest
-import com.sns.user.component.user.repositories.FriendRequestRepository
 import com.sns.user.isNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

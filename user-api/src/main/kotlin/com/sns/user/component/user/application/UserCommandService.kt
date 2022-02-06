@@ -32,7 +32,7 @@ class UserCommandService(
     fun activate(userId: String) {
         val user = userRepository.findByIdOrNull(userId) ?: throw NoAuthorityException()
 
-        user.activate() {
+        user.activate {
             eventPublisher.publish(it)
         }
         userRepository.save(user)

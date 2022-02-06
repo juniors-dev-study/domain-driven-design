@@ -2,6 +2,7 @@ package com.sns.article.endpoints.article
 
 import com.sns.article.component.article.application.ArticleCommandService
 import com.sns.article.component.article.application.ArticleQueryService
+import com.sns.article.component.article.domains.ArticleId
 import com.sns.article.endpoints.request.WriteArticleRequest
 import com.sns.article.endpoints.response.ArticlesResponse
 import com.sns.commons.annotation.IsLoginUser
@@ -11,7 +12,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * @author Hyounglin Jun
@@ -52,5 +60,22 @@ class ArticleController(
         @RequestBody request: WriteArticleRequest,
     ) {
         articleCommandService.create(loginUser.id, request.body, request.imageUrls)
+    }
+
+    @ApiOperation("게시물 삭제 (연관 좋아요, 댓글 포함)")
+    @ApiResponses(
+        value = [
+            ApiResponse(description = "성공", responseCode = "202"),
+            ApiResponse(description = "해당 유저가 없음", responseCode = "409"),
+        ],
+    )
+    @IsLoginUser
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/v1/articles/id/{articleId}")
+    fun deleteArticle(
+        @PathVariable articleId: Int,
+        loginUser: LoginUser,
+    ) {
+        articleCommandService.delete(loginUser.id, ArticleId(articleId))
     }
 }

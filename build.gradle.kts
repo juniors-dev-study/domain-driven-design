@@ -29,6 +29,7 @@ subprojects {
     dependencies {
         // spring base
         implementation("org.springframework.boot:spring-boot-starter-validation")
+        implementation("org.springframework.kafka:spring-kafka:2.7.9")
 
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")

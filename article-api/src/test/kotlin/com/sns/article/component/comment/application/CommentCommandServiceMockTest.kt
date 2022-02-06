@@ -2,7 +2,7 @@ package com.sns.article.component.comment.application
 
 import com.sns.article.component.comment.domains.Comment
 import com.sns.article.component.comment.domains.RootType
-import com.sns.article.component.comment.repositories.CommentCrudRepository
+import com.sns.article.component.comment.repositories.CommentRepository
 import com.sns.commons.exceptions.NoAuthorityException
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.assertThrows
 
 internal class CommentCommandServiceMockTest {
     @MockK
-    private lateinit var commentCrudRepository: CommentCrudRepository
+    private lateinit var commentRepository: CommentRepository
 
     @InjectMockKs
     private lateinit var commentCommandService: CommentCommandService
@@ -31,16 +31,16 @@ internal class CommentCommandServiceMockTest {
     internal fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { commentCrudRepository.save(any()) } returnsArgument 0
-        every { commentCrudRepository.deleteById(any()) } returns Unit
-        every { commentCrudRepository.findById(1) } returns Optional.of(comment)
+        every { commentRepository.save(any()) } returnsArgument 0
+        every { commentRepository.deleteById(any()) } returns Unit
+        every { commentRepository.findById(1) } returns Optional.of(comment)
     }
 
     @Test
     fun create() {
         val rootId = 999
         commentCommandService.create(RootType.ARTICLE, rootId.toString(), "새로운 댓글", "writerId")
-        verify { commentCrudRepository.save(ofType(Comment::class)) }
+        verify { commentRepository.save(ofType(Comment::class)) }
     }
 
     @DisplayName("동일한 writer가 댓글을 수정할 경우, 성공해야한다.")
@@ -48,7 +48,7 @@ internal class CommentCommandServiceMockTest {
     fun update_success() {
         commentCommandService.updateContents(comment.id ?: 0, "내용 업데이트", comment.writerId)
 
-        verify { commentCrudRepository.save(ofType(Comment::class)) }
+        verify { commentRepository.save(ofType(Comment::class)) }
     }
 
     @DisplayName("다른 writer가 댓글을 수정할경우, 실패해야한다.")
@@ -64,7 +64,7 @@ internal class CommentCommandServiceMockTest {
     fun delete_success() {
         commentCommandService.delete(comment.id ?: 0, comment.writerId)
 
-        verify { commentCrudRepository.deleteById(comment.id ?: 0) }
+        verify { commentRepository.deleteById(comment.id ?: 0) }
     }
 
     @DisplayName("다른 writer가 댓글을 삭제할 경우, 실패해야한다.")
