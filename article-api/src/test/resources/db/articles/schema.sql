@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS `article`
     updated_at     DATETIME    NOT NULL COMMENT '마지막 수정 시간'
 );
 
-CREATE INDEX article_writer_user_id_index ON article (writer_user_id ASC);
+CREATE INDEX IF NOT EXISTS article_writer_user_id_index ON article (writer_user_id ASC);
 
