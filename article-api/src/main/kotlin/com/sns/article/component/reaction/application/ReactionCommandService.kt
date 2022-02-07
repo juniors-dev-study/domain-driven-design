@@ -7,7 +7,6 @@ import com.sns.article.component.reaction.domains.ReactionValidator
 import com.sns.article.component.reaction.dtos.ReactionDto
 import com.sns.article.endpoints.reaction.requests.ReactionCreateRequest
 import com.sns.commons.exceptions.NotFoundException
-import com.sns.commons.oauth.LoginUser
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,13 +18,13 @@ class ReactionCommandService(
     private val reactionValidator: ReactionValidator,
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {
-    fun create(request: ReactionCreateRequest, loginUser: LoginUser): ReactionDto {
-        reactionValidator.validate(request, loginUser)
+    fun create(request: ReactionCreateRequest, userId: String): ReactionDto {
+        reactionValidator.validate(request, userId)
         val reaction = reactionRepository.save(
             Reaction(
                 target = ReactionTarget(request.targetType, request.targetId),
                 type = request.type,
-                userId = loginUser.id,
+                userId = userId,
             ),
         )
         reaction.created(applicationEventPublisher)
@@ -33,9 +32,9 @@ class ReactionCommandService(
         return ReactionDto.from(reaction)
     }
 
-    fun delete(id: Long, loginUser: LoginUser) {
+    fun delete(id: Long, userId: String) {
         val reaction = reactionRepository.findById(id).orElseThrow { NotFoundException(id.toString()) }
-        reaction.deleteBy(loginUser)
+        reaction.deleteBy(userId)
         reactionRepository.deleteById(id)
     }
 }

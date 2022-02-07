@@ -1,7 +1,6 @@
 package com.sns.article.component.reaction.domains
 
 import com.sns.commons.exceptions.NoAuthorityException
-import com.sns.commons.oauth.LoginUser
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
@@ -19,8 +18,8 @@ class Reaction(
         eventPublisher?.publishEvent(ReactionCreatedEvent(id!!))
     }
 
-    fun deleteBy(loginUser: LoginUser) {
-        if (userId != loginUser.id) {
+    fun deleteBy(userId: String) {
+        if (userId != userId) {
             throw NoAuthorityException()
         }
     }

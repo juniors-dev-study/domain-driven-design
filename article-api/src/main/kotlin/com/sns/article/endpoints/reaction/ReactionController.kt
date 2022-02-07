@@ -26,7 +26,7 @@ class ReactionController(
     @IsLoginUser
     @PostMapping
     fun createReaction(@Valid @RequestBody request: ReactionCreateRequest, loginUser: LoginUser): ResponseEntity<Void> {
-        val reaction = reactionCommandService.create(request, loginUser)
+        val reaction = reactionCommandService.create(request, loginUser.id)
         return ResponseEntity.created(URI.create("/api/v1/reactions/" + reaction.id)).build()
     }
 
@@ -39,7 +39,7 @@ class ReactionController(
     @IsLoginUser
     @DeleteMapping("/{reactionId}")
     fun deleteReaction(@PathVariable reactionId: Long, loginUser: LoginUser): ResponseEntity<Void> {
-        reactionCommandService.delete(reactionId, loginUser)
+        reactionCommandService.delete(reactionId, loginUser.id)
         return ResponseEntity.noContent().build()
     }
 }
