@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping
  */
 @Controller
 class FeedController {
-    @GetMapping("/feeds")
+    @GetMapping("/my-feeds")
     fun getFeeds(): String {
-        return "pages/feeds"
+        return "pages/feed/my-feeds"
     }
 
     @GetMapping("/write-feed")
     fun writeFeed(): String {
-        return "pages/write-feed"
+        return "pages/feed/write-feed"
+    }
+
+    @GetMapping("/modify-feed")
+    fun modifyFeed(): String {
+        return "pages/feed/modify-feed"
     }
 }

@@ -1,5 +1,6 @@
 package com.sns.article.component.article.application
 
+import com.sns.article.component.article.domains.ArticleId
 import com.sns.article.component.article.repositories.ArticleRepository
 import com.sns.article.component.comment.application.CommentCommandService
 import com.sns.article.component.comment.domains.RootType
@@ -26,6 +27,23 @@ class ArticleCommandServiceTest {
 
     @Autowired
     lateinit var articleCommandService: ArticleCommandService
+
+    @Test
+    fun modify() {
+        // given
+        val writerId = "userId"
+        val article = articleCommandService.create(writerId, "내용")
+        articleRepository.findByIdOrNull(article.articleId!!)
+
+        // then
+        val modifiedBody = "변경된 내용"
+        val modifiedArticle = articleCommandService.modify(article.articleId ?: ArticleId(0), writerId, modifiedBody, listOf())
+
+        // when
+        val result = articleRepository.findByIdOrNull(modifiedArticle.articleId!!)
+        assertThat(result).isNotNull
+        assertThat(result?.body).isEqualTo(modifiedBody)
+    }
 
     @Test
     fun delete() {

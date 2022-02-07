@@ -22,21 +22,3 @@ data class ArticlesResponse(
         }
     }
 }
-
-data class ArticleResponse(
-    val articleId: ArticleId?,
-    val imageUrls: MutableList<String>?,
-    val body: String?,
-    val writerUserId: String,
-    var updatedAt: Instant,
-    val createdAt: Instant,
-) {
-    constructor(article: Article) : this(
-        articleId = article.articleId,
-        imageUrls = article.imageUrls,
-        body = article.body,
-        writerUserId = article.writerUserId,
-        updatedAt = article.updatedAt,
-        createdAt = article.createdAt,
-    )
-}

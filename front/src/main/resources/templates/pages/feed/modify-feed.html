@@ -4,13 +4,13 @@
       layout:decorate="~{layouts/layout}">
 <!-- Page Content -->
 <th:block layout:fragment="content">
-    <h4 class="title is-4 is-spaced bd-anchor-title">글 쓰기</h4>
+    <h4 class="title is-4 is-spaced bd-anchor-title">글 수정하기</h4>
     <div class="field">
         <label class="label">이미지</label>
         <div class="control">
             <textarea class="textarea" placeholder="ex. http://www.naver.com/a.jpg, http://www.naver.com/b.jpg" id="image-urls-textarea"></textarea>
         </div>
-        <p class="help is-success">이미지 여러개는 ,로 구분하고 공백는 지워집니다 :D</p>
+        <p class="help is-success">이미지 여러개는 ,로 구분하고 공백은 지워집니다 :D</p>
     </div>
     <div class="field">
         <label class="label">본문</label>
@@ -26,6 +26,29 @@
 
     <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
     <script type="text/javascript" th:inline="javascript">
+        getMyArticle()
+            .then(res => {
+                console.log(res)
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    alert("피드 가져오기 실패ㅠ");
+                }
+            })
+            .then(data => {
+                console.log(data)
+                if (data !== undefined && Array.isArray(data['articles'])) {
+                    data['articles'].forEach(article => {
+                        const body = article['body'];
+                        const imageUrl = article['imageUrls'][0];   // TODO 일단은 이미지 한개만 사용
+                        const writerUserId = article['writerUserId'];
+                        const updatedAt = article['updatedAt'];
+                        const params = {writerUserId: writerUserId, body: body, imageUrl: imageUrl, updatedAt: updatedAt};
+                        feedsSection.innerHTML += makeTemplate('feed-template', params);
+                    })
+                }
+            })
+
         function write_feed() {
             const imageUrlsStr = document.getElementById("image-urls-textarea").value;
             const imageUrls = imageUrlsStr ? imageUrlsStr.replaceAll(" ", "").split(",") : null
