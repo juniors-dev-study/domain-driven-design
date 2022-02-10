@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
@@ -40,5 +41,15 @@ internal class CommentV1ControllerTest {
 
     @Test
     fun delete() {
+    }
+
+    @Test
+    internal fun getByRoot() {
+        val rootId = 999
+        val rootType = Comment.Root.Type.ARTICLE
+        mockMvc.perform(
+            get("/api/v1/comments/roots/$rootType:$rootId")
+                .contentType(MediaType.APPLICATION_JSON),
+        ).andExpect(MockMvcResultMatchers.status().isOk)
     }
 }
