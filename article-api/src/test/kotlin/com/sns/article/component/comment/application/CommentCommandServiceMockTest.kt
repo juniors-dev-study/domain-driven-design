@@ -1,7 +1,6 @@
 package com.sns.article.component.comment.application
 
 import com.sns.article.component.comment.domains.Comment
-import com.sns.article.component.comment.domains.RootType
 import com.sns.article.component.comment.repositories.CommentCrudRepository
 import com.sns.commons.exceptions.NoAuthorityException
 import io.mockk.MockKAnnotations
@@ -25,7 +24,8 @@ internal class CommentCommandServiceMockTest {
 
     private val rootId = 1
 
-    private val comment = Comment(1, RootType.ARTICLE, rootId.toString(), "기존 내용", "writerId", Instant.now(), Instant.now())
+    private val comment =
+        Comment(1, Comment.Root(Comment.Root.Type.ARTICLE, rootId.toString()), "기존 내용", "writerId", Instant.now(), Instant.now())
 
     @BeforeEach
     internal fun setUp() {
@@ -39,7 +39,7 @@ internal class CommentCommandServiceMockTest {
     @Test
     fun create() {
         val rootId = 999
-        commentCommandService.create(RootType.ARTICLE, rootId.toString(), "새로운 댓글", "writerId")
+        commentCommandService.create(Comment.Root.Type.ARTICLE, rootId.toString(), "새로운 댓글", "writerId")
         verify { commentCrudRepository.save(ofType(Comment::class)) }
     }
 

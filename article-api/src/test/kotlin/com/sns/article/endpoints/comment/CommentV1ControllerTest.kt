@@ -1,6 +1,6 @@
 package com.sns.article.endpoints.comment
 
-import com.sns.article.component.comment.domains.RootType
+import com.sns.article.component.comment.domains.Comment
 import com.sns.article.endpoints.comment.requests.CommentCreateRequest
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -25,7 +25,7 @@ internal class CommentV1ControllerTest {
     @WithLoginUser
     fun create() {
         val rootId = 999
-        val request = CommentCreateRequest(RootType.ARTICLE, rootId = rootId.toString(), "contents")
+        val request = CommentCreateRequest(Comment.Root.Type.ARTICLE, rootId = rootId.toString(), "contents")
         mockMvc.perform(
             post("/api/v1/comments")
                 .contentType(MediaType.APPLICATION_JSON)

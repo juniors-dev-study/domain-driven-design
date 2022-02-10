@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Persistent
+import org.springframework.data.relational.core.mapping.Embedded
 
 fun String.assertNotBlank() = require(this.isNotBlank()) { "내용이 없습니다." }
 
@@ -22,10 +23,8 @@ data class Comment(
     var id: Long? = null,
 
     @NotNull
-    val rootType: RootType,
-
-    @NotBlank
-    val rootId: String,
+    @field:Embedded(onEmpty = Embedded.OnEmpty.USE_EMPTY, prefix = "root_")
+    val root: Root,
 
     @NotBlank
     var contents: String,
@@ -50,14 +49,22 @@ data class Comment(
     fun checkAuth(userId: String) = (userId != writerId).ifTrue { throw NoAuthorityException() }
 
     companion object {
-        fun create(rootType: RootType, rootId: String, contents: String, writerId: String): Comment {
+        fun create(root: Root, contents: String, writerId: String): Comment {
             contents.assertNotBlank()
 
-            return Comment(rootType = rootType, rootId = rootId, contents = contents, writerId = writerId)
+            return Comment(root = root, contents = contents, writerId = writerId)
+        }
+    }
+
+    class Root(
+        @NotNull
+        val type: Type,
+        @NotBlank
+        val id: String
+    ) {
+        enum class Type {
+            ARTICLE, COMMENT
         }
     }
 }
 
-enum class RootType {
-    ARTICLE, COMMENT
-}

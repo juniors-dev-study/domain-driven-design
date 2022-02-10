@@ -1,7 +1,6 @@
 package com.sns.article.component.comment.application
 
 import com.sns.article.component.comment.domains.Comment
-import com.sns.article.component.comment.domains.RootType
 import com.sns.article.component.comment.repositories.CommentCrudRepository
 import com.sns.commons.exceptions.NotFoundException
 import org.springframework.stereotype.Service
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service
 class CommentCommandService(
     private val commentCrudRepository: CommentCrudRepository
 ) {
-    fun create(rootType: RootType, rootId: String, contents: String, writerId: String) {
-        val newComment = Comment(rootType = rootType, rootId = rootId, contents = contents, writerId = writerId)
+    fun create(type: Comment.Root.Type, rootId: String, contents: String, writerId: String) {
+        val newComment = Comment(root = Comment.Root(type, rootId), contents = contents, writerId = writerId)
         commentCrudRepository.save(newComment)
     }
 
