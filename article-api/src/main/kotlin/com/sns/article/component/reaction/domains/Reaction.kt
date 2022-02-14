@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table
 @Table(value = "reaction")
 class Reaction(
     @field:Id @field:Column(value = "id") var id: Long? = null,
-    @field:Embedded(onEmpty = Embedded.OnEmpty.USE_NULL) val target: ReactionTarget,
+    @field:Embedded(onEmpty = Embedded.OnEmpty.USE_EMPTY) val target: ReactionTarget,
     @field:Column(value = "type") val type: ReactionType,
     @field:Column(value = "user_id") val userId: String
 ) {
