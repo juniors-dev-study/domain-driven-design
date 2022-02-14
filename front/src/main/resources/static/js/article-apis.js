@@ -10,14 +10,18 @@ function getMyArticles() {
 }
 
 function getMyArticle(articleId) {
+    return fetch(`http://local-front.ddd.sns.com:10100/article-api/v1/articles/` + articleId, options)
+}
+
+function getArticleScopes() {
     const options = {
         method: 'GET',
     }
 
-    return fetch(`http://local-front.ddd.sns.com:10100/article-api/v1/articles/` + articleId, options)
+    return fetch("http://local-front.ddd.sns.com:10100/article-api/v1/articles/scopes", options)
 }
 
-function writeArticle(imageUrls, body) {
+function writeArticle(imageUrls, body, scope) {
     const options = {
         method: 'POST',
         headers: {
@@ -27,6 +31,7 @@ function writeArticle(imageUrls, body) {
         body: JSON.stringify({
             body: body,
             imageUrls: imageUrls,
+            scope: scope,
         })
     }
 

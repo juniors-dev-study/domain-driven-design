@@ -1,7 +1,10 @@
 package com.sns.article.component.article.repositories
 
 import com.sns.article.component.article.domains.Article
-import org.junit.jupiter.api.Assertions.*
+import com.sns.article.component.article.domains.ArticleScope
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,7 +23,7 @@ internal class ArticleRepositoryTest {
         val writerUserId = "test@naver.com"
         val body = "본문입니다."
         val imageUrls = listOf("http://aaa.com", "http://bbb.com")
-        val article = Article.create(writerUserId, body, imageUrls)
+        val article = Article.create(writerUserId, body, imageUrls, ArticleScope.PUBLIC)
 
         // when
         val writtenArticle = articleRepository.save(article)
@@ -36,7 +39,7 @@ internal class ArticleRepositoryTest {
         val writerUserId = "test@naver.com"
         val body = "본문입니다."
         val imageUrls = listOf("http://aaa.com", "http://bbb.com")
-        val article = Article.create(writerUserId, body, imageUrls)
+        val article = Article.create(writerUserId, body, imageUrls, ArticleScope.PUBLIC)
 
         // when
         val writtenArticle1 = articleRepository.save(article)

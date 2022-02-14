@@ -2,6 +2,7 @@ package com.sns.article.component.article.application
 
 import com.sns.article.component.article.domains.Article
 import com.sns.article.component.article.domains.ArticleId
+import com.sns.article.component.article.domains.ArticleScope
 import com.sns.article.component.article.repositories.ArticleRepository
 import com.sns.article.component.comment.domains.RootType
 import com.sns.article.component.comment.repositories.CommentRepository
@@ -25,6 +26,7 @@ class ArticleCommandService(
         userId: String,
         body: String?,
         imageUrls: List<String>? = null,
+        scope: ArticleScope = ArticleScope.PUBLIC,
     ): Article {
         val article = Article.create(userId, body, imageUrls)
         return articleRepository.save(article)
