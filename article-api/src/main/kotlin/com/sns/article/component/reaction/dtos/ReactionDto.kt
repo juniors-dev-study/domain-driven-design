@@ -19,7 +19,7 @@ class ReactionDto(
                 reaction.target.type,
                 reaction.target.id,
                 reaction.type,
-                reaction.userId
+                reaction.userId,
             )
         }
     }
