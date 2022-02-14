@@ -28,7 +28,7 @@ class ArticleCommandService(
         imageUrls: List<String>? = null,
         scope: ArticleScope = ArticleScope.PUBLIC,
     ): Article {
-        val article = Article.create(userId, body, imageUrls)
+        val article = Article.create(userId, body, imageUrls, scope)
         return articleRepository.save(article)
     }
 
