@@ -1,4 +1,4 @@
-package com.sns.user.components.test
+package com.sns.user.component.test
 
 import com.ninjasquad.springmockk.SpykBean
 import com.sns.commons.service.EventPublisher
