@@ -40,7 +40,7 @@ class ArticleCommandService(
         val article = articleRepository.findById(articleId).orElseThrow { NotFoundException("작성한 글이 없습니다.") }
         if(article.writerUserId != userId) throw NoAuthorityException("작성한 글과 작성자가 일치하지 않습니다.")
 
-        val modifiedArticle = Article.modify(articleId, userId, body, imageUrls)
+        val modifiedArticle = article.modify(body, imageUrls)
         return articleRepository.save(modifiedArticle)
     }
 

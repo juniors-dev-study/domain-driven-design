@@ -14,7 +14,7 @@ function getMyArticle(articleId) {
         method: 'GET',
     }
 
-    return fetch(`http://local-front.ddd.sns.com:10100/article-api/v1/articles/{$articleId}`, options)
+    return fetch(`http://local-front.ddd.sns.com:10100/article-api/v1/articles/` + articleId, options)
 }
 
 function writeArticle(imageUrls, body) {
@@ -33,7 +33,7 @@ function writeArticle(imageUrls, body) {
     return fetch("http://local-front.ddd.sns.com:10100/article-api/v1/articles", options)
 }
 
-function putArticle(articleId, imageUrls, body) {
+function modifyArticle(articleId, imageUrls, body) {
     const options = {
         method: 'PUT',
         headers: {

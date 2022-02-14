@@ -47,20 +47,21 @@ data class Article(
                 body = body,
             ).apply { new = true }
         }
+    }
 
-        fun modify(
-            articleId: ArticleId,
-            writerUserId: String,
-            body: String?,
-            imageUrls: List<String>?,
-        ): Article {
-            return Article(
-                articleId = articleId,
-                writerUserId = writerUserId,
-                imageUrls = imageUrls?.toMutableList(),
-                body = body,
-            ).apply { new = false }
-        }
+
+    fun modify(
+        body: String?,
+        imageUrls: List<String>?,
+    ): Article {
+        return Article(
+            articleId = articleId,
+            writerUserId = writerUserId,
+            imageUrls = imageUrls?.toMutableList(),
+            body = body,
+            updatedAt = Instant.now(),
+            createdAt = createdAt
+        ).apply { new = false }
     }
 
     @Transient

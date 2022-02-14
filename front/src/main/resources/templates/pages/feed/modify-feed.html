@@ -5,6 +5,7 @@
 <!-- Page Content -->
 <th:block layout:fragment="content">
     <h4 class="title is-4 is-spaced bd-anchor-title">글 수정하기</h4>
+    <input style="display: none" id="article-id-input" type="text" th:value="${articleId}">
     <div class="field">
         <label class="label">이미지</label>
         <div class="control">
@@ -20,13 +21,13 @@
     </div>
     <div class="field is-grouped">
         <div class="control">
-            <button class="button is-primary" id="write-button" onclick="write_feed()">작성하기</button>
+            <button class="button is-primary" id="write-button" onclick="modify_feed()">수정하기</button>
         </div>
     </div>
 
     <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
     <script type="text/javascript" th:inline="javascript">
-        getMyArticle()
+        getMyArticle(document.getElementById("article-id-input").value)
             .then(res => {
                 console.log(res)
                 if (res.ok) {
@@ -37,24 +38,20 @@
             })
             .then(data => {
                 console.log(data)
-                if (data !== undefined && Array.isArray(data['articles'])) {
-                    data['articles'].forEach(article => {
-                        const body = article['body'];
-                        const imageUrl = article['imageUrls'][0];   // TODO 일단은 이미지 한개만 사용
-                        const writerUserId = article['writerUserId'];
-                        const updatedAt = article['updatedAt'];
-                        const params = {writerUserId: writerUserId, body: body, imageUrl: imageUrl, updatedAt: updatedAt};
-                        feedsSection.innerHTML += makeTemplate('feed-template', params);
-                    })
-                }
+                const body = data['body'];
+                const imageUrls = data['imageUrls'];   // TODO 일단은 이미지 한개만 사용
+
+                document.getElementById("image-urls-textarea").value = imageUrls;
+                document.getElementById("body-textarea").value = body;
             })
 
-        function write_feed() {
+        function modify_feed() {
+            const articleId = document.getElementById("article-id-input").value;
             const imageUrlsStr = document.getElementById("image-urls-textarea").value;
             const imageUrls = imageUrlsStr ? imageUrlsStr.replaceAll(" ", "").split(",") : null
             const body = document.getElementById("body-textarea").value;
 
-            writeArticle(imageUrls, body)
+            modifyArticle(articleId, imageUrls, body)
                 .then(res => {
                     console.log(res)
                     if (res.ok) {

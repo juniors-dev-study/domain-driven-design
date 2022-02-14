@@ -40,7 +40,7 @@
                 feedsSection.querySelectorAll('.card').forEach((card) => {
                     console.log(card)
                     const articleId = card.querySelector(".article-id").value;
-                    card.querySelector(".modify-feed-button").href = "/modify-feed" // TODO 수정 필요
+                    card.querySelector(".modify-feed-button").href = "/modify-feed/" + articleId // TODO 수정 필요
                     card.querySelector(".delete-feed-button")
                         .onclick = function () {
                         deleteArticle(articleId);
