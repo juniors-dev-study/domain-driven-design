@@ -71,7 +71,7 @@ class ArticleController(
     )
     @IsLoginUser
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/v1/articles/id/{articleId}")
+    @DeleteMapping("/v1/articles/{articleId}")
     fun deleteArticle(
         @PathVariable articleId: Int,
         loginUser: LoginUser,
