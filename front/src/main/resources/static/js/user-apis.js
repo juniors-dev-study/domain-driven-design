@@ -5,6 +5,10 @@ const USER_API = 'http://localhost:10001'
 function register(email, password, name) {
     const options = {
         method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
             name: name,
             email: email,
