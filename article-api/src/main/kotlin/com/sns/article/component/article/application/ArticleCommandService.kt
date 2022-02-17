@@ -6,9 +6,8 @@ import com.sns.article.component.article.repositories.ArticleRepository
 import com.sns.article.component.comment.domains.RootType
 import com.sns.article.component.comment.repositories.CommentRepository
 import com.sns.article.component.reaction.domains.ReactionRepository
-import com.sns.commons.exceptions.NoAuthorityException
 import com.sns.commons.exceptions.NotFoundException
-import org.springframework.security.core.userdetails.UsernameNotFoundException
+import com.sns.commons.exceptions.NoAuthorityException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
