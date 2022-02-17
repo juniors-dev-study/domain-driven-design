@@ -27,14 +27,26 @@
                 console.log(data)
                 if (data !== undefined && Array.isArray(data['articles'])) {
                     data['articles'].forEach(article => {
+                        const articleId = article['articleId']['id'];
                         const body = article['body'];
                         const imageUrl = article['imageUrls'][0];   // TODO 일단은 이미지 한개만 사용
                         const writerUserId = article['writerUserId'];
                         const updatedAt = article['updatedAt'];
-                        const params = {writerUserId: writerUserId, body: body, imageUrl: imageUrl, updatedAt: updatedAt};
+                        const params = {articleId: articleId, writerUserId: writerUserId, body: body, imageUrl: imageUrl, updatedAt: updatedAt};
                         feedsSection.innerHTML += makeTemplate('feed-template', params);
                     })
                 }
+
+                feedsSection.querySelectorAll('.card').forEach((card) => {
+                    console.log(card)
+                    const articleId = card.querySelector(".article-id").value;
+                    card.querySelector(".modify-feed-button").href = "/modify-feed/" + articleId // TODO 수정 필요
+                    card.querySelector(".delete-feed-button")
+                        .onclick = function () {
+                        deleteArticle(articleId);
+                        location.reload();
+                    };
+                } )
             })
     </script>
 </th:block>

@@ -7,6 +7,7 @@ import com.sns.article.component.comment.domains.RootType
 import com.sns.article.component.comment.repositories.CommentRepository
 import com.sns.article.component.reaction.domains.ReactionRepository
 import com.sns.commons.exceptions.NotFoundException
+import com.sns.commons.exceptions.NoAuthorityException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -27,6 +28,19 @@ class ArticleCommandService(
     ): Article {
         val article = Article.create(userId, body, imageUrls)
         return articleRepository.save(article)
+    }
+
+    fun modify(
+        articleId: ArticleId,
+        userId: String,
+        body: String?,
+        imageUrls: List<String>? = null,
+    ): Article {
+        val article = articleRepository.findById(articleId).orElseThrow { NotFoundException("작성한 글이 없습니다.") }
+        if(article.writerUserId != userId) throw NoAuthorityException("작성한 글과 작성자가 일치하지 않습니다.")
+
+        val modifiedArticle = article.modify(body, imageUrls)
+        return articleRepository.save(modifiedArticle)
     }
 
     fun delete(

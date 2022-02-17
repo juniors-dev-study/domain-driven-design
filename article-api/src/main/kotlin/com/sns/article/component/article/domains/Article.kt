@@ -49,6 +49,21 @@ data class Article(
         }
     }
 
+
+    fun modify(
+        body: String?,
+        imageUrls: List<String>?,
+    ): Article {
+        return Article(
+            articleId = articleId,
+            writerUserId = writerUserId,
+            imageUrls = imageUrls?.toMutableList(),
+            body = body,
+            updatedAt = Instant.now(),
+            createdAt = createdAt
+        ).apply { new = false }
+    }
+
     @Transient
     private var new: Boolean = false
 

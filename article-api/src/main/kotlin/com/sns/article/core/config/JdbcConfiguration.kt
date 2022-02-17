@@ -32,8 +32,8 @@ class JdbcConfiguration : JdbcConfiguration() {
             listOf(
                 ArticleIdToIntConverter(),
                 IntToArticleIdConverter(),
-                // ArticleIdToBigIntegerConverter(),
-                // BigIntegerToArticleIdConverter(),
+                ArticleIdToBigIntegerConverter(),
+                BigIntegerToArticleIdConverter(),
             ),
         )
     }

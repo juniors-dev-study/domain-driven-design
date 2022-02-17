@@ -3,6 +3,7 @@
 <th:block th:fragment="feedFragment">
     <template id="feed-template">
         <div class="card mb-4">
+            <input type="text" class="article-id" value="%articleId%" style="display: none">
             <div class="card-image">
                 <figure class="image is-4by3">
                     <img src='%imageUrl%' alt="Placeholder image">
@@ -26,6 +27,10 @@
                     <br><br>
                     <time datetime="2016-1-1">%updatedAt%</time>
                 </div>
+                <footer class="card-footer">
+                    <a class="card-footer-item modify-feed-button">수정하기</a>
+                    <a class="card-footer-item delete-feed-button">삭제하기</a>
+                </footer>
             </div>
         </div>
     </template>
