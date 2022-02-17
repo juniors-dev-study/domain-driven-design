@@ -16,7 +16,7 @@ class WriteArticleRequest(
 
     @Size(max = 10)
     @URL
-    val imageUrls: MutableList<String>,
+    val imageUrls: MutableList<String>?,
 
     @NotNull
     val scope: ArticleScope

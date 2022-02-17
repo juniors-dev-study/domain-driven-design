@@ -31,24 +31,39 @@
 
     <script th:src="@{/js/article-apis.js}" type="text/javascript"></script>
     <script th:inline="javascript" type="text/javascript">
-        const articleScopes = await getArticleScopes()
-        const articleScopeSelectHtml = document.createElement("select")
+        const ARTICLE_SCOPE_SELECT_BOX_ID = "aritcle-scope-select-box"
 
-        for (let scope in articleScopes) {
-            const option = document.createElement("option");
-            option.value = scope.value;
-            option.text = scope.text;
-            articleScopeSelectHtml.appendChild(option);
-        }
+        getArticleScopes()
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    alert("공개범위 불러오기 실패ㅠ");
+                }
+            })
+            .then(articleScopes => {
+                const articleScopeSelectHtml = document.createElement("select")
+                articleScopeSelectHtml.id = ARTICLE_SCOPE_SELECT_BOX_ID
 
-        const scopeDivision = document.getElementById("scope-control")
-        scopeDivision.appendChild(articleScopeSelectHtml)
+                console.log(articleScopeSelectHtml)
+
+                for (let index in articleScopes.scopes) {
+                    const scope = articleScopes.scopes[index]
+                    const option = document.createElement("option");
+                    option.value = scope.value;
+                    option.text = scope.text;
+                    articleScopeSelectHtml.appendChild(option);
+                }
+
+                const scopeDivision = document.getElementById("scope-control")
+                scopeDivision.appendChild(articleScopeSelectHtml)
+            })
 
         function write_feed() {
             const imageUrlsStr = document.getElementById("image-urls-textarea").value;
             const imageUrls = imageUrlsStr ? imageUrlsStr.replaceAll(" ", "").split(",") : null
             const body = document.getElementById("body-textarea").value;
-            const scope = document.getElementById("body-textarea").value;
+            const scope = document.getElementById(ARTICLE_SCOPE_SELECT_BOX_ID).value;
 
             writeArticle(imageUrls, body, scope)
                 .then(res => {
