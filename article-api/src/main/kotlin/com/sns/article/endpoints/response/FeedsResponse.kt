@@ -3,8 +3,6 @@ package com.sns.article.endpoints.response
 import com.sns.article.component.article.domains.Article
 import com.sns.article.component.article.domains.ArticleId
 import com.sns.article.component.feed.Feed
-import com.sns.article.component.feed.FeedComment
-import com.sns.article.component.feed.FeedReaction
 import com.sns.article.component.reaction.domains.Reaction
 import com.sns.article.component.reaction.domains.ReactionTarget
 import com.sns.article.component.reaction.domains.ReactionType
@@ -63,7 +61,7 @@ data class ReactionResponse(
     val type: ReactionType,
     val userId: String,
 ) {
-    constructor(reaction: FeedReaction) : this(
+    constructor(reaction: Feed.Reaction) : this(
         id = reaction.id,
         type = reaction.type,
         userId = reaction.userId,
@@ -77,9 +75,9 @@ data class CommentResponse(
     val writerId: String,
     var createdAt: Instant,
     var updatedAt: Instant,
-    val reaction: FeedReaction,
+    val reaction: Feed.Reaction,
 ) {
-    constructor(comment: FeedComment) : this(
+    constructor(comment: Feed.Comment) : this(
         id = comment.id,
         contents = comment.contents,
         writerId = comment.writerId,
