@@ -1,8 +1,10 @@
 package com.sns.article.endpoints.request
 
-import org.hibernate.validator.constraints.URL
+import com.sns.article.component.article.domains.ArticleScope
 import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
+import org.hibernate.validator.constraints.URL
 
 /**
  * @author Hyounglin Jun
@@ -14,5 +16,8 @@ class WriteArticleRequest(
 
     @Size(max = 10)
     @URL
-    val imageUrls: MutableList<String>,
+    val imageUrls: MutableList<String>?,
+
+    @NotNull
+    val scope: ArticleScope
 )

@@ -5,6 +5,7 @@ import com.sns.article.component.article.application.ArticleQueryService
 import com.sns.article.component.article.domains.ArticleId
 import com.sns.article.endpoints.request.WriteArticleRequest
 import com.sns.article.endpoints.response.ArticleResponse
+import com.sns.article.endpoints.response.ArticleScopesResponse
 import com.sns.article.endpoints.response.ArticlesResponse
 import com.sns.commons.annotation.IsLoginUser
 import com.sns.commons.oauth.LoginUser
@@ -56,6 +57,20 @@ class ArticleController(
         return ArticlesResponse.create(articleQueryService.getArticles(loginUser.id))
     }
 
+    @ApiOperation("게시물 공개범위 목록 조회")
+    @ApiResponses(
+        value = [
+            ApiResponse(description = "성공", responseCode = "202"),
+            ApiResponse(description = "해당 유저가 없음", responseCode = "409"),
+        ],
+    )
+    @IsLoginUser
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/v1/articles/scopes")
+    fun getArticleScopes(): ArticleScopesResponse {
+        return ArticleScopesResponse
+    }
+
     @ApiOperation("게시물 작성")
     @ApiResponses(
         value = [
@@ -70,7 +85,7 @@ class ArticleController(
         loginUser: LoginUser,
         @RequestBody request: WriteArticleRequest,
     ) {
-        articleCommandService.create(loginUser.id, request.body, request.imageUrls)
+        articleCommandService.create(loginUser.id, request.body, request.imageUrls, request.scope)
     }
 
     @ApiOperation("게시물 수정")
