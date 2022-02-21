@@ -1,6 +1,5 @@
-package com.sns.user.components.user.repositories
+package com.sns.user.component.user.repositories
 
-import com.sns.user.component.user.repositories.UserRepository
 import com.sns.user.createUser
 import com.sns.user.hasValueSatisfying
 import com.sns.user.isEqualTo

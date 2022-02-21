@@ -1,7 +1,6 @@
-package com.sns.user.components.user.application
+package com.sns.user.component.user.application
 
 import com.sns.commons.exceptions.NotFoundException
-import com.sns.user.component.user.application.UserFriendService
 import com.sns.user.component.user.repositories.UserRepository
 import com.sns.user.createUser
 import com.sns.user.isNotNull
