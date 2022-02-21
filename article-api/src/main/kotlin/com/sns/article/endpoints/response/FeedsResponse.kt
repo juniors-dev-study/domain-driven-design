@@ -1,18 +1,11 @@
 package com.sns.article.endpoints.response
 
-import com.sns.article.component.article.domains.Article
-import com.sns.article.component.article.domains.ArticleId
 import com.sns.article.component.feed.Feed
-import com.sns.article.component.reaction.domains.Reaction
-import com.sns.article.component.reaction.domains.ReactionTarget
 import com.sns.article.component.reaction.domains.ReactionType
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Embedded
 import java.time.Instant
 
 /**
- * @author Hyounglin Jun (KR19849)
+ * @author Hyounglin Jun
  */
 class FeedsResponse(
     val feeds: List<FeedResponse>,
@@ -34,13 +27,13 @@ class FeedsResponse(
 }
 
 data class FeedResponse(
-    val articleId: ArticleId?,
-    val imageUrls: MutableList<String>?,
+    val articleId: Int,
+    val imageUrls: List<String>?,
     val body: String?,
     val writerUserId: String,
     val updatedAt: Instant,
     val createdAt: Instant,
-    val reaction: ReactionResponse,
+    val reactions: List<ReactionResponse>,
     val comments: List<CommentResponse>,
 ) {
     constructor(feed: Feed) : this(
@@ -50,8 +43,8 @@ data class FeedResponse(
         writerUserId = feed.article.writerUserId,
         updatedAt = feed.article.updatedAt,
         createdAt = feed.article.createdAt,
-        reaction = ReactionResponse(feed.article.reaction),
-        comments = feed.comments.map { CommentResponse(it)},
+        reactions = feed.article.reactions.map { ReactionResponse(it) },
+        comments = feed.comments.map { CommentResponse(it) },
     )
 }
 
@@ -59,12 +52,12 @@ data class FeedResponse(
 data class ReactionResponse(
     var id: Long?,
     val type: ReactionType,
-    val userId: String,
+    val owner: Boolean,
 ) {
     constructor(reaction: Feed.Reaction) : this(
         id = reaction.id,
         type = reaction.type,
-        userId = reaction.userId,
+        owner = reaction.owner,
     )
 }
 
