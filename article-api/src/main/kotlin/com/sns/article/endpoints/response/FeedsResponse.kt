@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Embedded
 import java.time.Instant
 
 /**
- * @author Hyounglin Jun (KR19849)
+ * @author Hyounglin Jun
  */
 class FeedsResponse(
     val feeds: List<FeedResponse>,
