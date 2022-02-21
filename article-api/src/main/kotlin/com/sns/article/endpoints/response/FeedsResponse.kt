@@ -25,6 +25,40 @@ class FeedsResponse(
                 list.map { FeedResponse(it) }.toList(),
             )
         }
+
+        // TODO 삭제 필요 Mocking test용
+        fun createMock(): FeedsResponse {
+            return FeedsResponse(
+                listOf(
+                    FeedResponse(
+                        articleId = ArticleId(10000),
+                        imageUrls = listOf("https://picsum.photos/seed/picsum/200/300").toMutableList(),
+                        body = "본문 내용입니다",
+                        writerUserId = "bearics",
+                        createdAt = Instant.now(),
+                        updatedAt = Instant.now(),
+                        reaction = ReactionResponse(2000L, ReactionType.LIKE, "test_01"),
+                        comments = listOf(
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                        ),
+                    ),
+                    FeedResponse(
+                        articleId = ArticleId(10000),
+                        imageUrls = listOf("https://picsum.photos/seed/picsum/200/300").toMutableList(),
+                        body = "본문 내용입니다",
+                        writerUserId = "bearics",
+                        createdAt = Instant.now(),
+                        updatedAt = Instant.now(),
+                        reaction = ReactionResponse(2000L, ReactionType.LIKE, "test_01"),
+                        comments = listOf(
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                        ),
+                    )
+                )
+            )
+        }
     }
     // 생성자를 못쓰는 이유
     // 기본 생성자가 List<FeedResponse>인데, 추가로 List<Feed>를 만들려고 하니까, 2개 동시에 못만듦
@@ -51,7 +85,7 @@ data class FeedResponse(
         updatedAt = feed.article.updatedAt,
         createdAt = feed.article.createdAt,
         reaction = ReactionResponse(feed.article.reaction),
-        comments = feed.comments.map { CommentResponse(it)},
+        comments = feed.comments.map { CommentResponse(it) },
     )
 }
 
@@ -75,7 +109,6 @@ data class CommentResponse(
     val writerId: String,
     var createdAt: Instant,
     var updatedAt: Instant,
-    val reaction: Feed.Reaction,
 ) {
     constructor(comment: Feed.Comment) : this(
         id = comment.id,
@@ -83,6 +116,5 @@ data class CommentResponse(
         writerId = comment.writerId,
         createdAt = comment.createdAt,
         updatedAt = comment.updatedAt,
-        reaction = comment.reaction,
     )
 }

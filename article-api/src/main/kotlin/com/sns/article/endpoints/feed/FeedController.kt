@@ -35,6 +35,7 @@ class FeedController(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/feeds")
     fun getFeeds(loginUser: LoginUser): FeedsResponse {
-        return FeedsResponse.create(feedQueryService.getFeeds(loginUserId = loginUser.id))
+        // return FeedsResponse.create(feedQueryService.getFeeds(loginUserId = loginUser.id))
+        return FeedsResponse.createMock()
     }
 }

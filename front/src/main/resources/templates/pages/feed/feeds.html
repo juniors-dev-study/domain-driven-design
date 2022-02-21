@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<!-- Page Content -->
+<th:block layout:fragment="content">
+    <div id="feeds">
+
+    </div>
+
+    <th:block th:replace="fragments/feed/feed :: feedFragment"></th:block>
+    <script type="text/javascript" th:src="@{/js/article-apis.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bulma.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        const feedsSection = document.getElementById('feeds');
+
+        getFeeds()
+            .then(res => {
+                console.log(res)
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    alert("피드 가져오기 실패ㅠ");
+                }
+            })
+            .then(data => {
+                if (data !== undefined && Array.isArray(data['feeds'])) {
+                    data['feeds'].forEach(feed => {
+                        const articleId = feed['articleId']['id'];
+                        const body = feed['body'];
+                        const imageUrl = feed['imageUrls'][0];   // TODO 일단은 이미지 한개만 사용
+                        const writerUserId = feed['writerUserId'];
+                        const updatedAt = feed['updatedAt'];
+                        const comments = (feed['comments'] !== undefined && Array.isArray(feed['comments']))
+                            ? feed['comments'].map(comment => {
+                                return makeTemplate('feed-comment-template', {writerId: comment['writerId'], contents: comment['contents']})
+                            }).join('')
+                            : ""
+                        const params = {
+                            articleId: articleId,
+                            writerUserId: writerUserId,
+                            body: body,
+                            imageUrl: imageUrl,
+                            updatedAt: updatedAt,
+                            comments: comments
+                        };
+                        feedsSection.innerHTML += makeTemplate('feed-template', params);
+                    })
+                }
+
+                feedsSection.querySelectorAll('.card').forEach((card) => {
+                    console.log(card)
+                    const articleId = card.querySelector(".article-id").value;
+                    card.querySelector(".add-comment-button")
+                        .onclick = function () {
+                        const contents = this.closest('article').querySelector('textarea').value
+                        addComment(articleId, contents);
+                        location.reload();
+                    };
+                })
+            })
+    </script>
+</th:block>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="articleFragment">
+    <template id="article-template">
+        <div class="card mb-4">
+            <input type="text" class="article-id" value="%articleId%" style="display: none">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src='%imageUrl%' alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-4">%writerUserId%</p>
+                        <p class="subtitle is-6">닉네임 자리</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    %body%
+                    <br><br>
+                    <time datetime="2016-1-1">%updatedAt%</time>
+                </div>
+                <footer class="card-footer">
+                    <a class="card-footer-item modify-feed-button">수정하기</a>
+                    <a class="card-footer-item delete-feed-button">삭제하기</a>
+                </footer>
+            </div>
+        </div>
+    </template>
+
+</th:block>
+</html>
