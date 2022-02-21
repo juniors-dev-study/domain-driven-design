@@ -1,7 +1,7 @@
 package com.sns.article.component.comment.application
 
 import com.sns.article.component.comment.domains.Comment
-import com.sns.article.component.comment.repositories.CommentCrudRepository
+import com.sns.article.component.comment.repositories.CommentRepository
 import com.sns.commons.exceptions.NoAuthorityException
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.assertThrows
 
 internal class CommentCommandServiceMockTest {
     @MockK
-    private lateinit var commentCrudRepository: CommentCrudRepository
+    private lateinit var commentCrudRepository: CommentRepository
 
     @InjectMockKs
     private lateinit var commentCommandService: CommentCommandService

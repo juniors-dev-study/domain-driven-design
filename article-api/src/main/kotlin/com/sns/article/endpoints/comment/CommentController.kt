@@ -1,6 +1,5 @@
 package com.sns.article.endpoints.comment
 
-import com.sns.article.component.comment.application.CommentCommandService
 import com.sns.article.component.comment.domains.Comment
 import com.sns.article.endpoints.comment.requests.CommentCreateRequest
 import com.sns.article.endpoints.comment.requests.CommentUpdateRequest
@@ -30,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = SwaggerTag.COMMENT)
 @RequestMapping("/api/v1/comments")
 class CommentV1Controller(
-    private val commentCommand: CommentCommand,
-    private val commentQuery: CommentQuery
+    private val commentCommand: CommentEndPointCommand,
+    private val commentQuery: CommentEndPointQuery
 ) {
 
     @ApiOperation("댓글 작성")
