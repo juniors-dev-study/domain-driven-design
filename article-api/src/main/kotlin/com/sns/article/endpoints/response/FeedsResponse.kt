@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Embedded
 import java.time.Instant
 
 /**
- * @author Hyounglin Jun (KR19849)
+ * @author Hyounglin Jun
  */
 class FeedsResponse(
     val feeds: List<FeedResponse>,
@@ -23,6 +23,40 @@ class FeedsResponse(
         ): FeedsResponse {
             return FeedsResponse(
                 list.map { FeedResponse(it) }.toList(),
+            )
+        }
+
+        // TODO 삭제 필요 Mocking test용
+        fun createMock(): FeedsResponse {
+            return FeedsResponse(
+                listOf(
+                    FeedResponse(
+                        articleId = ArticleId(10000),
+                        imageUrls = listOf("https://picsum.photos/seed/picsum/200/300").toMutableList(),
+                        body = "본문 내용입니다",
+                        writerUserId = "bearics",
+                        createdAt = Instant.now(),
+                        updatedAt = Instant.now(),
+                        reaction = ReactionResponse(2000L, ReactionType.LIKE, "test_01"),
+                        comments = listOf(
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                        ),
+                    ),
+                    FeedResponse(
+                        articleId = ArticleId(10000),
+                        imageUrls = listOf("https://picsum.photos/seed/picsum/200/300").toMutableList(),
+                        body = "본문 내용입니다",
+                        writerUserId = "bearics",
+                        createdAt = Instant.now(),
+                        updatedAt = Instant.now(),
+                        reaction = ReactionResponse(2000L, ReactionType.LIKE, "test_01"),
+                        comments = listOf(
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                            CommentResponse(3000L, "댓글입니다.", "test_02", Instant.now(), Instant.now()),
+                        ),
+                    )
+                )
             )
         }
     }
@@ -51,7 +85,7 @@ data class FeedResponse(
         updatedAt = feed.article.updatedAt,
         createdAt = feed.article.createdAt,
         reaction = ReactionResponse(feed.article.reaction),
-        comments = feed.comments.map { CommentResponse(it)},
+        comments = feed.comments.map { CommentResponse(it) },
     )
 }
 
@@ -75,7 +109,6 @@ data class CommentResponse(
     val writerId: String,
     var createdAt: Instant,
     var updatedAt: Instant,
-    val reaction: Feed.Reaction,
 ) {
     constructor(comment: Feed.Comment) : this(
         id = comment.id,
@@ -83,6 +116,5 @@ data class CommentResponse(
         writerId = comment.writerId,
         createdAt = comment.createdAt,
         updatedAt = comment.updatedAt,
-        reaction = comment.reaction,
     )
 }

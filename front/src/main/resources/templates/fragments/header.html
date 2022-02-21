@@ -38,8 +38,8 @@
                             </a>
                         </div>
                         <div sec:authorize="isAuthenticated()">
-                            <a class="button is-primary" th:href="@{/write-feed}">
-                                <strong>피드 작성</strong>
+                            <a class="button is-primary" th:href="@{/write-article}">
+                                <strong>글 작성</strong>
                             </a>
                             <div class="dropdown">
                                 <div class="dropdown-trigger">
@@ -51,8 +51,8 @@
                                 </div>
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                     <div class="dropdown-content">
-                                        <a th:href="@{/my-feeds}" class="dropdown-item">
-                                            내 피드 목록 보기
+                                        <a th:href="@{/my-articles}" class="dropdown-item">
+                                            내 글 목록 보기
                                         </a>
                                         <a th:href="@{/modify-user}" class="dropdown-item">
                                             회원 정보 수정하기

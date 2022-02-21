@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 /**
- * @author Hyounglin Jun (KR19849)
+ * @author Hyounglin Jun
  */
 @RestController
 @RequestMapping("/api")
@@ -35,6 +35,7 @@ class FeedController(
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/v1/feeds")
     fun getFeeds(loginUser: LoginUser): FeedsResponse {
-        return FeedsResponse.create(feedQueryService.getFeeds(loginUserId = loginUser.id))
+        // return FeedsResponse.create(feedQueryService.getFeeds(loginUserId = loginUser.id))
+        return FeedsResponse.createMock()
     }
 }

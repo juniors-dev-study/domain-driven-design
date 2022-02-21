@@ -7,7 +7,7 @@ import java.time.Instant
 /**
  * 단순 wrapping Model
  * 게시물, 댓글, 리액션 조합
- * @author Hyounglin Jun (KR19849)
+ * @author Hyounglin Jun
  */
 class Feed(
     val article: Article,

@@ -1,5 +1,13 @@
 'use strict';
 
+function getFeeds() {
+    const options = {
+        method: 'GET',
+    }
+
+    return fetch("http://local-front.ddd.sns.com:10100/article-api/v1/feeds", options)
+}
+
 
 function getMyArticles() {
     const options = {
@@ -59,4 +67,20 @@ function deleteArticle(articleId) {
     }
 
     return fetch('http://local-front.ddd.sns.com:10100/article-api/v1/articles/id/' + articleId, options)
+}
+
+function addComment(articleId, contents) {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            rootType: 'ARTICLE',
+            rootId: articleId,
+            contents: contents
+        })
+    }
+    return fetch('http://local-front.ddd.sns.com:10100/article-api/v1/comments', options)
 }

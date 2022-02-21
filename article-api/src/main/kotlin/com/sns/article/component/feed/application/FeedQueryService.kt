@@ -6,7 +6,7 @@ import com.sns.article.component.reaction.application.ReactionQueryService
 import org.springframework.stereotype.Service
 
 /**
- * @author Hyounglin Jun (KR19849)
+ * @author Hyounglin Jun
  */
 @Service
 class FeedQueryService(
