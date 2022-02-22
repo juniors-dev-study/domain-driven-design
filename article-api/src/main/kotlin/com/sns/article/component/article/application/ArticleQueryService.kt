@@ -2,9 +2,11 @@ package com.sns.article.component.article.application
 
 import com.sns.article.component.article.domains.Article
 import com.sns.article.component.article.domains.ArticleId
+import com.sns.article.component.article.domains.ArticleScope
 import com.sns.article.component.article.repositories.ArticleRepository
 import com.sns.commons.exceptions.NoAuthorityException
 import com.sns.commons.exceptions.NotFoundException
+import java.time.Instant
 import org.springframework.stereotype.Service
 
 /**
@@ -25,8 +27,19 @@ class ArticleQueryService(
 
     fun getArticles(
         writerUserId: String,
-        // TODO 페이징 추가 필요
+        updatedAt: Instant = Instant.now(),
     ): List<Article> {
-        return articleRepository.findAllByWriterUserId(writerUserId)
+        return articleRepository.findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc(writerUserId, updatedAt)
+    }
+
+    fun getFriendsArticles(
+        friendUserIds: List<String>,
+        updatedAt: Instant,
+    ): List<Article> {
+        return articleRepository.findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc(
+            friendUserIds,
+            updatedAt,
+            setOf(ArticleScope.FRIEND, ArticleScope.PUBLIC),
+        )
     }
 }

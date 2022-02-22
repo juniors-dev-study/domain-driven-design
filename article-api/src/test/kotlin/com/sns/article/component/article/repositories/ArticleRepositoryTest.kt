@@ -2,6 +2,7 @@ package com.sns.article.component.article.repositories
 
 import com.sns.article.component.article.domains.Article
 import com.sns.article.component.article.domains.ArticleScope
+import java.time.Instant
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -34,7 +35,7 @@ internal class ArticleRepositoryTest {
     }
 
     @Test
-    fun findAllByWriterUserId() {
+    fun findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc() {
         // given
         val writerUserId = "test@naver.com"
         val body = "본문입니다."
@@ -47,7 +48,32 @@ internal class ArticleRepositoryTest {
         val writtenArticle3 = articleRepository.save(article)
 
         // then
-        val foundArticles = articleRepository.findAllByWriterUserId(writtenArticle3.writerUserId)
+        val foundArticles =
+            articleRepository.findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc(writtenArticle3.writerUserId, Instant.now())
+        assertNotNull(foundArticles)
+        assertTrue(foundArticles.isNotEmpty())
+    }
+
+    @Test
+    fun findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc() {
+        // given
+        val writerUserId = "test2@naver.com"
+        val body = "본문입니다."
+        val imageUrls = listOf("http://aaa.com", "http://bbb.com")
+        val article = Article.create(writerUserId, body, imageUrls, ArticleScope.PUBLIC)
+
+        // when
+        val writtenArticle1 = articleRepository.save(article)
+        val writtenArticle2 = articleRepository.save(article)
+        val writtenArticle3 = articleRepository.save(article)
+
+        // then
+        val foundArticles =
+            articleRepository.findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc(
+                listOf(writtenArticle3.writerUserId),
+                Instant.now(),
+                setOf(ArticleScope.FRIEND, ArticleScope.PUBLIC),
+            )
         assertNotNull(foundArticles)
         assertTrue(foundArticles.isNotEmpty())
     }

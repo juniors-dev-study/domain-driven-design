@@ -16,7 +16,6 @@ import org.springframework.data.domain.Persistable
  */
 data class Article(
     @Id
-    @NotBlank
     val articleId: ArticleId?,
 
     @Max(100)
@@ -55,7 +54,6 @@ data class Article(
         }
     }
 
-
     fun modify(
         body: String?,
         imageUrls: List<String>?,
@@ -66,7 +64,7 @@ data class Article(
             imageUrls = imageUrls?.toMutableList(),
             body = body,
             updatedAt = Instant.now(),
-            createdAt = createdAt
+            createdAt = createdAt,
         ).apply { new = false }
     }
 
