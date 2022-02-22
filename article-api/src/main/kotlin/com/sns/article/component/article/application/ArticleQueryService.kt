@@ -29,14 +29,14 @@ class ArticleQueryService(
         writerUserId: String,
         updatedAt: Instant = Instant.now(),
     ): List<Article> {
-        return articleRepository.findTop100ByWriterUserIdAndUpdatedAtBefore(writerUserId, updatedAt)
+        return articleRepository.findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc(writerUserId, updatedAt)
     }
 
     fun getFriendsArticles(
         friendUserIds: List<String>,
         updatedAt: Instant,
     ): List<Article> {
-        return articleRepository.findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeIn(
+        return articleRepository.findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc(
             friendUserIds,
             updatedAt,
             setOf(ArticleScope.FRIEND, ArticleScope.PUBLIC),

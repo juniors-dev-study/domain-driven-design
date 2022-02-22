@@ -35,7 +35,7 @@ internal class ArticleRepositoryTest {
     }
 
     @Test
-    fun findTop100ByWriterUserIdAndUpdatedAtBefore() {
+    fun findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc() {
         // given
         val writerUserId = "test@naver.com"
         val body = "본문입니다."
@@ -48,13 +48,14 @@ internal class ArticleRepositoryTest {
         val writtenArticle3 = articleRepository.save(article)
 
         // then
-        val foundArticles = articleRepository.findTop100ByWriterUserIdAndUpdatedAtBefore(writtenArticle3.writerUserId, Instant.now())
+        val foundArticles =
+            articleRepository.findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc(writtenArticle3.writerUserId, Instant.now())
         assertNotNull(foundArticles)
         assertTrue(foundArticles.isNotEmpty())
     }
 
     @Test
-    fun findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeIn() {
+    fun findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc() {
         // given
         val writerUserId = "test2@naver.com"
         val body = "본문입니다."
@@ -68,7 +69,7 @@ internal class ArticleRepositoryTest {
 
         // then
         val foundArticles =
-            articleRepository.findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeIn(
+            articleRepository.findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc(
                 listOf(writtenArticle3.writerUserId),
                 Instant.now(),
                 setOf(ArticleScope.FRIEND, ArticleScope.PUBLIC),

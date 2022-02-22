@@ -12,7 +12,11 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface ArticleCrudRepository : CrudRepository<Article, ArticleId> {
-    fun findTop100ByWriterUserIdAndUpdatedAtBefore(writerUserId: String, updatedAt: Instant): List<Article>
+    fun findTop100ByWriterUserIdAndUpdatedAtBeforeOrderByUpdatedAtDesc(writerUserId: String, updatedAt: Instant): List<Article>
 
-    fun findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeIn(userIds: List<String>, updatedAt: Instant, scope: Set<ArticleScope>): List<Article>
+    fun findTop100ByWriterUserIdInAndUpdatedAtBeforeAndScopeInOrderByUpdatedAtDesc(
+        userIds: List<String>,
+        updatedAt: Instant,
+        scope: Set<ArticleScope>
+    ): List<Article>
 }
