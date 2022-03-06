@@ -1,10 +1,10 @@
 package com.sns.article.component.reaction.application
 
 import com.sns.article.component.reaction.domains.Reaction
-import com.sns.article.component.reaction.domains.ReactionRepository
 import com.sns.article.component.reaction.domains.ReactionTarget
 import com.sns.article.component.reaction.domains.ReactionValidator
 import com.sns.article.component.reaction.dtos.ReactionDto
+import com.sns.article.component.reaction.repositories.ReactionRepository
 import com.sns.article.endpoints.reaction.requests.ReactionCreateRequest
 import com.sns.commons.exceptions.NotFoundException
 import org.springframework.context.ApplicationEventPublisher

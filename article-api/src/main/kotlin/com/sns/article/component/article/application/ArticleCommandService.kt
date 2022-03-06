@@ -6,11 +6,14 @@ import com.sns.article.component.article.domains.ArticleScope
 import com.sns.article.component.article.repositories.ArticleRepository
 import com.sns.article.component.comment.domains.Comment
 import com.sns.article.component.comment.repositories.CommentRepository
-import com.sns.article.component.reaction.domains.ReactionRepository
+import com.sns.article.component.reaction.domains.ReactionTarget
+import com.sns.article.component.reaction.domains.ReactionTargetType
+import com.sns.article.component.reaction.repositories.ReactionRepository
 import com.sns.commons.exceptions.NoAuthorityException
 import com.sns.commons.exceptions.NotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.streams.toList
 
 /**
  * @author Hyounglin Jun
@@ -55,7 +58,13 @@ class ArticleCommandService(
 
         articleRepository.delete(article)
         commentRepository.findAllByRootIdInAndRootType(listOf(articleId.id.toString()), Comment.Root.Type.ARTICLE)
-            .let { commentRepository.deleteAll(it) }
-        // FIXME reaction 을 삭제하는 방법 확인 (DB 정의가 없음)
+            .let {
+                commentRepository.deleteAll(it)
+                reactionRepository.findAllByTargetIn(it.stream()
+                    .map { a -> ReactionTarget(ReactionTargetType.COMMENT, a.id!!) }
+                    .toList())
+                    .let { reactions -> reactionRepository.deleteAll(reactions) }
+            }
+        reactionRepository.findAllByTargetIn(listOf(ReactionTarget(ReactionTargetType.ARTICLE, articleId.id.toLong())))
     }
 }

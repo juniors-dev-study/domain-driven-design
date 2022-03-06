@@ -2,7 +2,7 @@ package com.sns.article.component.reaction.application
 
 import com.sns.article.component.reaction.domains.ReactionCreatedEvent
 import com.sns.article.component.reaction.domains.ReactionNotFoundException
-import com.sns.article.component.reaction.domains.ReactionRepository
+import com.sns.article.component.reaction.repositories.ReactionRepository
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
